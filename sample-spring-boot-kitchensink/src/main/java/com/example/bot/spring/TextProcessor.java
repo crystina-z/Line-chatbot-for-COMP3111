@@ -43,7 +43,8 @@ public class TextProcessor {
 				return reply;
 			}
 			
-			if (text.equals("yes")|| text.equals("no")) {
+			if (text.toLowerCase().equals("yes")|| text.toLowerCase().equals("no")) {
+				System.out.println("We should handle double 11");
 				return double_elev_handler(userId, text);
 			}
 			
@@ -195,6 +196,7 @@ public class TextProcessor {
 		if (message.equals("yes")) {
 			// get current discount tour
 			String discount_tourid = DEDBE.getDiscountBookid(); 					// check double11 table, get available tour's id; id =  DEDBE.getDiscountBookid()	
+			System.out.println(discount_tourid);
 			// check if there are still ticket:
 			if(DEDBE.ifTourFull(discount_tourid)) {
 				DBE.updateLineUserInfo(userId,"categorization", "booking"); 			// update line_user_info.categorization into "booking"	
