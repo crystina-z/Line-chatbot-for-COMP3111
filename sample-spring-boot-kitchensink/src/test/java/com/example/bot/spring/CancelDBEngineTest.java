@@ -1,5 +1,5 @@
 package com.example.bot.spring;
-/*
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
@@ -12,27 +12,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.bot.spring.database.*;
-import com.example.bot.spring.textsender.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { UQAnswerReplierTester.class, UQAnswerReplier.class})
+@SpringBootTest(classes = { CancelDBEngineTest.class, CancelDBEngine.class})
 
-public class UQAnswerReplierTester {
+public class CancelDBEngineTest {
 	@Autowired
-	private UQAnswerReplier UQReplier;
-	
-	public UQAnswerReplierTester(){
-	}
+	private CancelDBEngine CDBE;
 	
 	@Test
-	public void UQReplierTester() throws Exception {
-		UQAnswerReplier UQReplier = new UQAnswerReplier();
-		try {
-			UQReplier.broadcast();
-		} catch (Exception e) {
-		}
+	public void tester() throws Exception{
+		CDBE.getAllUnconfirmedTours();
+		CDBE.getAllContactors("11223344");
+		CDBE.updateCanceledTours("11223344");
 	}
-	
-	
 }
-*/

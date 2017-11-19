@@ -1,5 +1,5 @@
 package com.example.bot.spring;
-/*
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
@@ -24,24 +24,21 @@ public class DBEngineTester {
 		int textSize = 6;
 		String[] input = {
 				"how to apply?",
+				"is there any other thing we need to take care",
 				"what if the tour is cancelled?",
 				"can i book this trip?",
 				"can you recommend some trip to shenzhen",
+				"some trip with good spring please",
 				"i d like to book this one",
 				"can you recommend a book to me"
 		};		
-		String[] expectedLabel = {"gq", "gq", "book", "reco", "book", "reco"};		
+		String[] expectedLabel = {"gq", "gq", "gq", "book", "reco", "reco", "book", "reco"};		
 		String[] type = new String[textSize];
 		for (int i = 0; i < textSize; i++) {
-			System.err.println(" input [" + i + "]: " + input[i]);
 			type[i] = DBE.getTextType(input[i]);
-			System.err.println(" type [" + i + "]: " + type[i]);
-			System.err.println();
 		}
 		for (int i = 0; i < textSize; i++) {
 			assertThat(expectedLabel[i].equals(type[i])).isEqualTo(true);
 		}
 	}
 }
-*/
-
