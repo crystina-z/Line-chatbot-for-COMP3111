@@ -65,7 +65,7 @@ public class DoubleElevDBEngine extends DBEngine {
 	public void updateBroadcastedTours(String booktableid){	
 		PreparedStatement nstmt = null;	
 		this.openConnection();		
-		String statement = "UPDATE TABLE double11 "
+		String statement = "UPDATE double11 "
 				+ "SET status = 'sent' "
 				+ "WHERE bootableid = ?";
 		try {
