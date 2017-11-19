@@ -333,9 +333,10 @@ public class WebAppDBEngine extends DBEngine {
 		int quota = act.getQuota();
 		PreparedStatement nstmt = connection.prepareStatement(
 				"INSERT INTO double11"
-				+ " VALUES (?,?,0.5,false)");
+				+ " VALUES (?,?,?,'released')");
 		nstmt.setString(1, bootableid);
 		nstmt.setInt(2, quota);
+		nstmt.setInt(3, quota);
 		nstmt.execute();
 		nstmt.close();
 		connection.close();
@@ -351,6 +352,8 @@ public class WebAppDBEngine extends DBEngine {
 		String bootableid = customer.getBootableId();
 		String name = customer.getName();
 		double pricePaid = customer.getPricePaid();
+		double tourFee = customer.getTotalPrice();
+		int people = customer.getAdults()+customer.getChildren()+customer.getToddler();
 		PreparedStatement nstmt = connection.prepareStatement(
 				"UPDATE customer_info"
 				+ " SET paidamount = ?"
@@ -360,6 +363,16 @@ public class WebAppDBEngine extends DBEngine {
 		nstmt.setString(3, bootableid);
 		nstmt.execute();
 		nstmt.close();
+		if(tourFee <= pricePaid) {
+			nstmt = connection.prepareStatement(
+					"UPDATE booking_table"
+					+" SET paidnum = paidnum + ?"
+					+" WHERE bootableid = ?");
+			nstmt.setInt(1, people);
+			nstmt.setString(2, bootableid);
+			nstmt.execute();
+			nstmt.close();
+		}
 		connection.close();
 		connection = null;
 	}

@@ -76,7 +76,7 @@ public class CancelBroadcaster implements Broadcaster {
 	public int orderCancel(String bootid) throws Exception{
 		Date td=getDate(bootid.substring(bootid.length()-8));
 		Date now=new Date();
-		long day=this.getDateDiff(td, now, TimeUnit.DAYS);
+		long day=this.getDateDiff(now, td, TimeUnit.DAYS);
 		if (day<=3) {
 			String broadcast_content = "Your tour " + bootid + " has been canceled due to not enough people! Our staff will arrange your refund as soon as possible.";
 			Set<String> tourists = CDB.getAllContactors(bootid);

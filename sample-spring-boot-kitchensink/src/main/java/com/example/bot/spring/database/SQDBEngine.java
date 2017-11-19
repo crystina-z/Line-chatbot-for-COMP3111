@@ -50,14 +50,14 @@ public class SQDBEngine extends DBEngine {
 			//statement = "SELECT " + column1_2 + " FROM "+ tname1 + " WHERE \'" + text + "\' LIKE concat('%', keywords, '%')";
 			
 			stmt = connection.prepareStatement(statement);
-			System.out.println("statement: " + statement);			
+			//System.out.println("statement: " + statement);			
 			rs = stmt.executeQuery();			
 			
 			if (rs.next()) {				
 				reply = rs.getString(1);
 			}
 			
-			System.out.println(reply);
+			//System.out.println(reply);
 			
 		}catch(Exception e) {
 			System.out.println("---------- inside search ---------- ");
@@ -80,7 +80,7 @@ public class SQDBEngine extends DBEngine {
 			System.out.print(reply);
 			return reply;
 		}else {
-			throw new Exception("NOT FOUND");	
+			return "";	
 		}
 		
 	}

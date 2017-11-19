@@ -35,14 +35,15 @@ public class UQAnswerReplier implements Broadcaster{
 		// TODO Auto-generated constructor stub
 		//lineMessagingClient = new LineMessagingClientImpl();
 	}
+
+
 	/**
 	 * push the message to the users
 	 * @throws Exception
 	 */
-	//@PostConstruct  // seems required, yet @PostConstruct does not support exception
+
 	@Override
 	public void broadcast() throws Exception {
-		System.out.println("You are here in the UQAnswerReplier");
 		UQDBEngine searchEngine = new UQDBEngine();
 		ArrayList<String> reply=searchEngine.answer();
 		for(int i=0; i<reply.size(); i++) {
