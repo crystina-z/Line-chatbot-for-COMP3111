@@ -291,9 +291,10 @@ public class WebAppDBEngine extends DBEngine {
 		int quota = act.getQuota();
 		PreparedStatement nstmt = connection.prepareStatement(
 				"INSERT INTO double11"
-				+ " VALUES (?,?,0.5,false)");
+				+ " VALUES (?,?,?,'released')");
 		nstmt.setString(1, bootableid);
 		nstmt.setInt(2, quota);
+		nstmt.setInt(3, quota);
 		nstmt.execute();
 		nstmt.close();
 		connection.close();
