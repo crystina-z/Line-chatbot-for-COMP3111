@@ -277,6 +277,27 @@ public class BookingDBEngine extends DBEngine {
 		}
 	}
 	
+	/** Set the field discount
+	 * 
+	 * @param b
+	 * @param userId
+	 */
+	public void setDiscount(boolean b, String userId) {
+		PreparedStatement nstmt = null;
+		try {
+			nstmt = connection.prepareStatement(
+					"UPDATE "+LINEUSER
+					+ " SET discount = ?"
+					+ " WHERE userID = ?");
+			nstmt.setBoolean(1,b);
+			nstmt.setString(2, userId);
+			this.update(nstmt);
+			nstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	/** Check if the date is a valid one for a given tour
 	 * 
 	 * @param dd
@@ -572,6 +593,32 @@ public class BookingDBEngine extends DBEngine {
 			e.printStackTrace();
 		}
 		return children;
+	}
+	
+	/** To check if a customer enjoys the discount
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public boolean checkDiscount(String userId) {
+		PreparedStatement nstmt = null;
+		boolean b = false;
+		try {
+			nstmt = connection.prepareStatement(
+					"SELECT discount "
+					+ " FROM "+LINEUSER
+					+ " WHERE l.userID = ?");
+			nstmt.setString(1, userId);
+			ResultSet rs = this.query(nstmt);
+			while(rs.next()) {
+				b = rs.getBoolean(1);
+			}
+			rs.close();
+			nstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return b;
 	}
 
 	/** Get the quota remaining for one tour
@@ -946,6 +993,7 @@ public class BookingDBEngine extends DBEngine {
 		}
 		return null;
 	}
+	
 
 	public void openConnection() {
 		try {

@@ -32,6 +32,18 @@ public class BookingTextSender implements TextSender {
 		}
 		String reply = null;
 		switch(status) {
+			case "double11":{
+				String name = bookingDB.getName(userId);
+				if(name.equals("")) {
+					reply = getInfoQuestion("name");
+					bookingDB.setStatus("name", userId);
+				}else {
+					bookingDB.createNewBooking(userId, name);
+					bookingDB.setStatus("adult", userId);
+					reply = this.getInfoQuestion("adult");
+				}
+			}
+			
 			case "new":{
 				if(bookingDB.detectPositive(msg)) {
 					bookingDB.setStatus("date",userId);
@@ -315,10 +327,35 @@ public class BookingTextSender implements TextSender {
 		int children = bookingDB.getChildren(userId);
 		String tourId = bookingDB.getTourIds(userId)[0];
 		int quota = bookingDB.getQuota(tourId);
+		boolean discount = bookingDB.checkDiscount(userId);
 		if(quota < (adult+toodler+children)) {
 			String reply = String.format(this.getInfoQuestion("no quota"), quota, tourId);
 			bookingDB.setStatus("default",userId);
 			bookingDB.removeBooking(userId);
+			return reply;
+		}else if(discount == true) {
+			String reply = "";
+			int disAdult = 0;
+			int disChildren = 0;
+			if(adult+children+toodler > 2) {
+				reply = this.getInfoQuestion("double11 error");
+				if(adult>=2) {
+					disAdult = 2;
+				}else if(children >= 2-adult) {
+					disAdult = adult;
+					disChildren = 2-disAdult;
+				}
+			}else {
+				disAdult = adult;
+				disChildren = children;
+			}
+			double price = bookingDB.getPrice(tourId);
+			double totalPrice = price*0.5*disAdult+price*0.8*0.5*disChildren
+					+price*(adult-disAdult)+price*0.8*(children-disChildren);
+			reply = reply + String.format(this.getInfoQuestion("price"), totalPrice);
+			bookingDB.recordTotalPrice(totalPrice,userId);
+			bookingDB.setStatus("confirm",userId);
+			bookingDB.setDiscount(false,userId);
 			return reply;
 		}else {
 			double price = bookingDB.getPrice(tourId);
