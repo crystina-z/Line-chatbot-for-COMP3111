@@ -24,6 +24,7 @@ public class CancelBroadcaster implements Broadcaster {
 	
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
+	CancelDBEngine CDB;
 	
 	/**
 	 * Get a diff between two dates
@@ -50,7 +51,6 @@ public class CancelBroadcaster implements Broadcaster {
 		return c.getTime();
 	}
 	
-	CancelDBEngine CDB;
 	/**
 	 * class constructor
 	 */

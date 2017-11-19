@@ -26,6 +26,7 @@ public class ConfirmBroadcaster implements Broadcaster {
 		// TODO Auto-generated constructor stub
 		//this.confirmdb = new ConfirmDBEngine();
 	}
+	
 	/**
 	 * inform all the users that the trip is confirmed
 	 * @throws Exception

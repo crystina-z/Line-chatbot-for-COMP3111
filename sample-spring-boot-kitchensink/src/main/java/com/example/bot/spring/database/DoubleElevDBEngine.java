@@ -172,11 +172,10 @@ public class DoubleElevDBEngine extends DBEngine {
 			this.update(nstmt);
 			
 			nstmt.close();
-		} catch (SQLException e) {
-			this.close();
+		} catch (SQLException e) {			
 			e.printStackTrace();
+		}finally {
+			this.close();
 		}
-		
-		this.close();
 	}
 }
