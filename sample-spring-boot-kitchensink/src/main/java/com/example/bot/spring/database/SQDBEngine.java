@@ -26,7 +26,7 @@ public class SQDBEngine extends DBEngine {
 	 */
 	public String search(String text) throws Exception {
 		//Write your code here
-		String reply = null;
+		String reply = "";
 		text = text.toLowerCase();
 		
 		Connection connection = null;
@@ -58,25 +58,16 @@ public class SQDBEngine extends DBEngine {
 			}
 			
 			//System.out.println(reply);
-			
-		}catch(Exception e) {
-			System.out.println("---------- inside search ---------- ");
-			System.err.println(e.getMessage());
-			e.printStackTrace();
 		}finally {	
 			//rs.close();
 			//stmt.close();
 			//connection.close(); 
-			try {
-				if (rs.next()) rs.close();
-				if (stmt != null) stmt.close();
-				if (connection != null) connection.close();
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-			}
+			 rs.close();
+			 stmt.close();
+			 connection.close();
 		}
 		System.out.print(reply);
-		if(reply != null) {
+		if(!reply.equals("") ) {
 			System.out.print(reply);
 			return reply;
 		}else {
