@@ -23,7 +23,7 @@ public class CancelDBEngine extends DBEngine {
 		PreparedStatement stmt;	
 		Connection connection;
 		String statement = "UPDATE booking_table "
-				+ "SET status = canceled "
+				+ "SET confirmed = 'canceled' "
 				+ "WHERE bootableid = ?";
 		try {
 			connection=getConnection();
