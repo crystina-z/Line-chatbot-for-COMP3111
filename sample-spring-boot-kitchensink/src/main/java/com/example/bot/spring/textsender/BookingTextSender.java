@@ -33,6 +33,11 @@ public class BookingTextSender implements TextSender {
 		String reply = "";
 		switch(status) {
 			case "double11":{
+				if(bookingDB.detectCancel(msg)) {
+					bookingDB.setStatus("default", userId);
+					reply = this.getInfoQuestion("cancel");
+					break;
+				}
 				String name = bookingDB.getName(userId);
 				if(name.equals("")) {
 					reply = getInfoQuestion("name");
