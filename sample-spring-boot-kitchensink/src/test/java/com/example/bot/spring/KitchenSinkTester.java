@@ -30,6 +30,8 @@ public class KitchenSinkTester {
 	private TextProcessor textprocessor;
 	@Autowired
 	private SQTextSender sqsender;
+	@Autowired
+	private CancelDBEngine CDBE;
 	
 	private String testerId="234567";
 	
@@ -221,6 +223,13 @@ public class KitchenSinkTester {
 							+ "123-345-432-211 of ABC Bank or by cash in our store."
 							+ "When you complete the ATM payment, please send the bank "
 							+ "in slip to us. Our staff will validate it.");
+	}
+	
+	@Test
+	public void CancelDBEngineTester() throws Exception{
+		List<String> tours=CDBE.getAllUnconfirmedTours();
+		Set<String> users=CDBE.getAllContactors();
+		CDBE.updateCanceledTours("12345678");
 	}
 }
 
