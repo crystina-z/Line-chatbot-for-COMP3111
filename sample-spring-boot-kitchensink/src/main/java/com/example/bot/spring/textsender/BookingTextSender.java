@@ -107,7 +107,7 @@ public class BookingTextSender implements TextSender {
 						bookingDB.recordDate(userId,dd,mm);
 						String name = bookingDB.getName(userId);
 						if(name.equals("")) {
-							reply = getInfoQuestion("name")+"/nPlease note that the tour you book is already confirmed";
+							reply = getInfoQuestion("name")+"\nPlease note that the tour you book is already confirmed";
 							bookingDB.setStatus("name", userId);
 						}else {
 							bookingDB.createNewBooking(userId, name);

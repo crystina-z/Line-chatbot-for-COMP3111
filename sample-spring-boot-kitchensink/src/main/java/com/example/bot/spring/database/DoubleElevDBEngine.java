@@ -44,7 +44,7 @@ public class DoubleElevDBEngine extends DBEngine {
 		this.openConnection();
 		
 		String statement = "SELECT userid FROM line_user_info"
-						 + " WHERE categorization = 'book'";
+						 + " WHERE categorization <> 'book'";
 
 		try {
 			nstmt = connection.prepareStatement(statement);			
