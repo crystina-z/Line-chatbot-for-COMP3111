@@ -19,7 +19,7 @@ import com.example.bot.spring.database.*;
 @RunWith(SpringRunner.class)
 
 @SpringBootTest(classes = {GQTester.class, TextProcessor.class})
-public class GQTester {
+public class GQTester { 
 	@Autowired
 	private TextProcessor tp;
 	
