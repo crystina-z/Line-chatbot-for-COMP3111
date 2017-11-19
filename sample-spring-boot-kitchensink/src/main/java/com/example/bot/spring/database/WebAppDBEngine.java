@@ -14,13 +14,21 @@ import java.util.LinkedList;
 
 import com.example.bot.spring.webapplication.domain.*;
 
-
+/**
+ * this is the DBEngine that display the information on the website page
+ * @author jsongaf
+ *
+ */
 public class WebAppDBEngine extends DBEngine {
 	
 	static final DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	
 	private Connection connection;
-	
+	/**
+	 * get the customers information from the databse
+	 * @return
+	 * @throws Exception
+	 */
 	public LinkedList<Customer> getAllCustomerInfo() throws Exception{
 		connection = this.getConnection();
 		LinkedList<Customer> allCus = new LinkedList<Customer>();
@@ -60,7 +68,11 @@ public class WebAppDBEngine extends DBEngine {
 		connection = null;
 		return allCus;
 	}
-	
+	/**
+	 * get the tours information from the database
+	 * @return
+	 * @throws Exception
+	 */
 	public LinkedList<Tour> getAllTourInfo() throws Exception{
 		connection = this.getConnection();
 		LinkedList<Tour> allTours = new LinkedList<Tour>();
@@ -97,7 +109,11 @@ public class WebAppDBEngine extends DBEngine {
 			connection = null;
 		return allTours;
 	}
-
+	/**
+	 * add a new customer in the website if needed
+	 * @param customer
+	 * @throws Exception
+	 */
 	public void addNewCustomer(Customer customer) throws Exception {
 		connection = this.getConnection();
 		String name = customer.getName();
@@ -152,7 +168,11 @@ public class WebAppDBEngine extends DBEngine {
 		connection.close();
 		connection = null;
 	}
-	
+	/**
+	 * get unanswered questions about the database to display it on the website
+	 * @return
+	 * @throws Exception
+	 */
 	public LinkedList<UQ>getUQs() throws Exception{
 		connection = this.getConnection();
 		PreparedStatement stmt;
@@ -183,7 +203,13 @@ public class WebAppDBEngine extends DBEngine {
 		connection = null;
 		return result;
 	}
-
+	/**
+	 * answer the unanswered question from the website
+	 * @param question
+	 * @param id
+	 * @param answer
+	 * @throws Exception
+	 */
 	public void answerUQ(String question, String id, String answer) throws Exception {
 		connection = this.getConnection();
 		PreparedStatement nstmt;
@@ -200,7 +226,11 @@ public class WebAppDBEngine extends DBEngine {
 		connection.close();
 		connection = null;
 	}
-
+	/**
+	 * get the general tour information from the database and display
+	 * @return
+	 * @throws Exception
+	 */
 	public LinkedList<Tour> getGeneralTourInfo() throws Exception {
 		connection = this.getConnection();
 		PreparedStatement stmt;
@@ -224,7 +254,11 @@ public class WebAppDBEngine extends DBEngine {
 		connection = null;
 		return result;
 	}
-
+	/**
+	 * add a new tour in the webstie
+	 * @param tour
+	 * @throws Exception
+	 */
 	public void addNewTour(Tour tour) throws Exception{
 		connection = this.getConnection();
 		PreparedStatement nstmt = connection.prepareStatement(
@@ -259,7 +293,11 @@ public class WebAppDBEngine extends DBEngine {
 		connection.close();
 		connection = null;
 	}
-
+	/**
+	 * get the discount activities for Double Eleven
+	 * @return
+	 * @throws Exception
+	 */
 	public LinkedList<Activity> getAllActivities() throws Exception{
 		// TODO Auto-generated method stub
 		connection = this.getConnection();
@@ -283,7 +321,11 @@ public class WebAppDBEngine extends DBEngine {
 		connection = null;
 		return result;
 	}
-
+	/**
+	 * create a discount event for Double Eleven
+	 * @param act
+	 * @throws Exception
+	 */
 	public void createNewActivity(Activity act) throws Exception{
 		// TODO Auto-generated method stub
 		connection = this.getConnection();
@@ -299,7 +341,11 @@ public class WebAppDBEngine extends DBEngine {
 		connection.close();
 		connection = null;
 	}
-
+	/**
+	 * update the Customer information on whether he could get a discount
+	 * @param customer
+	 * @throws Exception
+	 */
 	public void updateCustomer(Customer customer) throws Exception{
 		connection = this.getConnection();
 		String bootableid = customer.getBootableId();

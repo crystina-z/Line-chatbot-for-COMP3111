@@ -3,18 +3,30 @@ package com.example.bot.spring.database;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
+/**
+ * DBEngine to handle the general questions like when is the trip and how long this trip will take
+ * @author jsongaf
+ *
+ */
 public class GQDBEngine extends DBEngine {
 	private String tname1; // name of table in charge; 
 	private String column1_1;
 	private String column1_2;
-	
+	/**
+	 * class constructor
+	 */
 	public GQDBEngine() {
 		this.tname1 = "gq_table"; // name of table in charge; 
 		this.column1_1 = "pattern";
 		this.column1_2 = "answer";
 	}
-	
+	/**
+	 * get the tour ID from the database
+	 * @param userID
+	 * @param Text
+	 * @return
+	 * @throws Exception
+	 */
 	public String getTourID (String userID, String Text) throws Exception {
 		System.err.println("getting tid");
 		Connection connection = getConnection();
@@ -57,7 +69,14 @@ public class GQDBEngine extends DBEngine {
 		connection.close();
 		return TourID;
 	}
-
+	/**
+	 * execute the query to get the information from the database
+	 * @param userID
+	 * @param Text
+	 * @param TourID
+	 * @return
+	 * @throws Exception
+	 */
 	public String query(String userID,String Text,String TourID) throws Exception{		
 			Connection connection = null;
 			PreparedStatement stmt = null;
@@ -138,6 +157,12 @@ public class GQDBEngine extends DBEngine {
 		//}
 		return answer;
 	}
+	/**
+	 * update the database
+	 * @param UserID
+	 * @param TourID
+	 * @throws Exception
+	 */
 	public void update(String UserID,String TourID) throws Exception{
 		System.err.println("updating tid");
 		Connection connection = getConnection();
@@ -150,5 +175,4 @@ public class GQDBEngine extends DBEngine {
 		stmt.close();
 		connection.close();
 	}
-	
 }
