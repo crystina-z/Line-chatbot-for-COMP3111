@@ -1,5 +1,5 @@
 package com.example.bot.spring;
-
+/*
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
@@ -51,3 +51,4 @@ public class GQTester {
 }
 
 
+*/
