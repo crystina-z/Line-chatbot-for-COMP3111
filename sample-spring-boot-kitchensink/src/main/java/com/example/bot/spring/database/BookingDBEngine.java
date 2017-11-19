@@ -691,7 +691,7 @@ public class BookingDBEngine extends DBEngine {
 	}
 	
 	/** Get all tour information and store them in a linked list
-	 *  In the order of name >> description >>  weekday fee >> weekend fee
+	 *  In the order of name, description,  weekday fee, weekend fee
 	 * @param tourId
 	 * @return
 	 */
