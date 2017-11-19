@@ -131,4 +131,24 @@ public class DoubleElevDBEngine extends DBEngine {
 		if(remaining_seat > 0) {return true; }
 		else return false; 		
 	}
+
+	public void updateQuota(String discount_tourid){
+		PreparedStatement nstmt = null;	
+		this.openConnection();		
+		String statement = "UPDATE double11 "
+				+ "SET remaining_seat = remaining_seat - 1 "
+				+ "WHERE bootableid = ?";
+		try {
+			nstmt = connection.prepareStatement(statement);	
+			nstmt.setString(1, discount_tourid);
+			this.update(nstmt);
+			
+			nstmt.close();
+		} catch (SQLException e) {
+			this.close();
+			e.printStackTrace();
+		}
+		
+		this.close();
+	}
 }

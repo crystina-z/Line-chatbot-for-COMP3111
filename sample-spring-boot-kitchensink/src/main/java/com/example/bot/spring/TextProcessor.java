@@ -200,14 +200,14 @@ public class TextProcessor {
 			System.out.println(discount_tourid);
 			// check if there are still ticket:
 			if(DEDBE.ifTourFull(discount_tourid)) {
-				DBE.updateLineUserInfo(userId,"categorization", "booking"); 			// update line_user_info.categorization into "booking"	
+				DBE.updateLineUserInfo(userId,"categorization", "book"); 			// update line_user_info.categorization into "booking"	
 				DBE.updateLineUserInfo(userId,"status", "double11"); 			// update line_user_info.categorization into "booking"	
 				DBE.updateLineUserInfo(userId,"tourids", discount_tourid); 	// update line_user_info.discount_tour_id = id;
 				DBE.updateLineUserInfo(userId,"discount", "true"); 	// update line_user_info.discount_tour_id = id;
 				reply = "Congratulations! You Got A Discount Ticket! Now you can continue booking!";
 			}else {
 				reply = "Sorry ticket sold out";
-			}		
+			}
 		}
 		else {
 			reply = "Sure =) Have a nice days."; 
