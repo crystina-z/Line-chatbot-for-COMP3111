@@ -24,6 +24,7 @@ public class CancelBroadcaster implements Broadcaster {
 	
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
+	CancelDBEngine CDB;
 	
 	/**
 	 * Get a diff between two dates
@@ -50,9 +51,7 @@ public class CancelBroadcaster implements Broadcaster {
 		GregorianCalendar c= new GregorianCalendar(y,m,d);
 		return c.getTime();
 	}
-	
-	CancelDBEngine CDB;
-	
+
 	/**
 	 * Constructor of CencelBroadCaster
 	 */
