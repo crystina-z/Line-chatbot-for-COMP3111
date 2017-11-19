@@ -152,10 +152,6 @@ public class BookingTextSender implements TextSender {
 				}
 				try {
 					int i = Integer.parseInt(msg);
-					if(i<0) {
-						reply = this.getInfoQuestion("invalid adult");
-						break;
-					}
 					bookingDB.recordAdults(userId,i);
 				}catch(NumberFormatException e) {
 					reply = this.getInfoQuestion("invalid adult");;
@@ -174,10 +170,6 @@ public class BookingTextSender implements TextSender {
 				}
 				try {
 					int i = Integer.parseInt(msg);
-					if(i<0) {
-						reply = this.getInfoQuestion("invalid children");
-						break;
-					}
 					bookingDB.recordChildren(userId,i);
 				}catch(Exception e) {
 					reply = this.getInfoQuestion("invalid children");
@@ -196,10 +188,6 @@ public class BookingTextSender implements TextSender {
 				}
 				try {
 					int i = Integer.parseInt(msg);
-					if(i<0) {
-						reply = this.getInfoQuestion("invalid toddler");
-						break;
-					}
 					bookingDB.recordToddler(userId,i);
 				}catch(Exception e) {
 					reply = this.getInfoQuestion("invalid toddler");
@@ -216,13 +204,7 @@ public class BookingTextSender implements TextSender {
 					this.stopCurrentBooking(userId);
 					break;
 				}
-				try {
-					long i = Long.parseLong(msg);
-					bookingDB.recordPhone(userId,i);
-				}catch(Exception e) {
-					reply = this.getInfoQuestion("invalid phone");
-					break;
-				}
+				bookingDB.recordPhone(userId,msg);
 				reply = getTotalPrice(userId);
 				break;
 			}
@@ -260,7 +242,7 @@ public class BookingTextSender implements TextSender {
 			}
 		}
 		bookingDB.close();
-		if(reply.isEmpty()) {
+		if(reply == null||reply.isEmpty()) {
 			throw new Exception("CANNOT ANSWER");
 		}
 		return reply;
@@ -293,29 +275,6 @@ public class BookingTextSender implements TextSender {
 				return reply;
 			}
 		}
-		
-		/*
-		// If he specifies the number of the tour
-		String[] candiTours = bookingDB.getTourIds(userId);
-		String[] orders = {"first", "second", "third", "fourth", "fifth", "seventh", "eighth", "ninth", "tenth", "eleventh"};
-		String[] numbers = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"};
-		String[] engNumbers = {"one", "two", "three", "four", "five", "six", "seven" ,"eight", "nine", "ten", "eleven"};
-		String[] s = msg.split("\\s");
-		for(int i = 0; i < s.length; i++) {
-			for(int j = 0; j < candiTours.length; j++) {
-				if(s[i].toLowerCase().equals(orders[j])) {
-					reply = this.getConfirmation(userId, tourIds.get(j));
-					return reply;
-				}else if(s[i].toLowerCase().equals(numbers[j])) {
-					reply = this.getConfirmation(userId, tourIds.get(j));
-					return reply;
-				}else if(s[i].toLowerCase().equals(engNumbers[j])) {
-					reply = this.getConfirmation(userId, tourIds.get(j));
-					return reply;
-				}
-			}
-		}
-		*/
 		
 		// If he specifies the name of the tour
 		LinkedList<String> tourNames = bookingDB.getAllTourNames();

@@ -16,20 +16,6 @@ public class DoubleElevDBEngine extends DBEngine {
 	
 	// functions for confirmation 
 	// return all tour whose tourist number > min && not yet been confirmed; 
-	String discount_tours =  "";
-    
-	private Connection connection;
-    
-	/**
-	 * class constructor
-	 */
-	public DoubleElevDBEngine() {
-		connection = null;
-	}
-	
-	
-	// functions for confirmation 
-	// return all tour whose tourist number > min && not yet been confirmed; 
 	/**
 	 * get the discount book ID to identify whether the users are qulified for a discount or not
 	 * @return

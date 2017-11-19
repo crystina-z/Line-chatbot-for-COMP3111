@@ -165,7 +165,7 @@ public class BookingDBEngine extends DBEngine {
 	 * @param userId: line user id
 	 * @param i: tel number
 	 */
-	public void recordPhone(String userId, long i) {
+	public void recordPhone(String userId, String i) {
 		PreparedStatement nstmt = null;
 		try {
 			nstmt = connection.prepareStatement(
@@ -175,7 +175,7 @@ public class BookingDBEngine extends DBEngine {
 					+ "WHERE customer_info.customername = l.name "
 					+ "AND l.userID = ? "
 					+ " AND l.tourids = customer_info.bootableid");
-			nstmt.setString(1, Long.toString(i));
+			nstmt.setString(1, i);
 			nstmt.setString(2, userId);
 			this.update(nstmt);
 			nstmt.close();
@@ -412,14 +412,13 @@ public class BookingDBEngine extends DBEngine {
 		String tourId = this.getTourIds(userId)[0];
 		try {
 			nstmt = connection.prepareStatement(
-					"SELECT");
-			nstmt = connection.prepareStatement(
 					"INSERT INTO "+CUSTOMER
-					+ " VALUES (0,?,'',0,?,0,0,0,0,0,'') ");
+					+ " VALUES (0,?,'',0,?,0,0,0,0,0,'No') ");
 			nstmt.setString(1, name);
 			nstmt.setString(2, tourId);
 			this.execute(nstmt);
 			this.setName(userId, name);
+			System.out.println(nstmt.toString());
 			nstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
