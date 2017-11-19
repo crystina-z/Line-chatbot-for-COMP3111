@@ -24,6 +24,7 @@ public class Double11Tester {
 	@Test
 	public void getDiscountBookidTester() throws Exception {
 		String sentTour = DEDBE.getDiscountBookid("sent");
+		getAllClient();
 		//String releasedTour = DEDBE.getDiscountBookid("release");
 		
 		if(sentTour != null) {
