@@ -90,7 +90,7 @@ public class DoubleElevDBEngine extends DBEngine {
 		int remaining_seat = 0; 
 		
 		openConnection();
-		String statement = "SELECT remaining_seat FROM double11 WHERE status = ? ";
+		String statement = "SELECT remaining_seat FROM double11 WHERE bootableid = ? ";
 		
 		try {
 			nstm = connection.prepareStatement(statement);
