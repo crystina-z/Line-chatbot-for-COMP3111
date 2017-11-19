@@ -44,6 +44,7 @@ public class TextProcessor {
 			}
 			
 			System.out.println(text.charAt(0));
+			System.out.println(text.charAt(text.length()-1));
 			System.out.println(text);
 			if (text.toLowerCase().equals("yes")|| text.toLowerCase().equals("no")) {
 				System.out.println("We should handle double 11");
