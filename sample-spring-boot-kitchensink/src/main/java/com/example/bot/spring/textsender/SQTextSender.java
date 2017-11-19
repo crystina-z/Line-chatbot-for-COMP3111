@@ -24,9 +24,6 @@ public class SQTextSender implements TextSender {
 	 */
 	@Override
 	public String process(String userId, String msg) throws Exception{
-		if(msg == null) {
-			throw new Exception("unvalid input for SQTextSender.");
-		}
 		// TODO Auto-generated method stub
 		/* Label: greeting/ thanks/ goodbye */
 		String label = null; 

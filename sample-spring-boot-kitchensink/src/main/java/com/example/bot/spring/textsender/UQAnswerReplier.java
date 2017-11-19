@@ -65,10 +65,11 @@ public class UQAnswerReplier implements Broadcaster{
 			if(lineMessagingClient == null) {
 				System.out.println("--------- lineMessagingClient is null ----");
 			}		
-			
+			else {
 			// lineMessagingClient.pushMessage(new PushMessage(userID, message));
-			lineMessagingClient.pushMessage(new PushMessage(userID, message));
+				lineMessagingClient.pushMessage(new PushMessage(userID, message));
 			// System.out.println("Sent messages: {}", apiResponse);
+			}
 		}
 	}
 }
