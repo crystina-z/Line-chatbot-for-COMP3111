@@ -30,6 +30,7 @@ public class DoubleElevDBEngine extends DBEngine {
 			nstmt.close();
 			rs.close();
 		} catch (SQLException e) {
+			this.close();
 			e.printStackTrace();
 		}		
 		this.close();
@@ -55,6 +56,7 @@ public class DoubleElevDBEngine extends DBEngine {
 			nstmt.close();
 			rs.close();
 		} catch (SQLException e) {
+			this.close();
 			e.printStackTrace();
 		}
 		this.close();	
@@ -72,11 +74,11 @@ public class DoubleElevDBEngine extends DBEngine {
 			nstmt = connection.prepareStatement(statement);			
 			nstmt.setString(1,booktableid);		
 			
-			ResultSet rs = this.query(nstmt);
+			this.update(nstmt);
 			
 			nstmt.close();
-			rs.close();
 		} catch (SQLException e) {
+			this.close();
 			e.printStackTrace();
 		}
 		
