@@ -68,13 +68,21 @@ class CustomerController {
     ModelAndView updatePayment(@RequestParam(value="", required=true, defaultValue= "") String name,
 			@RequestParam(value="bootableid", required=true, defaultValue= "") String bootableid,
             @RequestParam(value="payment", required=true, defaultValue= "") Double payment,
-            @RequestParam(value="pricePaid", required=true, defaultValue= "") Double pricePaid) {
+            @RequestParam(value="pricePaid", required=true, defaultValue= "") Double pricePaid,
+            @RequestParam(value="totalPrice", required=true, defaultValue= "") Double totalPrice,
+            @RequestParam(value="adults", required=true, defaultValue= "") Integer adults,
+            @RequestParam(value="children", required=true, defaultValue= "") Integer children,
+            @RequestParam(value="toddler", required=true, defaultValue= "") Integer toddler) {
     	ModelAndView modelAndView = new ModelAndView("customer");
     	try {
     		Customer customer = new Customer();
     		customer.setName(name);
     		customer.setBootableId(bootableid);
     		customer.setPricePaid(pricePaid+payment);
+    		customer.setTotalPrice(totalPrice);
+    		customer.setAdults(adults);
+    		customer.setChildren(children);
+    		customer.setToddler(toddler);
     		customerService.updatePayment(customer);
     	}catch(Exception e) {
     		modelAndView.addObject("message", "Failed update payment information.");
