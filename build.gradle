@@ -112,9 +112,15 @@ subprojects {
         testCompile 'org.springframework.boot:spring-boot-starter-logging'
 
         compileOnly "org.springframework.boot:spring-boot-starter-data-jpa"
+<<<<<<< HEAD
 	    	compileOnly "org.springframework.boot:spring-boot-starter-web"
 	    	compileOnly "org.springframework.boot:spring-boot-starter-thymeleaf"
 	    	compileOnly "org.springframework.boot:spring-boot-devtools"
+=======
+    	compileOnly "org.springframework.boot:spring-boot-starter-web"
+    	compileOnly "org.springframework.boot:spring-boot-starter-thymeleaf"
+    	compileOnly "org.springframework.boot:spring-boot-devtools"
+>>>>>>> 007111016fb7342281bcdaecdc6fc04de2546dc9
     	
     }
 
