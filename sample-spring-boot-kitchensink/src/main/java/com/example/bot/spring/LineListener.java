@@ -29,7 +29,6 @@ public class LineListener extends Thread{
 	}
 	
 	@Override
-	@PostConstruct
 	public void run() {
 		while(true) {
 			//TODO: Add what ever function need to run

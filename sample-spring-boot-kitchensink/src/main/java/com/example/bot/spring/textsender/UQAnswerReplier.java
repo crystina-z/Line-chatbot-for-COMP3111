@@ -30,7 +30,6 @@ public class UQAnswerReplier implements Broadcaster{
 		//lineMessagingClient = new LineMessagingClientImpl();
 	}
 
-	//@PostConstruct  // seems required, yet @PostConstruct does not support exception
 	@Override
 	public void broadcast() throws Exception {
 		UQDBEngine searchEngine = new UQDBEngine();
