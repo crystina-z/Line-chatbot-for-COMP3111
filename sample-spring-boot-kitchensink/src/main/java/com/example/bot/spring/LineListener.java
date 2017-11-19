@@ -31,9 +31,17 @@ public class LineListener extends Thread{
 		//uqAnswerReplier = new UQAnswerReplier();
 		//double11Broadcaster = new DoubleElevBroadcaster();
 	}
+	/**
+	 * a loop of all executions
+	 */
+	public void loop() throws Exception{
+		confirmBroadcaster.broadcast();
+		cancelBroadcaster.broadcast();
+		uqAnswerReplier.broadcast();
+		double11Broadcaster.broadcast();
+	}
 	
 	@Override
-	@PostConstruct
 	/**
 	 * a thread to listen to the database
 	 */
@@ -41,11 +49,8 @@ public class LineListener extends Thread{
 		while(true) {
 			//TODO: Add what ever function need to run
 			//execute 1 time per hour
-			try { 
-				confirmBroadcaster.broadcast();
-				cancelBroadcaster.broadcast();
-				uqAnswerReplier.broadcast();
-				double11Broadcaster.broadcast();				
+			try { 				
+				loop();
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
