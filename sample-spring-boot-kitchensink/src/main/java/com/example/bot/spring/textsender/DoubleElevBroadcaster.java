@@ -23,10 +23,10 @@ public class DoubleElevBroadcaster implements Broadcaster {
 			doubledb = new DoubleElevDBEngine();
 			// check each trip available in db
 			// if there are any trip get to min tourist yet haven't been confirmed, confirm order; 
-			String tourid = doubledb.getDiscountBookid();
+			String tourid = doubledb.getDiscountBookid("released");
 			if(tourid.isEmpty())
 				return;
-			
+			doubledb.updateActivityStatus();
 			// extract all contactor info into a Set<String> to;
 			// extract tourid into String tourid;
 			String broadcast_content = "START COMPETE FOR TOUR " + tourid + " AT 50% DISCOUNT!! \n Wanna Grab one? "; // later if reply yes, then jump to booking, else, do nothing

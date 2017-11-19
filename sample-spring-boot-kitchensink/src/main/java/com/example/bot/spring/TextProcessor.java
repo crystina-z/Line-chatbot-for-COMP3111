@@ -196,7 +196,7 @@ public class TextProcessor {
 		String reply = "";
 		if (message.equals("yes")) {
 			// get current discount tour
-			String discount_tourid = DEDBE.getDiscountBookid(); 					// check double11 table, get available tour's id; id =  DEDBE.getDiscountBookid()	
+			String discount_tourid = DEDBE.getDiscountBookid("sent"); 					// check double11 table, get available tour's id; id =  DEDBE.getDiscountBookid()	
 			System.out.println(discount_tourid);
 			// check if there are still ticket:
 			if(DEDBE.ifTourFull(discount_tourid)) {

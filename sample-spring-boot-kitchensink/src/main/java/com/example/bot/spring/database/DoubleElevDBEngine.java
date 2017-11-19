@@ -12,16 +12,17 @@ public class DoubleElevDBEngine extends DBEngine {
 	
 	// functions for confirmation 
 	// return all tour whose tourist number > min && not yet been confirmed; 
-	public String getDiscountBookid(){ // only one tour is allowed to be discounted at the same time
+	public String getDiscountBookid(String s){ // only one tour is allowed to be discounted at the same time
 		String discount_tours =  "";
 		PreparedStatement nstmt = null;
 		
 		this.openConnection();
 		String statement = "SELECT bootableid FROM double11 "
-				+ "WHERE status = 'released' ";
+				+ "WHERE status = ? ";
 		// choose the tours that haven't been broadcasted;  
 		try {
 			nstmt = connection.prepareStatement(statement);
+			nstmt.setString(1, s);
 			ResultSet rs = this.query(nstmt);
 			
 			if(rs.next()) {
@@ -73,6 +74,26 @@ public class DoubleElevDBEngine extends DBEngine {
 		try {
 			nstmt = connection.prepareStatement(statement);			
 			nstmt.setString(1,booktableid);		
+			
+			this.update(nstmt);
+			
+			nstmt.close();
+		} catch (SQLException e) {
+			this.close();
+			e.printStackTrace();
+		}
+		
+		this.close();
+	}
+	
+	public void updateActivityStatus(){	
+		PreparedStatement nstmt = null;	
+		this.openConnection();		
+		String statement = "UPDATE double11 "
+				+ "SET status = 'outdate' "
+				+ "WHERE status <> 'released'";
+		try {
+			nstmt = connection.prepareStatement(statement);				
 			
 			this.update(nstmt);
 			
