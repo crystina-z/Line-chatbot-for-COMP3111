@@ -101,10 +101,12 @@ public class ConfirmDBEngine extends DBEngine {
 	}
 
 	/**
-	 * find the all contactors of a the trip specified by "booktableid"
-	 * @param 
-	 *	if paid == true: return all contactors who have paid (any amount of), it is for cancelers
-	 *  if paid == false: return all contactors, whatever they have paid or not, it is for confirmers
+	 * function to get contacters information
+	 * if paid == true: return all contactors who have paid (any amount of), it is for cancelers
+	 * if paid == false: return all contactors, whatever they have paid or not, it is for confirmers
+	 * @param booktableid
+	 * @param paid
+	 * @return
 	 */
 	public Set<String> getAllContactors(String booktableid, boolean paid){
 		Set<String> customers = new HashSet<String>();

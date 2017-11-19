@@ -11,6 +11,11 @@ import java.sql.SQLException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+/**
+ * super class for all DBEngine
+ * @author jsongaf
+ *
+ */
 public class DBEngine {
 	
 	private static final String CLASSIFYTABLE = "classify_table";
