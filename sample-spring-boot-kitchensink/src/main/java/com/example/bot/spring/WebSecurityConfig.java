@@ -58,7 +58,3 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .withUser(username).password(pw).roles("ADMIN");
     }
 }
-
-/* HELPFUL LINKS: 
- * https://spring.io/guides/gs/securing-web/
- */
