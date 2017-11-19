@@ -1,15 +1,27 @@
 package com.example.bot.spring.textsender;
 
 import com.example.bot.spring.database.*;
-
+/**
+ * implement the simple questions like greetings 
+ * @author jsongaf
+ *
+ */
 public class SQTextSender implements TextSender {
 	private SQDBEngine sqdbengine; 
-
+	/**
+	 * class constructor
+	 */
 	public SQTextSender() {
 		// TODO Auto-generated constructor stub
 		this.sqdbengine = new SQDBEngine();
 	}
-	
+	/**
+	 * process the user input
+	 * @param userId
+	 * @param msg
+	 * @return
+	 * @throws Exception
+	 */
 	@Override
 	public String process(String userId, String msg) throws Exception{
 		if(msg == null) {

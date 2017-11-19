@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.example.bot.spring.database.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { DBEngineTester.class, DBEngine.class })
+@SpringBootTest(classes = { DBEngineTester.class, DBEngine.class})
 public class DBEngineTester {
 	@Autowired
 	private DBEngine DBE;
@@ -22,7 +22,6 @@ public class DBEngineTester {
 	@Test
 	public void getTextTypeTester() throws Exception {
 		int textSize = 6;
-		
 		String[] input = {
 				"how to apply?",
 				"what if the tour is cancelled?",
@@ -33,18 +32,15 @@ public class DBEngineTester {
 		};		
 		String[] expectedLabel = {"gq", "gq", "book", "reco", "book", "reco"};		
 		String[] type = new String[textSize];
-		
 		for (int i = 0; i < textSize; i++) {
 			System.err.println(" input [" + i + "]: " + input[i]);
 			type[i] = DBE.getTextType(input[i]);
 			System.err.println(" type [" + i + "]: " + type[i]);
 			System.err.println();
 		}
-		
 		for (int i = 0; i < textSize; i++) {
 			assertThat(expectedLabel[i].equals(type[i])).isEqualTo(true);
 		}
-		
 	}
 }
 */

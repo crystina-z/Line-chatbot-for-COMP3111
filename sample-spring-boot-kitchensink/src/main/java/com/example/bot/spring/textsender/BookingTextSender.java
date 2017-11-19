@@ -5,7 +5,12 @@ import java.util.LinkedList;
 import com.example.bot.spring.database.BookingDBEngine;
 
 import lombok.extern.slf4j.Slf4j;
-
+/**
+ * handle the book request
+ * implement a pipeline model to handle the user input and match it with a good trip
+ * @author jsongaf
+ *
+ */
 @Slf4j
 public class BookingTextSender implements TextSender {
 	

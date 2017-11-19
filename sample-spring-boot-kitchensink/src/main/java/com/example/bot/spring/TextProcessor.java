@@ -3,7 +3,11 @@ package com.example.bot.spring;
 import com.example.bot.spring.database.DBEngine;
 import com.example.bot.spring.database.DoubleElevDBEngine;
 import com.example.bot.spring.textsender.*;
-
+/**
+ * process all the user input and categorize the information
+ * @author jsongaf
+ *
+ */
 public class TextProcessor {
 
 	private DBEngine DBE;
@@ -16,12 +20,12 @@ public class TextProcessor {
 	}
 	
 	/**
-	 * @param
-	 * 		userId: userId of sender;
-	 * 		text: formated sent message (only contains char and number and decimal point)
-	 * @throws Exception  
-	 * 		
-	 * */
+	 * classify the user input and see what kind of request the user is asking
+	 * @param userId
+	 * @param text
+	 * @return
+	 * @throws Exception
+	 */
 	private String classifyText(String userId, String text) throws Exception{
 		String reply="";		
 		
@@ -107,7 +111,13 @@ public class TextProcessor {
 		}
 
 	}
-
+	/**
+	 * process the text and extract the key words from it
+	 * @param userId
+	 * @param text
+	 * @return
+	 * @throws Exception
+	 */
 	public String processText(String userId, String text) throws Exception{
 		if (text == null) {// yet text won't be null?
 			throw new Exception("no input");
@@ -126,11 +136,14 @@ public class TextProcessor {
 		}
 	}
 	
-	/** truncate all non-digit and non-char elements from user input (decimal point is reserved)
+
+
+	/**
+	 * truncate all non-digit and non-char elements from user input (decimal point is reserved)
 	 * and transform the input into lower case; 
-	 * @param message: user-input;
-	 * 
-	 * NOTICE: it's possible for formatMsg() to return a empty text, which need to be handled in its calling function
+	 * it's possible for formatMsg() to return a empty text, which need to be handled in its calling function
+	 * @param message
+	 * @return
 	 */
 	private String formatMsg(String message) {
 		char preChar = 'S';
@@ -148,11 +161,13 @@ public class TextProcessor {
 		outputMsg = outputMsg.toLowerCase();	
 		return outputMsg;
 	}
-	
+
 	/**
 	 * helper function for formatMsg()
 	 * check if next character is 'char'
-	 * */ 
+	 * @param c
+	 * @return
+	 */
 	private boolean isChar (char c) {
 		if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
 			return true;
@@ -163,7 +178,9 @@ public class TextProcessor {
 	/**
 	 * helper function for formatMsg()
 	 * check if next character is 0-9 or decimal point
-	 * */ 
+	 * @param c
+	 * @return
+	 */
 	private boolean isDigit (char c) {
 		if ((c >= '0' && c <= '9') || c == '.')
 			return true;
@@ -174,23 +191,24 @@ public class TextProcessor {
 	/**
 	 * helper function for formatMsg()
 	 * check if next character is legal puncuation
-	 * */ 
+	 * @param c
+	 * @return
+	 */
 	private boolean isAllowedPunc(char c) {
 		if ( c == '/')
 			return true;
 		else
 			return false; 
 	}
-	
-	/**
-	 * @param 
-	 * userId: the user who reply msg
-	 * message: the message sent by user; 
-	 * 
-	 * special handler for double 11 event; 
+
+	/** special handler for double 11 event; 
 	 * after a double11 message is broadcast, check user reply;
-	 * if reply yes: 
-	 * */
+	 * if reply yes:
+	 * @param userId
+	 * @param message
+	 * @return
+	 * @throws Exception
+	 */
 	private String double_elev_handler(String userId, String message) throws Exception {
 		assert (message.equals("yes")|| message.equals("no"));
 		String reply = "";

@@ -3,13 +3,25 @@ package com.example.bot.spring.textsender;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import com.example.bot.spring.database.*;
-
+/**
+ * handle the recommendation from the user and recommend some trips according to the features
+ * @author jsongaf
+ *
+ */
 public class RecommendationTextSender implements TextSender {
-
+	/**
+	 * class construtor 
+	 */
 	public RecommendationTextSender() {
 		// TODO Auto-generated constructor stub
 	}
-
+	/**
+	 * process the user input and get the features of the trip
+	 * @param userId
+	 * @param msg
+	 * @return
+	 * @throws Exception
+	 */
 	@Override
 	public String process(String userId, String msg) throws Exception {
 		// TODO Auto-generated method stub

@@ -7,18 +7,28 @@ import com.linecorp.bot.model.*;
 import com.linecorp.bot.model.message.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
+/**
+ * added features that the clients could give some special discount on special date
+ * this function is to inform all the users that there will be a discount
+ * @author jsongaf
+ *
+ */
 @Component
 public class DoubleElevBroadcaster implements Broadcaster {
 	
 	DoubleElevDBEngine doubledb; 
 	@Autowired
 	private LineMessagingClient lineMessagingClient;	
-	
+	/**
+	 * class constructor
+	 */
 	public DoubleElevBroadcaster() {
 		
 	}
-	
+	/**
+	 * inform all the users that there will be a discount on some trips
+	 * @throws Exception
+	 */
 	public void broadcast() throws Exception{
 			doubledb = new DoubleElevDBEngine();
 			// check each trip available in db

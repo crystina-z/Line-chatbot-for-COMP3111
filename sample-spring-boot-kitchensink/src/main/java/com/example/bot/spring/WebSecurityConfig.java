@@ -7,15 +7,20 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-
+/**
+ * this is to provide the password protection to the webpage
+ * @author jsongaf
+ *
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	/**
-	 *  defines which URL paths should be secured and which should not
-	 *  Specifically, the "/" and "/home" paths are configured to not require any authentication. All other paths must be authenticated.
-	 * */
-	
+	 * defines which URL paths should be secured and which should not
+	 * Specifically, the "/" and "/home" paths are configured to not require any authentication. All other paths must be authenticated.
+	 * @param http
+	 * @throws Exception
+	 */
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -43,16 +48,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      *
      * */	
     }
-	
-    /**
-     *  Sets up an in-memory user store with a single user;
-     *  The user is given a username of "user", a password of "password", and a role of "USER".
-     * */
+
+	/**
+	 * Sets up an in-memory user store with a single user;
+     * The user is given a username of "user", a password of "password", and a role of "USER".
+	 * @param auth
+	 * @throws Exception
+	 */
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
     	String username = "admin";
     	String pw = "pass";
-    	
         auth
             .inMemoryAuthentication()
                 .withUser(username).password(pw).roles("ADMIN");

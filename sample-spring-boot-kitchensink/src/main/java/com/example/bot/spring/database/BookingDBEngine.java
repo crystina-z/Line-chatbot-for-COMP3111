@@ -13,7 +13,11 @@ import java.util.LinkedList;
 //import java.util.GregorianCalendar;
 //import java.util.LinkedList;
 import java.util.*;
-
+/**
+ * this is the DBEngine to connect the database and handle the book information
+ * @author jsongaf
+ *
+ */
 public class BookingDBEngine extends DBEngine {
 	
 	private static final String OFFERTABLE = "tour_tourOffer_relation";
@@ -739,7 +743,7 @@ public class BookingDBEngine extends DBEngine {
 	}
 	
 	/** Get all tour information and store them in a linked list
-	 *  In the order of name >> description >>  weekday fee >> weekend fee
+	 *  In the order of name, description, weekday fee, weekend fee
 	 *  
 	 * @param tourId: tour ID of interest
 	 * @return

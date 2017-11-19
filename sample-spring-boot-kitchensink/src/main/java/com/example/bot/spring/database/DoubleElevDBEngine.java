@@ -7,13 +7,35 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
-
+/**
+ * added features that the agency could give special discount on special events with limited quota
+ * @author jsongaf
+ *
+ */
 public class DoubleElevDBEngine extends DBEngine {
 	
 	// functions for confirmation 
 	// return all tour whose tourist number > min && not yet been confirmed; 
+	String discount_tours =  "";
+    
+	private Connection connection;
+    
+	/**
+	 * class constructor
+	 */
+	public DoubleElevDBEngine() {
+		connection = null;
+	}
+	
+	
+	// functions for confirmation 
+	// return all tour whose tourist number > min && not yet been confirmed; 
+	/**
+	 * get the discount book ID to identify whether the users are qulified for a discount or not
+	 * @return
+	 */
 	public String getDiscountBookid(String s){ // only one tour is allowed to be discounted at the same time
-		String discount_tours =  "";
+		String discount_tours =  null;
 		PreparedStatement nstmt = null;
 		
 		this.openConnection();
@@ -38,7 +60,10 @@ public class DoubleElevDBEngine extends DBEngine {
 		
 		return discount_tours;
 	}
-
+	/**
+	 * get the information of all line users
+	 * @return
+	 */
 	public Set<String> getAllClient(){
 		Set<String> clients = new HashSet<String>();
 		PreparedStatement nstmt = null;	
@@ -64,7 +89,10 @@ public class DoubleElevDBEngine extends DBEngine {
 		
 		return clients;
 	}
-	
+	/**
+	 * change the database table to indicate that the information has been braodcasted
+	 * @param booktableid
+	 */
 	public void updateBroadcastedTours(String booktableid){	
 		PreparedStatement nstmt = null;	
 		this.openConnection();		

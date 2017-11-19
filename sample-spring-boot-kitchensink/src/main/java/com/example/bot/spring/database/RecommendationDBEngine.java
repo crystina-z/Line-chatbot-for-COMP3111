@@ -6,12 +6,23 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 //import com.linecorp.bot.model.event.message.TextMessageContent;
-
+/**
+ * this class is to recommend some trips with specific features to the users
+ * @author jsongaf
+ *
+ */
 public class RecommendationDBEngine extends DBEngine {
+	/**
+	 * class constructor
+	 */
 	public RecommendationDBEngine() {
 		
 	}
-	
+	/**
+	 * get the features of the tours
+	 * @param msg
+	 * @return
+	 */
 	public ArrayList<String> getFeatures(String msg) {
 		Connection connection = null;
 		PreparedStatement stmt = null;
@@ -38,7 +49,11 @@ public class RecommendationDBEngine extends DBEngine {
 		
 		return result;
 	}
-	
+	/**
+	 * execute the query and update the line user information
+	 * @param tourids
+	 * @param userid
+	 */
 	public void updateQuery(String tourids, String userid) {
 		Connection connection = null;
 		PreparedStatement stmt = null;
@@ -55,7 +70,12 @@ public class RecommendationDBEngine extends DBEngine {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * get the recommendation tours and sentence from the database
+	 * @param userId
+	 * @param text
+	 * @return
+	 */
 	public String recommendationQuery(String userId, ArrayList<String> text) {
 
 		String response="";
@@ -106,14 +126,8 @@ public class RecommendationDBEngine extends DBEngine {
 			
 			stmt.close();
 			connection.close();
-			
-			//make it a seperate file for easy handling
+
 			updateQuery(idList, userId);
-			
-//			stmt=connection.prepareStatement(
-//					"update line_user_info set tourids ='"+idList+"' where userid='"+userId+"'"
-//			);
-//			stmt.executeUpdate();
 			
 		}catch(Exception e) {
 			e.printStackTrace();

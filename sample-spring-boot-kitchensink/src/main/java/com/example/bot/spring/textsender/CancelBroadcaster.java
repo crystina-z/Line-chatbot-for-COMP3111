@@ -14,7 +14,11 @@ import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.Multicast;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
-
+/**
+ * if the trip is canceled due to not enough people, inform all the users that subscribe to the trips
+ * @author jsongaf
+ *
+ */
 @Component
 public class CancelBroadcaster implements Broadcaster {
 	
@@ -32,7 +36,11 @@ public class CancelBroadcaster implements Broadcaster {
 	    long diffInMillies = date2.getTime() - date1.getTime();
 	    return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
 	}
-	
+	/**
+	 * get the date of the trip
+	 * @param dateString
+	 * @return
+	 */
 	private Date getDate(String dateString) {
 		int y,m,d;
 		y=Integer.parseInt(dateString.substring(0,4));
@@ -43,17 +51,28 @@ public class CancelBroadcaster implements Broadcaster {
 	}
 	
 	CancelDBEngine CDB;
+	/**
+	 * class constructor
+	 */
 	public CancelBroadcaster() {
 		CDB=new CancelDBEngine();
 	}
-	
+	/**
+	 * inform all the users
+	 * @throws Exception
+	 */
 	public void broadcast() throws Exception{
 		List<String> bids = CDB.getAllUnconfirmedTours();
 		for (String bid: bids) {
 			orderCancel(bid);
 		}
 	}
-	
+	/**
+	 * check whether it is a cancel condition
+	 * @param bootid
+	 * @return
+	 * @throws Exception
+	 */
 	public int orderCancel(String bootid) throws Exception{
 		Date td=getDate(bootid.substring(bootid.length()-8));
 		Date now=new Date();

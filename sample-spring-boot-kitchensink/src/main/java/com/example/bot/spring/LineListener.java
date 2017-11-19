@@ -4,7 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.example.bot.spring.textsender.*;
-
+/**
+ * an observer to the database, inform the users if any change that will trigger an event
+ * @author jsongaf
+ *
+ */
 @Component
 public class LineListener extends Thread{
 	

@@ -18,17 +18,29 @@ import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
-
+/**
+ * if someone answers the questions on the website, it will send the message to the user and update the table
+ * @author jsongaf
+ *
+ */
 @Component
 public class UQAnswerReplier implements Broadcaster{
 	
 	@Autowired
 	LineMessagingClient lineMessagingClient;
-
+	/**
+	 * class constructor
+	 */
 	public UQAnswerReplier() {
 		// TODO Auto-generated constructor stub
 		//lineMessagingClient = new LineMessagingClientImpl();
 	}
+
+
+	/**
+	 * push the message to the users
+	 * @throws Exception
+	 */
 
 	@Override
 	public void broadcast() throws Exception {

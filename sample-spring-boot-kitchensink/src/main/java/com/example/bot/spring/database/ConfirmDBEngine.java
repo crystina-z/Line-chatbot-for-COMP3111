@@ -9,8 +9,14 @@ import java.util.Set;
 import java.util.HashSet;
 
 public class ConfirmDBEngine extends DBEngine {
+
 	// functions for confirmation 
 	// return all tour whose tourist number > min && not yet been confirmed; 
+	/**
+	 * get the confirmed tours ID
+	 * @param fullfilled
+	 * @return
+	 */
 	public List<String> getAllUnconfirmedTours(boolean fullfilled){
 		List<String> unconfirmed_tours = new ArrayList<String>();
 		PreparedStatement nstmt = null;
@@ -46,11 +52,13 @@ public class ConfirmDBEngine extends DBEngine {
 	}
 
 	/**
-	 * find the all contactors of a the trip specified by "booktableid"
-	 * @param 
-	 *	if paid == true: return all contactors who have paid (any amount of); // for canceller
-	 *  if paid == false: return all contactors, whatever they have paid or not; // for confirmer
-	 * */
+	 * function to get contacters information
+	 * if paid == true: return all contactors who have paid (any amount of), it is for cancelers
+	 * if paid == false: return all contactors, whatever they have paid or not, it is for confirmers
+	 * @param booktableid
+	 * @param paid
+	 * @return
+	 */
 	public Set<String> getAllContactors(String booktableid, boolean paid){
 		Set<String> customers = new HashSet<String>();
 		PreparedStatement nstmt = null;	
@@ -85,7 +93,10 @@ public class ConfirmDBEngine extends DBEngine {
 		
 		return customers;
 	}
-	
+	/**
+	 * update the database information to mark it as confirmed
+	 * @param booktableid
+	 */
 	public void updateConfirmedTours(String booktableid){	
 		PreparedStatement nstmt = null;	
 		this.openConnection();		
@@ -104,7 +115,6 @@ public class ConfirmDBEngine extends DBEngine {
 			e.printStackTrace();
 		}
 		this.close();	
-		
-	}
 
+	}
 }
