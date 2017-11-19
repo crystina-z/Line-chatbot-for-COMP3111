@@ -8,7 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.example.bot.spring.textsender.*;
-
+/**
+ * an observer to the database, inform the users if any change that will trigger an event
+ * @author jsongaf
+ *
+ */
 @Component
 public class LineListener extends Thread{
 	
@@ -30,6 +34,9 @@ public class LineListener extends Thread{
 	
 	@Override
 	@PostConstruct
+	/**
+	 * a thread to listen to the database
+	 */
 	public void run() {
 		while(true) {
 			//TODO: Add what ever function need to run

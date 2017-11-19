@@ -10,14 +10,22 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 
-
+/**
+ * this is the DBEngine that confirm the tours and change the database and send information to the users
+ * @author jsongaf
+ *
+ */
 public class ConfirmDBEngine extends DBEngine {
 	private Connection connection;
-	
+	/**
+	 * function constructor
+	 */
 	public ConfirmDBEngine() {
 		connection = null;
 	}
-	
+	/**
+	 * get a connection
+	 */
 	public void openConnection() {
 		try {
 			connection = this.getConnection();
@@ -25,7 +33,9 @@ public class ConfirmDBEngine extends DBEngine {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * close a connection
+	 */
 	public void close() {
 		try {
 			connection.close();
@@ -34,7 +44,11 @@ public class ConfirmDBEngine extends DBEngine {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * execute the query and get the result set of the query
+	 * @param nstmt
+	 * @return
+	 */
 	private ResultSet query(PreparedStatement nstmt) {
 		ResultSet rs = null;
 		try {
@@ -47,6 +61,11 @@ public class ConfirmDBEngine extends DBEngine {
 	
 	// functions for confirmation 
 	// return all tour whose tourist number > min && not yet been confirmed; 
+	/**
+	 * get the confirmed tours ID
+	 * @param fullfilled
+	 * @return
+	 */
 	public List<String> getAllUnconfirmedTours(boolean fullfilled){
 		List<String> unconfirmed_tours = new ArrayList<String>();
 		PreparedStatement nstmt = null;
@@ -84,9 +103,9 @@ public class ConfirmDBEngine extends DBEngine {
 	/**
 	 * find the all contactors of a the trip specified by "booktableid"
 	 * @param 
-	 *	if paid == true: return all contactors who have paid (any amount of); // for canceller
-	 *  if paid == false: return all contactors, whatever they have paid or not; // for confirmer
-	 * */
+	 *	if paid == true: return all contactors who have paid (any amount of), it is for cancelers
+	 *  if paid == false: return all contactors, whatever they have paid or not, it is for confirmers
+	 */
 	public Set<String> getAllContactors(String booktableid, boolean paid){
 		Set<String> customers = new HashSet<String>();
 		PreparedStatement nstmt = null;	
@@ -121,7 +140,10 @@ public class ConfirmDBEngine extends DBEngine {
 		
 		return customers;
 	}
-	
+	/**
+	 * update the database information to mark it as confirmed
+	 * @param booktableid
+	 */
 	public void updateConfirmedTours(String booktableid){	
 		PreparedStatement nstmt = null;	
 		openConnection();		
@@ -140,7 +162,5 @@ public class ConfirmDBEngine extends DBEngine {
 			e.printStackTrace();
 		}
 		close();	
-		
 	}
-
 }

@@ -8,19 +8,28 @@ import com.linecorp.bot.model.*;
 import com.linecorp.bot.model.message.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
+/**
+ * once the trip is confirmed to go, notify all the users that subscribe to the trip
+ * @author jsongaf
+ *
+ */
 @Component
 public class ConfirmBroadcaster implements Broadcaster {
 	
 	ConfirmDBEngine confirmdb; 
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
-	
+	/**
+	 * class constructor
+	 */
 	public ConfirmBroadcaster() {
 		// TODO Auto-generated constructor stub
 		//this.confirmdb = new ConfirmDBEngine();
 	}
-		
+	/**
+	 * inform all the users that the trip is confirmed
+	 * @throws Exception
+	 */
 	public void broadcast() throws Exception{
 		try {
 			this.confirmdb = new ConfirmDBEngine();
