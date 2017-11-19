@@ -18,33 +18,6 @@ public class ConfirmDBEngine extends DBEngine {
 		connection = null;
 	}
 	
-	public void openConnection() {
-		try {
-			connection = this.getConnection();
-		} catch (URISyntaxException | SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void close() {
-		try {
-			connection.close();
-			connection = null;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private ResultSet query(PreparedStatement nstmt) {
-		ResultSet rs = null;
-		try {
-			rs = nstmt.executeQuery();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return rs;
-	}
-	
 	// functions for confirmation 
 	// return all tour whose tourist number > min && not yet been confirmed; 
 	public List<String> getAllUnconfirmedTours(boolean fullfilled){
