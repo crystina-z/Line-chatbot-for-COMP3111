@@ -1,7 +1,5 @@
 package com.example.bot.spring.database;
 
-import java.net.URISyntaxException;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,21 +8,14 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 
-
 public class ConfirmDBEngine extends DBEngine {
-	private Connection connection;
-	
-	public ConfirmDBEngine() {
-		connection = null;
-	}
-	
 	// functions for confirmation 
 	// return all tour whose tourist number > min && not yet been confirmed; 
 	public List<String> getAllUnconfirmedTours(boolean fullfilled){
 		List<String> unconfirmed_tours = new ArrayList<String>();
 		PreparedStatement nstmt = null;
 		
-		openConnection();
+		this.openConnection();
 		// if fullfillled, retrieve all tour which can be confirmed
 		// else, retrieve all tour which should be cancelled; 
 		String statement = "";
@@ -49,7 +40,7 @@ public class ConfirmDBEngine extends DBEngine {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}		
-		close();	
+		this.close();	
 		
 		return unconfirmed_tours;
 	}
@@ -57,7 +48,7 @@ public class ConfirmDBEngine extends DBEngine {
 	public Set<String> getAllContactors(String booktableid){
 		Set<String> customers = new HashSet<String>();
 		PreparedStatement nstmt = null;	
-		openConnection();
+		this.openConnection();
 		
 		String statement = "SELECT L.userid "
 				+ "FROM customer_info as C, line_user_info as L "
@@ -76,14 +67,14 @@ public class ConfirmDBEngine extends DBEngine {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		close();	
+		this.close();	
 		
 		return customers;
 	}
 	
 	public void updateConfirmedTours(String booktableid){	
 		PreparedStatement nstmt = null;	
-		openConnection();		
+		this.openConnection();		
 		String statement = "UPDATE TABLE booking_table "
 				+ "SET confirmed = 'confirmed' "
 				+ "WHERE bootableid = ?";
@@ -98,7 +89,7 @@ public class ConfirmDBEngine extends DBEngine {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		close();	
+		this.close();	
 		
 	}
 

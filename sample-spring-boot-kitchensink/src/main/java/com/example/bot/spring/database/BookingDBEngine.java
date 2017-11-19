@@ -33,9 +33,9 @@ public class BookingDBEngine extends DBEngine {
 	
 	/** Record the specified date for the tour
 	 * 
-	 * @param userId
-	 * @param dd
-	 * @param mm
+	 * @param userId: line user id
+	 * @param dd: date
+	 * @param mm: month
 	 */
 	public void recordDate(String userId, int dd, int mm) {
 		String tourId = null;
@@ -86,8 +86,8 @@ public class BookingDBEngine extends DBEngine {
 
 	/** Record the number of adults in the tour
 	 * 
-	 * @param userId
-	 * @param i
+	 * @param userId: line user id
+	 * @param i: number of adults
 	 */
 	public void recordAdults(String userId, int i) {
 		PreparedStatement nstmt = null;
@@ -110,8 +110,8 @@ public class BookingDBEngine extends DBEngine {
 
 	/** Record the number of children in the tour
 	 * 
-	 * @param userId
-	 * @param i
+	 * @param userId: line user id
+	 * @param i: number of children
 	 */
 	public void recordChildren(String userId, int i){
 		PreparedStatement nstmt = null;
@@ -134,8 +134,8 @@ public class BookingDBEngine extends DBEngine {
 
 	/** Record the number of toddlers in the tour
 	 * 
-	 * @param userId
-	 * @param i
+	 * @param userId: line user id
+	 * @param i: number of children
 	 */
 	public void recordToddler(String userId, int i) {
 		PreparedStatement nstmt = null;
@@ -158,8 +158,8 @@ public class BookingDBEngine extends DBEngine {
 
 	/** Record the phone number of user accordingly
 	 * 
-	 * @param userId
-	 * @param i
+	 * @param userId: line user id
+	 * @param i: tel number
 	 */
 	public void recordPhone(String userId, long i) {
 		PreparedStatement nstmt = null;
@@ -182,8 +182,8 @@ public class BookingDBEngine extends DBEngine {
 	
 	/** Set the tour fee for a customer
 	 * 
-	 * @param totalPrice
-	 * @param userId
+	 * @param totalPrice: total price
+	 * @param userId: line user id
 	 */
 	public void recordTotalPrice(double totalPrice, String userId) {
 		PreparedStatement nstmt = null;
@@ -207,7 +207,7 @@ public class BookingDBEngine extends DBEngine {
 	/** Set the status in the flow of booking for a given user id
 	 * 
 	 * @param status
-	 * @param userId
+	 * @param userId: line user id
 	 */
 	public void setStatus(String status, String userId){
 		PreparedStatement nstmt = null;
@@ -234,8 +234,8 @@ public class BookingDBEngine extends DBEngine {
 	
 	/** Set the name of a user given userid
 	 * 
-	 * @param userId
-	 * @param name
+	 * @param userId: line user id
+	 * @param name: name of user
 	 */
 	private void setName(String userId, String name) {
 		PreparedStatement nstmt = null;
@@ -256,7 +256,8 @@ public class BookingDBEngine extends DBEngine {
 	
 	/** Set the field tourids
 	 * 
-	 * @param tourId
+	 * @param userId: line user id
+	 * @param tourId: the tour id of interest
 	 */
 	public void setTourid(String userId, String tourId) {
 		PreparedStatement nstmt = null;
@@ -277,8 +278,8 @@ public class BookingDBEngine extends DBEngine {
 	
 	/** Set the field discount
 	 * 
-	 * @param b
-	 * @param userId
+	 * @param b: discount or not
+	 * @param userId: line user id
 	 */
 	public void setDiscount(String b, String userId) {
 		PreparedStatement nstmt = null;
@@ -298,9 +299,9 @@ public class BookingDBEngine extends DBEngine {
 	
 	/** Check if the date is a valid one for a given tour
 	 * 
-	 * @param dd
-	 * @param mm
-	 * @param userId
+	 * @param dd: date
+	 * @param mm: month
+	 * @param userId: line user id
 	 * @return
 	 */
 	public boolean checkValidDate(int dd, int mm, String userId) throws Exception{
@@ -392,8 +393,8 @@ public class BookingDBEngine extends DBEngine {
 
 	/** Start a new booking request from user
 	 * 
-	 * @param userId
-	 * @param name
+	 * @param userId: line user id
+	 * @param name: user name
 	 * @return
 	 */
 	public String createNewBooking(String userId, String name) {
@@ -418,7 +419,7 @@ public class BookingDBEngine extends DBEngine {
 
 	/** Get the user name given the userid
 	 * 
-	 * @param userId
+	 * @param userId: line user id
 	 * @return
 	 */
 	public String getName(String userId) {
@@ -450,7 +451,7 @@ public class BookingDBEngine extends DBEngine {
 	
 	/** Set the status of booking flow for a given userid
 	 * 
-	 * @param userId
+	 * @param userId: line user id
 	 * @return
 	 */
 	public String getStatus(String userId){
@@ -481,7 +482,7 @@ public class BookingDBEngine extends DBEngine {
 	
 	/** Get possible tour ids for one user
 	 * 
-	 * @param userId
+	 * @param userId: line user id
 	 * @return
 	 */
 	public String[] getTourIds(String userId) {
@@ -511,7 +512,7 @@ public class BookingDBEngine extends DBEngine {
 
 	/** Get the number of adults
 	 * 
-	 * @param userId
+	 * @param userId: line user id
 	 * @return
 	 */
 	public int getAdult(String userId) {
@@ -539,7 +540,7 @@ public class BookingDBEngine extends DBEngine {
 
 	/** Get the number of toddlers
 	 * 
-	 * @param userId
+	 * @param userId: line user id
 	 * @return
 	 */
 	public int getToddler(String userId) {
@@ -567,7 +568,7 @@ public class BookingDBEngine extends DBEngine {
 
 	/** Get the number of children
 	 * 
-	 * @param userId
+	 * @param userId: line user id
 	 * @return
 	 */
 	public int getChildren(String userId) {
@@ -595,7 +596,7 @@ public class BookingDBEngine extends DBEngine {
 	
 	/** To check if a customer enjoys the discount
 	 * 
-	 * @param userId
+	 * @param userId: line user id
 	 * @return
 	 */
 	public String checkDiscount(String userId) {
@@ -621,7 +622,7 @@ public class BookingDBEngine extends DBEngine {
 
 	/** Get the quota remaining for one tour
 	 * 
-	 * @param tourId
+	 * @param tourId: line user id
 	 * @return
 	 */
 	public int getQuota(String tourId) {
@@ -647,7 +648,7 @@ public class BookingDBEngine extends DBEngine {
 
 	/** Get the one-day price for a tour
 	 * 
-	 * @param tourId
+	 * @param tourId: line user id
 	 * @return
 	 */
 	public double getPrice(String tourId) {
@@ -733,7 +734,8 @@ public class BookingDBEngine extends DBEngine {
 	
 	/** Get all tour information and store them in a linked list
 	 *  In the order of name >> description >>  weekday fee >> weekend fee
-	 * @param tourId
+	 *  
+	 * @param tourId: tour ID of interest
 	 * @return
 	 */
 	public LinkedList<String> getTourInfos(String tourId) {
@@ -765,7 +767,7 @@ public class BookingDBEngine extends DBEngine {
 
 	/** Get all possible departure dates of one tour
 	 * 
-	 * @param tourId
+	 * @param tourId: tour ID of interest
 	 * @return
 	 */
 	public String getAllDates(String tourId) {

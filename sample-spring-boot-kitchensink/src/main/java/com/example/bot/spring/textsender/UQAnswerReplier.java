@@ -30,7 +30,6 @@ public class UQAnswerReplier implements Broadcaster{
 
 	@Override
 	public void broadcast() throws Exception {
-		System.out.println("You are here in the UQAnswerReplier");
 		UQDBEngine searchEngine = new UQDBEngine();
 		ArrayList<String> reply=searchEngine.answer();
 		for(int i=0; i<reply.size(); i++) {
