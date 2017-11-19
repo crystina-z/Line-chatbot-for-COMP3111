@@ -16,14 +16,8 @@ public class DoubleElevDBEngine extends DBEngine {
 	
 	// functions for confirmation 
 	// return all tour whose tourist number > min && not yet been confirmed; 
-<<<<<<< HEAD
 	String discount_tours =  "";
-	
-	
-	// functions for confirmation 
-	// return all tour whose tourist number > min && not yet been confirmed; 
-=======
->>>>>>> 5a2243cce7a56bce661264833a2c76f70fc94b74
+
 	/**
 	 * get the discount book ID to identify whether the users are qulified for a discount or not
 	 * @return
