@@ -13,7 +13,7 @@ public class DoubleElevDBEngine extends DBEngine {
 	// functions for confirmation 
 	// return all tour whose tourist number > min && not yet been confirmed; 
 	public String getDiscountBookid(){ // only one tour is allowed to be discounted at the same time
-		String discount_tours =  null;
+		String discount_tours =  "";
 		PreparedStatement nstmt = null;
 		
 		this.openConnection();

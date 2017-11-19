@@ -24,6 +24,8 @@ public class DoubleElevBroadcaster implements Broadcaster {
 			// check each trip available in db
 			// if there are any trip get to min tourist yet haven't been confirmed, confirm order; 
 			String tourid = doubledb.getDiscountBookid();
+			if(tourid.isEmpty())
+				return;
 			
 			// extract all contactor info into a Set<String> to;
 			// extract tourid into String tourid;
