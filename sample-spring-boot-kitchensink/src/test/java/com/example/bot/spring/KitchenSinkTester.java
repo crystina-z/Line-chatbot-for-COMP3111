@@ -227,8 +227,8 @@ public class KitchenSinkTester {
 	
 	@Test
 	public void CancelDBEngineTester() throws Exception{
-		List<String> tours=CDBE.getAllUnconfirmedTours();
-		Set<String> users=CDBE.getAllContactors();
+		CDBE.getAllUnconfirmedTours();
+		CDBE.getAllContactors("12345678");
 		CDBE.updateCanceledTours("12345678");
 	}
 }
