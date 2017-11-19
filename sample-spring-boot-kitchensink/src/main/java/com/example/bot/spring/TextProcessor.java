@@ -30,12 +30,9 @@ public class TextProcessor {
 			
 			 reply = "tag: " + tag + " label: " + label;
 			
-			if ((tag == null || tag.equals("") || tag.equals("default") || tag.equals("none")) && 
-				(label == null || label.equals("") || label.equals("default") || label.equals("none"))){
-				// reply += "tag: " + tag + " label: " + label;
 				SQTextSender sqsender = new SQTextSender();
 				reply = sqsender.process(userId, text)+"\n";
-			}
+			
 			
 			if(tag.equals("book")) {
 				BookingTextSender bsender = new BookingTextSender();
@@ -96,6 +93,7 @@ public class TextProcessor {
 			if(reply.equals("")) throw new Exception();
 			return reply;
 		} catch (Exception e) {
+			e.printStackTrace();
 			try {
 				DBE.updateLineUserInfo(userId,"categorization", "default");
 			}catch(Exception e2) {
