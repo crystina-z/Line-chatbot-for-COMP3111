@@ -1,5 +1,5 @@
 package com.example.bot.spring;
-
+/*
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
@@ -18,11 +18,10 @@ import com.example.bot.spring.textsender.*;
 @SpringBootTest(classes = { UQAnswerReplierTester.class, UQAnswerReplier.class})
 
 public class UQAnswerReplierTester {
-//	@Autowired
-//	private UQAnswerReplier UQReplier;
+	@Autowired
+	private UQAnswerReplier UQReplier;
 	
 	public UQAnswerReplierTester(){
-		
 	}
 	
 	@Test
@@ -36,3 +35,4 @@ public class UQAnswerReplierTester {
 	
 	
 }
+*/
