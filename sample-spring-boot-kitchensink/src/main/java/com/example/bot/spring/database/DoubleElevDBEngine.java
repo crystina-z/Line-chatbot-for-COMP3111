@@ -7,14 +7,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
-
+/**
+ * added features that the agency could give special discount on special events with limited quota
+ * @author jsongaf
+ *
+ */
 public class DoubleElevDBEngine extends DBEngine {
 	private Connection connection;
-
+	/**
+	 * class constructor
+	 */
 	public DoubleElevDBEngine() {
 		connection = null;
 	}
-	
+	/**
+	 * get a new connection to the database
+	 */
 	public void openConnection() {
 		try {
 			connection = this.getConnection();
@@ -22,7 +30,9 @@ public class DoubleElevDBEngine extends DBEngine {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * close the existing database
+	 */
 	public void close() {
 		try {
 			connection.close();
@@ -31,7 +41,11 @@ public class DoubleElevDBEngine extends DBEngine {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * execute the query statement
+	 * @param nstmt
+	 * @return
+	 */
 	private ResultSet query(PreparedStatement nstmt) {
 		ResultSet rs = null;
 		try {
@@ -44,6 +58,10 @@ public class DoubleElevDBEngine extends DBEngine {
 	
 	// functions for confirmation 
 	// return all tour whose tourist number > min && not yet been confirmed; 
+	/**
+	 * get the discount book ID to identify whether the users are qulified for a discount or not
+	 * @return
+	 */
 	public String getDiscountBookid(){ // only one tour is allowed to be discounted at the same time
 		String discount_tours =  null;
 		PreparedStatement nstmt = null;
@@ -68,7 +86,10 @@ public class DoubleElevDBEngine extends DBEngine {
 		
 		return discount_tours;
 	}
-
+	/**
+	 * get the information of all line users
+	 * @return
+	 */
 	public Set<String> getAllClient(){
 		Set<String> clients = new HashSet<String>();
 		PreparedStatement nstmt = null;	
@@ -93,7 +114,10 @@ public class DoubleElevDBEngine extends DBEngine {
 		
 		return clients;
 	}
-	
+	/**
+	 * change the database table to indicate that the information has been braodcasted
+	 * @param booktableid
+	 */
 	public void updateBroadcastedTours(String booktableid){	
 		PreparedStatement nstmt = null;	
 		openConnection();		

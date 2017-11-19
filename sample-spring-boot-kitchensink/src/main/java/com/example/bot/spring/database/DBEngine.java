@@ -21,11 +21,19 @@ public class DBEngine {
 	private static final String DESCRIPTION = "tour_description";
 	private static final String TOURINFO = "tour_info";
 	private static final String BOOKTABLE = "booking_table";
-	
+	/**
+	 * class constructor
+	 */
 	public DBEngine() {
 		
 	}
-	
+	/**
+	 * update the line users' information in the database
+	 * @param userID
+	 * @param entryName
+	 * @param value
+	 * @throws Exception
+	 */
 	public void updateLineUserInfo(String userID,String entryName,String value) throws Exception{
 		Connection connection= getConnection();
 		PreparedStatement stmt;
@@ -52,7 +60,13 @@ public class DBEngine {
 		stmt.close();
 		connection.close();
 	}
-	
+	/**
+	 * get the line users' information from the database
+	 * @param userID
+	 * @param entryName
+	 * @return
+	 * @throws Exception
+	 */
 	public String getLineUserInfo(String userID,String entryName) throws Exception{
 		Connection connection= getConnection();
 		PreparedStatement stmt;
@@ -81,9 +95,10 @@ public class DBEngine {
 	}
 	
 	/**
-	 * given a pure text, check the 'classify_table' in database to determine its type; 
-	 * return: 'book'/'reco'/'gq'/'none'
-	 * */
+	 * given a pure text, check the 'classify_table' in database to determine its type
+	 * @param text
+	 * @return
+	 */
 	public String getTextType(String text) {	
 		if(text == null || text.equals("")) {
 			return "";
@@ -152,7 +167,13 @@ public class DBEngine {
 		}
 		return type;		
 	}
-	
+	/**
+	 * check if the position of the string is wrong
+	 * @param key
+	 * @param message
+	 * @param position
+	 * @return
+	 */
 	private boolean wrongPosition(String key, String message, String position) {
 		boolean positionWrong = true;
 		
@@ -176,7 +197,12 @@ public class DBEngine {
 		}
 		return positionWrong;
 	}
-	
+	/**
+	 * get a new connection to the database
+	 * @return
+	 * @throws URISyntaxException
+	 * @throws SQLException
+	 */
 	protected Connection getConnection() throws URISyntaxException, SQLException {
 		Connection connection;
 		URI dbUri = new URI(System.getenv("DATABASE_URL"));

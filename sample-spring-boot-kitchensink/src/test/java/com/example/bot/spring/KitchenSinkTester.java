@@ -11,14 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.example.bot.spring.database.RecommendationDBEngine;
-import com.example.bot.spring.database.UQDBEngine;
 import com.example.bot.spring.textsender.*;
 import com.example.bot.spring.database.*;
 
 @RunWith(SpringRunner.class)
 
-@SpringBootTest(classes = { KitchenSinkTester.class, RecommendationTextSender.class, UQAutomateSender.class, TextProcessor.class, SQTextSender.class, GQTextSender.class })
+@SpringBootTest(classes = { KitchenSinkTester.class, RecommendationTextSender.class,
+		UQAutomateSender.class, TextProcessor.class, SQTextSender.class, GQTextSender.class})
+
 public class KitchenSinkTester {
 	@Autowired
 	private UQAutomateSender UQSender;
@@ -30,6 +30,9 @@ public class KitchenSinkTester {
 	private TextProcessor textprocessor;
 	@Autowired
 	private SQTextSender sqsender;
+//	@Autowired
+//	private UQAnswerReplier UQReplier; 
+
 	
 	private String testerId="234567";
 	
@@ -47,6 +50,15 @@ public class KitchenSinkTester {
 		assertThat(!thrown).isEqualTo(true);
 		assertThat(result).isEqualTo("Sorry, I cannot answer your question.");
 	}
+	
+//	@Test
+//	public void UQReplierTester() throws Exception {
+//		UQReplier = new UQAnswerReplier();
+//		try {
+//			this.UQReplier.broadcast();
+//		} catch (Exception e) {
+//		}
+//	}
 
   // only applicable when textProcessor calling no external function
 	@Ignore("not ready yet") @Test
@@ -217,11 +229,12 @@ public class KitchenSinkTester {
 		assertThat(reply).contains("Your phone number please.");
 		reply = bookingTS.process(testerId, "12345678");
 		reply = bookingTS.process(testerId, "Yes.");
-		assertThat(reply).contains("Thank you. Please pay the tour fee by ATM to "
-							+ "123-345-432-211 of ABC Bank or by cash in our store."
-							+ "When you complete the ATM payment, please send the bank "
-							+ "in slip to us. Our staff will validate it.");
+//		assertThat(reply).contains("Thank you. Please pay the tour fee by ATM to "
+//							+ "123-345-432-211 of ABC Bank or by cash in our store."
+//							+ "When you complete the ATM payment, please send the bank "
+//							+ "in slip to us. Our staff will validate it.");
 	}
+
 }
 */
 

@@ -3,16 +3,27 @@ package com.example.bot.spring.database;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
+/**
+ * this is to handle the simple questions from the users like greetings
+ * @author jsongaf
+ *
+ */
 public class SQDBEngine extends DBEngine {
 	private String tname1; // name of table in charge; 
 	private String column1_2;
-	
+	/**
+	 * class constructor
+	 */
 	public SQDBEngine() {
 		this.tname1 = "sq_table"; // name of table in charge; 
 		this.column1_2 = "label";
 	}
-	
+	/**
+	 * search in the database to match the sentence and get the key words
+	 * @param text
+	 * @return
+	 * @throws Exception
+	 */
 	public String search(String text) throws Exception {
 		//Write your code here
 		String reply = null;

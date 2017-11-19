@@ -14,7 +14,11 @@ import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.Multicast;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
-
+/**
+ * if the trip is canceled due to not enough people, inform all the users that subscribe to the trips
+ * @author jsongaf
+ *
+ */
 @Component
 public class CancelBroadcaster implements Broadcaster {
 	
@@ -55,9 +59,10 @@ public class CancelBroadcaster implements Broadcaster {
 	public CancelBroadcaster() {
 		CDB=new CancelDBEngine();
 	}
-	
 	/**
 	 * broadcast the information of canceled tours to the customers
+	 * inform all the users
+	 * @throws Exception
 	 */
 	public void broadcast() throws Exception{
 		List<String> bids = CDB.getAllUnconfirmedTours();
@@ -65,11 +70,11 @@ public class CancelBroadcaster implements Broadcaster {
 			orderCancel(bid);
 		}
 	}
-	
-	
+
 	/**
 	 * Cancel a tour and inform customers 
 	 * @param bootid a valid book table id
+	 * @throws Exception
 	 */
 	public void orderCancel(String bootid) throws Exception{
 		Date td=getDate(bootid.substring(bootid.length()-8));
