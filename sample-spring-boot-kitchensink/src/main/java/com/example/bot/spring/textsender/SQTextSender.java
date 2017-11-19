@@ -35,7 +35,7 @@ public class SQTextSender implements TextSender {
 				return "have a nice day!";
 			}
 			default:{
-				throw new Exception("Not a simple question");
+				return "";
 			}
 		}
 	}

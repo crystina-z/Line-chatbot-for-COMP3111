@@ -27,12 +27,11 @@ public class TextProcessor {
 		try {			
 			String tag = DBE.getLineUserInfo(userId,"categorization"); // from database; 
 			String label = DBE.getTextType(text);					   // by analysis input 
-			
-			 reply = "tag: " + tag + " label: " + label;
-			
-				SQTextSender sqsender = new SQTextSender();
-				reply = sqsender.process(userId, text)+"\n";
-			
+						
+			SQTextSender sqsender = new SQTextSender();
+			reply = sqsender.process(userId, text);
+			if(!reply.isEmpty())
+				reply += "\n";
 			
 			if(tag.equals("book")) {
 				BookingTextSender bsender = new BookingTextSender();
