@@ -606,7 +606,7 @@ public class BookingDBEngine extends DBEngine {
 			nstmt = connection.prepareStatement(
 					"SELECT discount "
 					+ " FROM "+LINEUSER
-					+ " WHERE l.userID = ?");
+					+ " WHERE userID = ?");
 			nstmt.setString(1, userId);
 			ResultSet rs = this.query(nstmt);
 			while(rs.next()) {
