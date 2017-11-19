@@ -1,4 +1,4 @@
-/*package com.example.bot.spring;
+package com.example.bot.spring;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -41,13 +41,11 @@ public class GQTester {
 	public void GQTesterS() throws Exception {
 		String msgs[]= {"How long 2D001?","Feature of 2D001.","How apply"};
 		for (String msg:msgs) {
-			try{//should fail
-				tp.processText(testerId, msg);
+			try{
+				System.out.println("<<|>>"+tp.processText(testerId, msg));
 			}catch(Exception e) {
 				
 			}
 		}
 	}
-}*/
-
-
+}
