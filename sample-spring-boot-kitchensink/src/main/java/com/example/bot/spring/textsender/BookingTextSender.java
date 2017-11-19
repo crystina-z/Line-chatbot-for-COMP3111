@@ -30,7 +30,7 @@ public class BookingTextSender implements TextSender {
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-		String reply = null;
+		String reply = "";
 		switch(status) {
 			case "double11":{
 				String name = bookingDB.getName(userId);
@@ -236,7 +236,7 @@ public class BookingTextSender implements TextSender {
 			}
 		}
 		bookingDB.close();
-		if(reply.equals(null)) {
+		if(reply.isEmpty()) {
 			throw new Exception("CANNOT ANSWER");
 		}
 		return reply;

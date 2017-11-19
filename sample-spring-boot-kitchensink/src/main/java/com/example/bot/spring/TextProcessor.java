@@ -30,8 +30,8 @@ public class TextProcessor {
 			
 			 reply = "tag: " + tag + " label: " + label;
 			
-			if ((tag == null || tag == "" || tag == "default" || tag == "none") && 
-				(label == null || label == "" || label == "default" || label == "none")){
+			if ((tag == null || tag.equals("") || tag.equals("default") || tag.equals("none")) && 
+				(label == null || label.equals("") || label.equals("default") || label.equals("none"))){
 				// reply += "tag: " + tag + " label: " + label;
 				SQTextSender sqsender = new SQTextSender();
 				reply = sqsender.process(userId, text)+"\n";
@@ -89,7 +89,7 @@ public class TextProcessor {
 			reply += "You can send your request by specifying: recommendation/ general question/booking a trip";
 			UQAutomateSender uqSender = new UQAutomateSender();
 			uqSender.process(userId, text);	
-			
+			if(reply.equals("")) throw new Exception();
 			return reply;
 		} catch (Exception e) {
 			try {
@@ -99,7 +99,7 @@ public class TextProcessor {
 			}	
 			
 			UQAutomateSender uqSender = new UQAutomateSender();			
-			reply = uqSender.process(userId, text);			
+			reply += uqSender.process(userId, text);			
 			
 			return reply; //return "exception here";
 		}
