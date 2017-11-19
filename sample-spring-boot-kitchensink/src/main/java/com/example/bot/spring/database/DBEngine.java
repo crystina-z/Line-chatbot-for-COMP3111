@@ -21,6 +21,7 @@ public class DBEngine {
 	private static final String DESCRIPTION = "tour_description";
 	private static final String TOURINFO = "tour_info";
 	private static final String BOOKTABLE = "booking_table";
+	protected Connection connection = null;
 	
 	public DBEngine() {
 		
@@ -176,6 +177,51 @@ public class DBEngine {
 		}
 		return positionWrong;
 	}
+	
+
+	public void openConnection() {
+		try {
+			connection = this.getConnection();
+		} catch (URISyntaxException | SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void close() {
+		try {
+			connection.close();
+			connection = null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	protected ResultSet query(PreparedStatement nstmt) {
+		ResultSet rs = null;
+		try {
+			rs = nstmt.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	
+	protected void update(PreparedStatement nstmt) {
+		try {
+			nstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	protected void execute(PreparedStatement nstmt) {
+		try {
+			nstmt.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	
 	protected Connection getConnection() throws URISyntaxException, SQLException {
 		Connection connection;

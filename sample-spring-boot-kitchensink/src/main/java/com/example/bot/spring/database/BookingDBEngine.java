@@ -28,8 +28,6 @@ public class BookingDBEngine extends DBEngine {
 	private static final String POSITIVEKEYS = "positivekeys";
 	private static final String REPLIES = "replies";
 	
-	private Connection connection = null;
-
 	public BookingDBEngine() {
 	}
 	
@@ -282,14 +280,14 @@ public class BookingDBEngine extends DBEngine {
 	 * @param b
 	 * @param userId
 	 */
-	public void setDiscount(boolean b, String userId) {
+	public void setDiscount(String b, String userId) {
 		PreparedStatement nstmt = null;
 		try {
 			nstmt = connection.prepareStatement(
 					"UPDATE "+LINEUSER
 					+ " SET discount = ?"
 					+ " WHERE userID = ?");
-			nstmt.setBoolean(1,b);
+			nstmt.setString(1,b);
 			nstmt.setString(2, userId);
 			this.update(nstmt);
 			nstmt.close();
@@ -600,9 +598,9 @@ public class BookingDBEngine extends DBEngine {
 	 * @param userId
 	 * @return
 	 */
-	public boolean checkDiscount(String userId) {
+	public String checkDiscount(String userId) {
 		PreparedStatement nstmt = null;
-		boolean b = false;
+		String b = "false";
 		try {
 			nstmt = connection.prepareStatement(
 					"SELECT discount "
@@ -611,7 +609,7 @@ public class BookingDBEngine extends DBEngine {
 			nstmt.setString(1, userId);
 			ResultSet rs = this.query(nstmt);
 			while(rs.next()) {
-				b = rs.getBoolean(1);
+				b = rs.getString(1);
 			}
 			rs.close();
 			nstmt.close();
@@ -993,49 +991,4 @@ public class BookingDBEngine extends DBEngine {
 		}
 		return null;
 	}
-	
-
-	public void openConnection() {
-		try {
-			connection = this.getConnection();
-		} catch (URISyntaxException | SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void close() {
-		try {
-			connection.close();
-			connection = null;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private ResultSet query(PreparedStatement nstmt) {
-		ResultSet rs = null;
-		try {
-			rs = nstmt.executeQuery();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return rs;
-	}
-	
-	private void update(PreparedStatement nstmt) {
-		try {
-			nstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private void execute(PreparedStatement nstmt) {
-		try {
-			nstmt.execute();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
 }

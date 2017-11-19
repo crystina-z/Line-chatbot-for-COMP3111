@@ -42,6 +42,7 @@ public class BookingTextSender implements TextSender {
 					bookingDB.setStatus("adult", userId);
 					reply = this.getInfoQuestion("adult");
 				}
+				break;
 			}
 			
 			case "new":{
@@ -327,13 +328,13 @@ public class BookingTextSender implements TextSender {
 		int children = bookingDB.getChildren(userId);
 		String tourId = bookingDB.getTourIds(userId)[0];
 		int quota = bookingDB.getQuota(tourId);
-		boolean discount = bookingDB.checkDiscount(userId);
+		String discount = bookingDB.checkDiscount(userId);
 		if(quota < (adult+toodler+children)) {
 			String reply = String.format(this.getInfoQuestion("no quota"), quota, tourId);
 			bookingDB.setStatus("default",userId);
 			bookingDB.removeBooking(userId);
 			return reply;
-		}else if(discount == true) {
+		}else if(discount.equals("true")) {
 			String reply = "";
 			int disAdult = 0;
 			int disChildren = 0;
@@ -355,7 +356,7 @@ public class BookingTextSender implements TextSender {
 			reply = reply + String.format(this.getInfoQuestion("price"), totalPrice);
 			bookingDB.recordTotalPrice(totalPrice,userId);
 			bookingDB.setStatus("confirm",userId);
-			bookingDB.setDiscount(false,userId);
+			bookingDB.setDiscount("false",userId);
 			return reply;
 		}else {
 			double price = bookingDB.getPrice(tourId);
