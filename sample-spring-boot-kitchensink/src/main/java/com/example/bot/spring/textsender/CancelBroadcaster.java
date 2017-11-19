@@ -64,6 +64,7 @@ public class CancelBroadcaster implements Broadcaster {
 
 			Message message = new TextMessage(broadcast_content);			
 			lineMessagingClient.multicast(new Multicast(tourists, message));
+			CDB.updateCanceledTours(bootid);
 		}
 		return 0;
 	}
