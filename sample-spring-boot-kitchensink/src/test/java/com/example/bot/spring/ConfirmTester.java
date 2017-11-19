@@ -15,7 +15,7 @@ import com.example.bot.spring.database.RecommendationDBEngine;
 import com.example.bot.spring.database.UQDBEngine;
 import com.example.bot.spring.textsender.*;
 import com.example.bot.spring.database.*;
-/*
+
 @RunWith(SpringRunner.class)
 
 @SpringBootTest(classes = {ConfirmTester.class, TextProcessor.class})
@@ -47,4 +47,3 @@ public class ConfirmTester {
 }
 
 
-*/

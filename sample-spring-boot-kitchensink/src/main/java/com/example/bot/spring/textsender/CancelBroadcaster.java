@@ -32,7 +32,12 @@ public class CancelBroadcaster implements Broadcaster {
 	    long diffInMillies = date2.getTime() - date1.getTime();
 	    return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
 	}
-	
+
+	/**
+	 * Convert a String in "YYYYMMDD" form to a Date object 
+	 * @param dateString "YYYYMMDD" form
+	 * @return a Date Object
+	 */
 	private Date getDate(String dateString) {
 		int y,m,d;
 		y=Integer.parseInt(dateString.substring(0,4));
@@ -43,10 +48,17 @@ public class CancelBroadcaster implements Broadcaster {
 	}
 	
 	CancelDBEngine CDB;
+	
+	/**
+	 * Constructor of CencelBroadCaster
+	 */
 	public CancelBroadcaster() {
 		CDB=new CancelDBEngine();
 	}
 	
+	/**
+	 * broadcast the information of canceled tours to the customers
+	 */
 	public void broadcast() throws Exception{
 		List<String> bids = CDB.getAllUnconfirmedTours();
 		for (String bid: bids) {
@@ -54,7 +66,12 @@ public class CancelBroadcaster implements Broadcaster {
 		}
 	}
 	
-	public int orderCancel(String bootid) throws Exception{
+	
+	/**
+	 * Cancel a tour and inform customers 
+	 * @param bootid a valid book table id
+	 */
+	public void orderCancel(String bootid) throws Exception{
 		Date td=getDate(bootid.substring(bootid.length()-8));
 		Date now=new Date();
 		long day=this.getDateDiff(td, now, TimeUnit.DAYS);
@@ -66,6 +83,5 @@ public class CancelBroadcaster implements Broadcaster {
 			lineMessagingClient.multicast(new Multicast(tourists, message));
 			CDB.updateCanceledTours(bootid);
 		}
-		return 0;
 	}
 }
