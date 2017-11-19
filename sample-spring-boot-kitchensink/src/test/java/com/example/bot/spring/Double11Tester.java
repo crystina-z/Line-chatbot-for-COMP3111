@@ -13,8 +13,12 @@ import com.example.bot.spring.database.*;
 @SpringBootTest(classes = { BookingDBEngineTest.class, BookingDBEngine.class})
 
 public class Double11Tester {
-	@Autowired
+	//@Autowired
 	private DoubleElevDBEngine DEDBE;
+	
+	public Double11Tester() {
+		DEDBE = new Double11Tester();
+	}
 	
 	@Test
 	public void getDiscountBookidTester() throws Exception {

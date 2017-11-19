@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GQTextSender.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sample-spring-boot-kitchensink</a> &gt; <a href="index.source.html" class="el_package">com.example.bot.spring.textsender</a> &gt; <span class="el_source">GQTextSender.java</span></div><h1>GQTextSender.java</h1><pre class="source lang-java linenums">package com.example.bot.spring.textsender;
+
+import com.example.bot.spring.database.GQDBEngine;
+/**
+ * general questions handler which could ask questions like how long is the trip and when the trip will begin
+ * @author jsongaf
+ *
+ */
+public class GQTextSender implements TextSender {
+	
+	private GQDBEngine DBE;
+	/**
+	 * class constructor
+	 */
+<span class="fc" id="L15">	public GQTextSender() {</span>
+<span class="fc" id="L16">		DBE= new GQDBEngine();</span>
+<span class="fc" id="L17">	}</span>
+	/**
+	 * process the input from the user and then answer the questions accordingly
+	 * @param userID
+	 * @param msg
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public String process(String userID, String msg) throws Exception{
+<span class="fc" id="L27">			String TourID=DBE.getTourID(userID,msg);</span>
+<span class="fc" id="L28">			DBE.update(userID,TourID);</span>
+<span class="fc" id="L29">			String reply =DBE.query(userID,msg,TourID);</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">			if(reply.equals(&quot;&quot;)) {</span>
+<span class="fc" id="L31">				throw new Exception(&quot;No reply&quot;);</span>
+			}
+<span class="fc" id="L33">			return reply;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

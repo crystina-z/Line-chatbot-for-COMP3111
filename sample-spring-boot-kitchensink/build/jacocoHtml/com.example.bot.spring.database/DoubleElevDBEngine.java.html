@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DoubleElevDBEngine.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sample-spring-boot-kitchensink</a> &gt; <a href="index.source.html" class="el_package">com.example.bot.spring.database</a> &gt; <span class="el_source">DoubleElevDBEngine.java</span></div><h1>DoubleElevDBEngine.java</h1><pre class="source lang-java linenums">package com.example.bot.spring.database;
+
+import java.net.URISyntaxException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Set;
+/**
+ * added features that the agency could give special discount on special events with limited quota
+ * @author jsongaf
+ *
+ */
+public class DoubleElevDBEngine extends DBEngine {
+	
+	// functions for confirmation 
+	// return all tour whose tourist number &gt; min &amp;&amp; not yet been confirmed; 
+<span class="fc" id="L19">	String discount_tours =  &quot;&quot;;</span>
+    
+	private Connection connection;
+    
+	/**
+	 * class constructor
+	 */
+<span class="fc" id="L26">	public DoubleElevDBEngine() {</span>
+<span class="fc" id="L27">		connection = null;</span>
+<span class="fc" id="L28">	}</span>
+	
+	
+	// functions for confirmation 
+	// return all tour whose tourist number &gt; min &amp;&amp; not yet been confirmed; 
+	/**
+	 * get the discount book ID to identify whether the users are qulified for a discount or not
+	 * @return
+	 */
+	public String getDiscountBookid(String s){ // only one tour is allowed to be discounted at the same time
+<span class="nc" id="L38">		String discount_tours =  null;</span>
+<span class="nc" id="L39">		PreparedStatement nstmt = null;</span>
+		
+<span class="nc" id="L41">		this.openConnection();</span>
+<span class="nc" id="L42">		String statement = &quot;SELECT bootableid FROM double11 &quot;</span>
+				+ &quot;WHERE status = ? &quot;;
+		// choose the tours that haven't been broadcasted;  
+		try {
+<span class="nc" id="L46">			nstmt = connection.prepareStatement(statement);</span>
+<span class="nc" id="L47">			nstmt.setString(1, s);</span>
+<span class="nc" id="L48">			ResultSet rs = this.query(nstmt);</span>
+			
+<span class="nc bnc" id="L50" title="All 2 branches missed.">			if(rs.next()) {</span>
+<span class="nc" id="L51">				discount_tours = rs.getString(1);</span>
+			}
+<span class="nc" id="L53">			nstmt.close();</span>
+<span class="nc" id="L54">			rs.close();</span>
+<span class="nc" id="L55">		} catch (SQLException e) {</span>
+<span class="nc" id="L56">			this.close();</span>
+<span class="nc" id="L57">			e.printStackTrace();</span>
+<span class="nc" id="L58">		}		</span>
+<span class="nc" id="L59">		this.close();</span>
+		
+<span class="nc" id="L61">		return discount_tours;</span>
+	}
+	/**
+	 * get the information of all line users
+	 * @return
+	 */
+	public Set&lt;String&gt; getAllClient(){
+<span class="nc" id="L68">		Set&lt;String&gt; clients = new HashSet&lt;String&gt;();</span>
+<span class="nc" id="L69">		PreparedStatement nstmt = null;	</span>
+<span class="nc" id="L70">		this.openConnection();</span>
+		
+<span class="nc" id="L72">		String statement = &quot;SELECT userid FROM line_user_info&quot;</span>
+						 + &quot; WHERE categorization &lt;&gt; 'book'&quot;;
+
+		try {
+<span class="nc" id="L76">			nstmt = connection.prepareStatement(statement);			</span>
+<span class="nc" id="L77">			ResultSet rs = this.query(nstmt);</span>
+			
+<span class="nc bnc" id="L79" title="All 2 branches missed.">			while(rs.next()) {</span>
+<span class="nc" id="L80">				clients.add(rs.getString(1));</span>
+			}
+<span class="nc" id="L82">			nstmt.close();</span>
+<span class="nc" id="L83">			rs.close();</span>
+<span class="nc" id="L84">		} catch (SQLException e) {</span>
+<span class="nc" id="L85">			this.close();</span>
+<span class="nc" id="L86">			e.printStackTrace();</span>
+<span class="nc" id="L87">		}</span>
+<span class="nc" id="L88">		this.close();	</span>
+		
+<span class="nc" id="L90">		return clients;</span>
+	}
+	/**
+	 * change the database table to indicate that the information has been braodcasted
+	 * @param booktableid
+	 */
+	public void updateBroadcastedTours(String booktableid){	
+<span class="nc" id="L97">		PreparedStatement nstmt = null;	</span>
+<span class="nc" id="L98">		this.openConnection();		</span>
+<span class="nc" id="L99">		String statement = &quot;UPDATE double11 &quot;</span>
+				+ &quot;SET status = 'sent' &quot;
+				+ &quot;WHERE bootableid = ?&quot;;
+		try {
+<span class="nc" id="L103">			nstmt = connection.prepareStatement(statement);			</span>
+<span class="nc" id="L104">			nstmt.setString(1,booktableid);		</span>
+			
+<span class="nc" id="L106">			this.update(nstmt);</span>
+			
+<span class="nc" id="L108">			nstmt.close();</span>
+<span class="nc" id="L109">		} catch (SQLException e) {</span>
+<span class="nc" id="L110">			this.close();</span>
+<span class="nc" id="L111">			e.printStackTrace();</span>
+<span class="nc" id="L112">		}</span>
+		
+<span class="nc" id="L114">		this.close();</span>
+<span class="nc" id="L115">	}</span>
+	
+	public void updateActivityStatus(){	
+<span class="nc" id="L118">		PreparedStatement nstmt = null;	</span>
+<span class="nc" id="L119">		this.openConnection();		</span>
+<span class="nc" id="L120">		String statement = &quot;UPDATE double11 &quot;</span>
+				+ &quot;SET status = 'outdate' &quot;
+				+ &quot;WHERE status &lt;&gt; 'released'&quot;;
+		try {
+<span class="nc" id="L124">			nstmt = connection.prepareStatement(statement);				</span>
+			
+<span class="nc" id="L126">			this.update(nstmt);</span>
+			
+<span class="nc" id="L128">			nstmt.close();</span>
+<span class="nc" id="L129">		} catch (SQLException e) {</span>
+<span class="nc" id="L130">			this.close();</span>
+<span class="nc" id="L131">			e.printStackTrace();</span>
+<span class="nc" id="L132">		}</span>
+		
+<span class="nc" id="L134">		this.close();</span>
+<span class="nc" id="L135">	}</span>
+	
+	public boolean ifTourFull(String booktableid) {
+<span class="nc" id="L138">		PreparedStatement nstm = null;</span>
+<span class="nc" id="L139">		int remaining_seat = 0; </span>
+		
+<span class="nc" id="L141">		openConnection();</span>
+<span class="nc" id="L142">		String statement = &quot;SELECT remaining_seat FROM double11 WHERE bootableid = ? &quot;;</span>
+		
+		try {
+<span class="nc" id="L145">			nstm = connection.prepareStatement(statement);</span>
+<span class="nc" id="L146">			nstm.setString(1, booktableid);</span>
+			
+<span class="nc" id="L148">			ResultSet rs = this.query(nstm);			</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">			if(rs.next()) {</span>
+<span class="nc" id="L150">				remaining_seat = rs.getInt(1);</span>
+			}
+<span class="nc" id="L152">			nstm.close();</span>
+<span class="nc" id="L153">			rs.close();</span>
+<span class="nc" id="L154">		} catch (SQLException e) {</span>
+<span class="nc" id="L155">			e.printStackTrace();</span>
+<span class="nc" id="L156">		}		</span>
+<span class="nc" id="L157">		close();</span>
+		
+<span class="nc bnc" id="L159" title="All 2 branches missed.">		if(remaining_seat &gt; 0) {return true; }</span>
+<span class="nc" id="L160">		else return false; 		</span>
+	}
+
+	public void updateQuota(String discount_tourid){
+<span class="nc" id="L164">		PreparedStatement nstmt = null;	</span>
+<span class="nc" id="L165">		this.openConnection();		</span>
+<span class="nc" id="L166">		String statement = &quot;UPDATE double11 &quot;</span>
+				+ &quot;SET remaining_seat = remaining_seat - 1 &quot;
+				+ &quot;WHERE bootableid = ?&quot;;
+		try {
+<span class="nc" id="L170">			nstmt = connection.prepareStatement(statement);	</span>
+<span class="nc" id="L171">			nstmt.setString(1, discount_tourid);</span>
+<span class="nc" id="L172">			this.update(nstmt);</span>
+			
+<span class="nc" id="L174">			nstmt.close();</span>
+<span class="nc" id="L175">		} catch (SQLException e) {			</span>
+<span class="nc" id="L176">			e.printStackTrace();</span>
+		}finally {
+<span class="nc" id="L178">			this.close();</span>
+<span class="nc" id="L179">		}</span>
+<span class="nc" id="L180">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

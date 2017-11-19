@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DBEngine.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sample-spring-boot-kitchensink</a> &gt; <a href="index.source.html" class="el_package">com.example.bot.spring.database</a> &gt; <span class="el_source">DBEngine.java</span></div><h1>DBEngine.java</h1><pre class="source lang-java linenums">package com.example.bot.spring.database;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import lombok.extern.slf4j.Slf4j;
+
+<span class="fc" id="L13">@Slf4j</span>
+/**
+ * super class for all DBEngine
+ * @author jsongaf
+ *
+ */
+public class DBEngine {
+	
+	private static final String CLASSIFYTABLE = &quot;classify_table&quot;;
+	
+	private static final String CUSTOMER = &quot;customer_info&quot;;
+	private static final String LINEUSER = &quot;line_user_info&quot;;
+	private static final String PRICE = &quot;tour_price&quot;;
+	private static final String DESCRIPTION = &quot;tour_description&quot;;
+	private static final String TOURINFO = &quot;tour_info&quot;;
+	private static final String BOOKTABLE = &quot;booking_table&quot;;
+<span class="fc" id="L29">	protected Connection connection = null;</span>
+	
+	/**
+	 * class constructor
+	 */
+<span class="fc" id="L34">	public DBEngine() {</span>
+		
+<span class="fc" id="L36">	}</span>
+	/**
+	 * update the line users' information in the database
+	 * @param userID
+	 * @param entryName
+	 * @param value
+	 * @throws Exception
+	 */
+	public void updateLineUserInfo(String userID,String entryName,String value) throws Exception{
+<span class="fc" id="L45">		Connection connection= getConnection();</span>
+		PreparedStatement stmt;
+		try {
+<span class="fc" id="L48">			getLineUserInfo(userID,entryName);</span>
+<span class="fc" id="L49">		}catch(Exception e) {</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">			if(e.getMessage().equals(&quot;No such entry&quot;)) {</span>
+<span class="fc" id="L51">				stmt=connection.prepareStatement(&quot;INSERT INTO line_user_info VALUES ( ? ,'','','','','','')&quot;);</span>
+<span class="fc" id="L52">				stmt.setString(1,userID);</span>
+<span class="fc" id="L53">				stmt.executeUpdate();</span>
+<span class="fc" id="L54">				stmt.close();</span>
+			}
+<span class="fc" id="L56">			else throw new Exception(&quot;Wrong Command1&quot;);</span>
+<span class="fc" id="L57">		}</span>
+		try {
+<span class="fc" id="L59">			stmt = connection.prepareStatement(</span>
+					&quot;UPDATE &quot; + LINEUSER + &quot; SET &quot;+ entryName +&quot; = ? WHERE userid = ?&quot;);
+<span class="fc" id="L61">			stmt.setString(1, value);</span>
+<span class="fc" id="L62">			stmt.setString(2, userID);</span>
+<span class="fc" id="L63">			stmt.executeUpdate();</span>
+<span class="nc" id="L64">		}catch(Exception e) {</span>
+<span class="nc" id="L65">			throw new Exception(&quot;Wrong Command2&quot;);</span>
+<span class="fc" id="L66">		}</span>
+<span class="fc" id="L67">		stmt.close();</span>
+<span class="fc" id="L68">		connection.close();</span>
+<span class="fc" id="L69">	}</span>
+	/**
+	 * get the line users' information from the database
+	 * @param userID
+	 * @param entryName
+	 * @return
+	 * @throws Exception
+	 */
+	public String getLineUserInfo(String userID,String entryName) throws Exception{
+<span class="fc" id="L78">		Connection connection= getConnection();</span>
+		PreparedStatement stmt;
+		ResultSet rs;
+		try{
+<span class="fc" id="L82">			stmt = connection.prepareStatement(</span>
+					&quot;SELECT &quot;+entryName+&quot; FROM line_user_info WHERE userid = ?&quot;);
+<span class="fc" id="L84">			stmt.setString(1, userID);</span>
+<span class="fc" id="L85">			rs=stmt.executeQuery();</span>
+<span class="fc" id="L86">		}catch(Exception e){</span>
+<span class="fc" id="L87">			System.out.println(&quot;XXXXXXXXXXXXXXXXXXXXXXXXXXXXX&quot;);</span>
+<span class="fc" id="L88">			System.out.println(&quot;with userid &quot;+userID);</span>
+<span class="fc" id="L89">			e.printStackTrace();</span>
+<span class="fc" id="L90">			throw new Exception(&quot;Wrong Command1&quot;);</span>
+<span class="fc" id="L91">		}</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">		if(!rs.next()) { </span>
+<span class="fc" id="L93">			System.out.println(&quot;XXXXXXXXXXXXXXXXXXXXXXXXXXXXX&quot;);</span>
+<span class="fc" id="L94">			System.out.println(&quot;No such entry!!!!!&quot;);</span>
+<span class="fc" id="L95">			throw new Exception(&quot;No such entry&quot;);</span>
+		}
+<span class="fc" id="L97">		String tmp=rs.getString(1);</span>
+<span class="fc" id="L98">		rs.close();</span>
+<span class="fc" id="L99">		stmt.close();</span>
+<span class="fc" id="L100">		connection.close();</span>
+<span class="fc" id="L101">		return tmp;</span>
+	}
+	
+	/**
+	 * given a pure text, check the 'classify_table' in database to determine its type
+	 * @param text
+	 * @return
+	 */
+	public String getTextType(String text) {	
+<span class="pc bpc" id="L110" title="2 of 4 branches missed.">		if(text == null || text.equals(&quot;&quot;)) {</span>
+<span class="nc" id="L111">			return &quot;&quot;;</span>
+		}
+		
+<span class="fc" id="L114">		Connection connection = null; </span>
+<span class="fc" id="L115">		PreparedStatement stmt  = null;</span>
+<span class="fc" id="L116">		ResultSet rs = null;		// string(1): keywords; string(2): position; string(3): label; 		</span>
+				
+		// classify input according to classify_table: get returned type; 
+		// if there r multiple types;
+		// check: label(diff with previous label) &amp;&amp; position(correct position)  &amp;&amp; length of keywords (choose the label to the longer keywords)
+	
+<span class="fc" id="L122">		String type = &quot;none&quot;;	 // type to return, with default value to be &quot;none&quot;</span>
+<span class="fc" id="L123">		String selectedKey = &quot;&quot;; // corresponding key of selected type; </span>
+		
+<span class="fc" id="L125">		String keywords = &quot;&quot;;	 // keyword for cur entry</span>
+<span class="fc" id="L126">		String position = &quot;&quot;;	 // position for cur entry</span>
+<span class="fc" id="L127">		String label = &quot;&quot;;		 // label for cur entry</span>
+		try{
+<span class="fc" id="L129">			connection = getConnection();</span>
+<span class="fc" id="L130">			String statement = &quot;SELECT * FROM &quot; +  CLASSIFYTABLE + &quot; WHERE '&quot; + text + &quot;' LIKE concat('%', keywords, '%')&quot;;		</span>
+<span class="fc" id="L131">			stmt = connection.prepareStatement(statement);</span>
+<span class="fc" id="L132">			rs=stmt.executeQuery();</span>
+
+<span class="fc" id="L134">			System.err.println(statement);			</span>
+			
+<span class="fc bfc" id="L136" title="All 2 branches covered.">			while (rs.next()) {				</span>
+<span class="fc" id="L137">				label = rs.getString(3);</span>
+<span class="fc" id="L138">				System.err.println(&quot;inside rs: lable: &quot; + label + &quot; current type: &quot; + type);</span>
+<span class="fc bfc" id="L139" title="All 2 branches covered.">				if(!type.equals(label)) {	// check if rs.label euqals the selectedLabel					</span>
+<span class="fc" id="L140">					keywords = rs.getString(1);</span>
+<span class="fc" id="L141">					position = rs.getString(2);	</span>
+<span class="fc" id="L142">					System.err.println(&quot;label : &quot; + label + &quot; keywords: &quot; + keywords + &quot; position: &quot; + position);</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">					if(!wrongPosition(keywords, text, position)) { // if no: check position;</span>
+						// if no: check keywords length:
+						// if current keyword is longer: replce selectedKey with currentKey; 
+<span class="fc bfc" id="L146" title="All 2 branches covered.">						if(keywords.length() &gt; selectedKey.length()) {	</span>
+<span class="fc" id="L147">							System.err.println(&quot;replacing : &quot; + type + &quot; with &quot; + label + &quot; 'cause length&quot;);</span>
+<span class="fc" id="L148">							type = label;</span>
+<span class="fc" id="L149">							selectedKey = keywords;</span>
+							
+							// reset keywords,  position, label
+<span class="fc" id="L152">							keywords = &quot;&quot;;</span>
+<span class="fc" id="L153">							position = &quot;&quot;;</span>
+<span class="fc" id="L154">							label = &quot;&quot;;</span>
+													
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">						}else if(label.length() == type.length()) { // if same, shuffle		</span>
+							// no action for now; 
+						}
+					}
+				}				
+			}
+<span class="nc" id="L162">		}catch(Exception e){</span>
+<span class="nc" id="L163">			System.out.println(&quot;XXXXXXXXXXXXXXXXXXXXXXXXXXXXX&quot;);</span>
+<span class="nc" id="L164">			System.out.println(&quot;-- inside DBENGINE: getTextType --&quot;);</span>
+<span class="nc" id="L165">			e.printStackTrace();</span>
+		}finally {
+<span class="nc" id="L167">			try {</span>
+<span class="pc" id="L168">				rs.close();</span>
+<span class="pc" id="L169">				stmt.close();</span>
+<span class="pc" id="L170">				connection.close();</span>
+<span class="nc" id="L171">			}catch (Exception e2) {</span>
+<span class="nc" id="L172">				System.err.println(e2.getMessage());</span>
+<span class="pc" id="L173">			}</span>
+<span class="nc" id="L174">		}</span>
+<span class="fc" id="L175">		return type;		</span>
+	}
+	/**
+	 * check if the position of the string is wrong
+	 * @param key
+	 * @param message
+	 * @param position
+	 * @return
+	 */
+	private boolean wrongPosition(String key, String message, String position) {
+<span class="fc" id="L185">		boolean positionWrong = true;</span>
+		
+<span class="pc bpc" id="L187" title="5 of 14 branches missed.">		switch (position) {</span>
+		case &quot;front&quot;:
+<span class="fc bfc" id="L189" title="All 2 branches covered.">			if(key.equals(message.substring(0, key.length())))</span>
+<span class="fc" id="L190">				positionWrong = false;</span>
+			break;
+		case &quot;end&quot;:
+<span class="fc" id="L193">	        int lenMsg = message.length();</span>
+<span class="fc" id="L194">	        int lenKey = key.length();</span>
+<span class="fc" id="L195">	        int startIndex = lenMsg - lenKey;</span>
+<span class="pc bpc" id="L196" title="1 of 2 branches missed.">	        if(key.equals(message.substring(startIndex)))</span>
+<span class="fc" id="L197">	        	positionWrong = false;</span>
+	        break; 
+		case &quot;any&quot;:
+<span class="fc" id="L200">			positionWrong = false;</span>
+<span class="fc" id="L201">			break;</span>
+		default: 
+			// no action; 
+		}
+<span class="fc" id="L205">		return positionWrong;</span>
+	}
+	
+
+	public void openConnection() {
+		try {
+<span class="fc" id="L211">			connection = this.getConnection();</span>
+<span class="nc" id="L212">		} catch (URISyntaxException | SQLException e) {</span>
+<span class="nc" id="L213">			e.printStackTrace();</span>
+<span class="fc" id="L214">		}</span>
+<span class="fc" id="L215">	}</span>
+
+	public void close() {
+		try {
+<span class="fc" id="L219">			connection.close();</span>
+<span class="fc" id="L220">			connection = null;</span>
+<span class="nc" id="L221">		} catch (SQLException e) {</span>
+<span class="nc" id="L222">			e.printStackTrace();</span>
+<span class="fc" id="L223">		}</span>
+<span class="fc" id="L224">	}</span>
+	
+	protected ResultSet query(PreparedStatement nstmt) {
+<span class="fc" id="L227">		ResultSet rs = null;</span>
+		try {
+<span class="fc" id="L229">			rs = nstmt.executeQuery();</span>
+<span class="nc" id="L230">		} catch (SQLException e) {</span>
+<span class="nc" id="L231">			e.printStackTrace();</span>
+<span class="fc" id="L232">		}</span>
+<span class="fc" id="L233">		return rs;</span>
+	}
+	
+	protected void update(PreparedStatement nstmt) {
+		try {
+<span class="nc" id="L238">			nstmt.executeUpdate();</span>
+<span class="nc" id="L239">		} catch (SQLException e) {</span>
+<span class="nc" id="L240">			e.printStackTrace();</span>
+<span class="nc" id="L241">		}</span>
+<span class="nc" id="L242">	}</span>
+	
+	protected void execute(PreparedStatement nstmt) {
+		try {
+<span class="nc" id="L246">			nstmt.execute();</span>
+<span class="nc" id="L247">		} catch (SQLException e) {</span>
+<span class="nc" id="L248">			e.printStackTrace();</span>
+<span class="nc" id="L249">		}</span>
+<span class="nc" id="L250">	}</span>
+
+	
+	/**
+	 * get a new connection to the database
+	 * @return
+	 * @throws URISyntaxException
+	 * @throws SQLException
+	 */
+	protected Connection getConnection() throws URISyntaxException, SQLException {
+		Connection connection;
+<span class="fc" id="L261">		URI dbUri = new URI(System.getenv(&quot;DATABASE_URL&quot;));</span>
+
+<span class="fc" id="L263">		String username = dbUri.getUserInfo().split(&quot;:&quot;)[0];</span>
+<span class="fc" id="L264">		String password = dbUri.getUserInfo().split(&quot;:&quot;)[1];</span>
+<span class="fc" id="L265">		String dbUrl = &quot;jdbc:postgresql://&quot; + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() +  &quot;?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory&quot;;</span>
+
+		//log.info(&quot;Username: {} Password: {}&quot;, username, password);
+		//log.info (&quot;dbUrl: {}&quot;, dbUrl);
+		
+<span class="fc" id="L270">		connection = DriverManager.getConnection(dbUrl, username, password);</span>
+
+<span class="fc" id="L272">		return connection;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

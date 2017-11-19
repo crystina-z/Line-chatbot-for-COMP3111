@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GQDBEngine.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sample-spring-boot-kitchensink</a> &gt; <a href="index.source.html" class="el_package">com.example.bot.spring.database</a> &gt; <span class="el_source">GQDBEngine.java</span></div><h1>GQDBEngine.java</h1><pre class="source lang-java linenums">package com.example.bot.spring.database;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+/**
+ * DBEngine to handle the general questions like when is the trip and how long this trip will take
+ * @author jsongaf
+ *
+ */
+public class GQDBEngine extends DBEngine {
+	private String tname1; // name of table in charge; 
+	private String column1_1;
+	private String column1_2;
+	/**
+	 * class constructor
+	 */
+<span class="fc" id="L18">	public GQDBEngine() {</span>
+<span class="fc" id="L19">		this.tname1 = &quot;gq_table&quot;; // name of table in charge; </span>
+<span class="fc" id="L20">		this.column1_1 = &quot;pattern&quot;;</span>
+<span class="fc" id="L21">		this.column1_2 = &quot;answer&quot;;</span>
+<span class="fc" id="L22">	}</span>
+	/**
+	 * get the tour ID from the database
+	 * @param userID
+	 * @param Text
+	 * @return
+	 * @throws Exception
+	 */
+	public String getTourID (String userID, String Text) throws Exception {
+<span class="fc" id="L31">		System.err.println(&quot;getting tid&quot;);</span>
+<span class="fc" id="L32">		Connection connection = getConnection();</span>
+		PreparedStatement stmt;
+		ResultSet rs;
+<span class="fc" id="L35">		String TourID = &quot;&quot;;</span>
+		
+<span class="fc" id="L37">		stmt = connection.prepareStatement(</span>
+			&quot;SELECT TourIDs FROM line_user_info WHERE userid = ?&quot;);
+<span class="fc" id="L39">		stmt.setString(1, userID);</span>
+<span class="fc" id="L40">		rs = stmt.executeQuery();</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">		if(rs.next()) {</span>
+<span class="fc" id="L42">			TourID = rs.getString(1);</span>
+		}
+
+		
+<span class="fc" id="L46">		rs.close();</span>
+<span class="fc" id="L47">		stmt.close();</span>
+<span class="fc" id="L48">		stmt = connection.prepareStatement(</span>
+			&quot;SELECT tour_name,tourid FROM tour_info&quot;);
+<span class="fc" id="L50">		rs=stmt.executeQuery();</span>
+		String tourname;
+<span class="fc bfc" id="L52" title="All 2 branches covered.">		while(rs.next()) {</span>
+<span class="fc" id="L53">			boolean found=true;</span>
+<span class="fc" id="L54">			tourname=rs.getString(1);</span>
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">			for(String info:tourname.split(&quot;\\s|-&quot;)) {</span>
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">				if(Text.toLowerCase().contains(info.toLowerCase()))</span>
+<span class="nc" id="L57">					continue;</span>
+<span class="fc" id="L58">				found=false;</span>
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">				if(!found) break;</span>
+			}
+<span class="fc bfc" id="L61" title="All 2 branches covered.">			if(Text.toLowerCase().contains(rs.getString(2).toLowerCase()))found=true;</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">			if(found) {</span>
+<span class="fc" id="L63">				TourID=rs.getString(2);</span>
+<span class="fc" id="L64">				break;</span>
+			}
+<span class="fc" id="L66">		}</span>
+<span class="fc" id="L67">		rs.close();</span>
+<span class="fc" id="L68">		stmt.close();</span>
+<span class="fc" id="L69">		connection.close();</span>
+<span class="fc" id="L70">		return TourID;</span>
+	}
+	/**
+	 * execute the query to get the information from the database
+	 * @param userID
+	 * @param Text
+	 * @param TourID
+	 * @return
+	 * @throws Exception
+	 */
+	public String query(String userID,String Text,String TourID) throws Exception{		
+<span class="fc" id="L81">			Connection connection = null;</span>
+<span class="fc" id="L82">			PreparedStatement stmt = null;</span>
+<span class="fc" id="L83">			String statement = null;</span>
+<span class="fc" id="L84">			ResultSet rs = null;</span>
+<span class="fc" id="L85">			String answer=&quot;&quot;;</span>
+<span class="fc" id="L86">			String tag=&quot;&quot;;</span>
+<span class="fc" id="L87">			System.err.println(TourID);</span>
+		//try {
+<span class="fc" id="L89">			connection = getConnection();</span>
+<span class="fc" id="L90">			stmt=connection.prepareStatement(&quot;SELECT * FROM gqtag&quot;);</span>
+<span class="fc" id="L91">			rs=stmt.executeQuery();</span>
+<span class="fc bfc" id="L92" title="All 4 branches covered.">			while(rs.next()&amp;&amp;tag.equals(&quot;&quot;)) {</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">				if(Text.toLowerCase().contains(rs.getString(1)))</span>
+<span class="fc" id="L94">					tag=rs.getString(2);</span>
+			}
+<span class="fc" id="L96">			System.err.printf(&quot;tag=%s\n&quot;, tag);</span>
+<span class="fc" id="L97">			rs.close();</span>
+<span class="fc" id="L98">			stmt.close();</span>
+<span class="pc bpc" id="L99" title="2 of 10 branches missed.">			switch (tag) {</span>
+			case &quot;time&quot;:
+<span class="fc bfc" id="L101" title="All 2 branches covered.">				if(TourID.length()&lt;5) {</span>
+<span class="fc" id="L102">					answer+=(&quot;Could you please specify which tour you what you ask?&quot;);</span>
+<span class="fc" id="L103">					break;</span>
+				}
+<span class="fc" id="L105">				stmt = connection.prepareStatement(</span>
+					&quot;SELECT tour_name,duration FROM tour_info WHERE tourid = ?&quot;);				
+<span class="fc" id="L107">				stmt.setString(1, TourID);</span>
+<span class="fc" id="L108">				rs=stmt.executeQuery();</span>
+								
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">				if(rs.next()) {</span>
+<span class="fc" id="L111">					answer+= rs.getString(1) + &quot; takes &quot; + rs.getInt(2) + &quot; days.\n&quot;;</span>
+				}
+				break;
+			case &quot;feat&quot;:
+<span class="fc bfc" id="L115" title="All 2 branches covered.">				if(TourID.length()&lt;5) {</span>
+<span class="fc" id="L116">					answer+=(&quot;Could you please specify which tour you what you ask?&quot;);</span>
+<span class="fc" id="L117">					break;</span>
+				}
+<span class="fc" id="L119">				stmt = connection.prepareStatement(</span>
+						&quot;SELECT description from tour_description WHERE tourid = ?&quot;);
+<span class="fc" id="L121">				stmt.setString(1, TourID);</span>
+<span class="fc" id="L122">				rs=stmt.executeQuery();</span>
+				
+<span class="pc bpc" id="L124" title="1 of 2 branches missed.">				if(rs.next()) {</span>
+					//System.err.println(&quot;updating in descri&quot;);
+<span class="fc" id="L126">					answer+= &quot;These are what you can expect there:&quot;;</span>
+<span class="fc" id="L127">					answer+=&quot;\n   &quot;+rs.getString(1);</span>
+<span class="fc" id="L128">					answer+=&quot;.\n&quot;;</span>
+				}
+				break;
+			default:
+				// static answer question
+<span class="fc" id="L133">				statement = &quot;SELECT &quot; + column1_2 + &quot; FROM &quot; + tname1 + &quot; WHERE \'&quot; + Text + &quot;\' SIMILAR TO &quot; + column1_1;</span>
+				//System.out.print(statement);
+<span class="fc" id="L135">				stmt = connection.prepareStatement(statement);</span>
+<span class="fc" id="L136">				rs=stmt.executeQuery();</span>
+				
+<span class="pc bpc" id="L138" title="1 of 2 branches missed.">				if(rs.next()) {</span>
+<span class="nc" id="L139">					answer+=&quot;\n   &quot;+rs.getString(1);</span>
+<span class="nc" id="L140">					answer+=&quot;.\n&quot;; </span>
+				}
+				break;
+			}
+		//}catch(Exception e) {
+		//	e.printStackTrace();
+		//	System.err.println(e.getMessage());
+		//}finally {
+			//rs.close();
+			//stmt.close();
+			//try {
+<span class="pc bpc" id="L151" title="1 of 2 branches missed.">				if (rs.next()) rs.close();</span>
+<span class="pc bpc" id="L152" title="1 of 2 branches missed.">				if (stmt != null) stmt.close();</span>
+<span class="pc bpc" id="L153" title="1 of 2 branches missed.">				if (connection != null) connection.close();</span>
+			//} catch (Exception e) {
+				//System.err.println(e.getMessage());
+			//}
+		//}
+<span class="fc" id="L158">		return answer;</span>
+	}
+	/**
+	 * update the database
+	 * @param UserID
+	 * @param TourID
+	 * @throws Exception
+	 */
+	public void update(String UserID,String TourID) throws Exception{
+<span class="fc" id="L167">		System.err.println(&quot;updating tid&quot;);</span>
+<span class="fc" id="L168">		Connection connection = getConnection();</span>
+		PreparedStatement stmt;
+<span class="fc" id="L170">		stmt = connection.prepareStatement(</span>
+				&quot;UPDATE line_user_info SET tourids = ? WHERE userid = ?&quot;);
+<span class="fc" id="L172">		stmt.setString(1, TourID);</span>
+<span class="fc" id="L173">		stmt.setString(2, UserID);</span>
+<span class="fc" id="L174">		stmt.executeUpdate();</span>
+<span class="fc" id="L175">		stmt.close();</span>
+<span class="fc" id="L176">		connection.close();</span>
+<span class="fc" id="L177">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

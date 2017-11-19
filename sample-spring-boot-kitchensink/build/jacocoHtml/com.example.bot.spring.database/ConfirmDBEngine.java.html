@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ConfirmDBEngine.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sample-spring-boot-kitchensink</a> &gt; <a href="index.source.html" class="el_package">com.example.bot.spring.database</a> &gt; <span class="el_source">ConfirmDBEngine.java</span></div><h1>ConfirmDBEngine.java</h1><pre class="source lang-java linenums">package com.example.bot.spring.database;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
+
+<span class="fc" id="L11">public class ConfirmDBEngine extends DBEngine {</span>
+
+	// functions for confirmation 
+	// return all tour whose tourist number &gt; min &amp;&amp; not yet been confirmed; 
+	/**
+	 * get the confirmed tours ID
+	 * @param fullfilled
+	 * @return
+	 */
+	public List&lt;String&gt; getAllUnconfirmedTours(boolean fullfilled){
+<span class="fc" id="L21">		List&lt;String&gt; unconfirmed_tours = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L22">		PreparedStatement nstmt = null;</span>
+		
+<span class="fc" id="L24">		this.openConnection();</span>
+		// if fullfillled, retrieve all tour which can be confirmed
+		// else, retrieve all tour which should be cancelled; 
+<span class="fc" id="L27">		String statement = &quot;&quot;;</span>
+<span class="pc bpc" id="L28" title="1 of 2 branches missed.">		if (fullfilled) {</span>
+<span class="nc" id="L29">			statement = &quot;SELECT bootableid FROM booking_table &quot;</span>
+					+ &quot;WHERE paidnum &gt;= mintourist AND confirmed = 'unconfirmed' &quot;;
+			// use paidnum rather than registernum; 			
+		}else {
+<span class="fc" id="L33">			statement = &quot;SELECT bootableid FROM booking_table &quot;</span>
+					+ &quot;WHERE paidnum &lt; mintourist AND confirmed = 'unconfirmed' &quot;;
+		}
+
+		try {
+<span class="fc" id="L38">			nstmt = connection.prepareStatement(statement);</span>
+<span class="fc" id="L39">			ResultSet rs = this.query(nstmt);</span>
+			
+<span class="fc bfc" id="L41" title="All 2 branches covered.">			while(rs.next()) {</span>
+<span class="fc" id="L42">				unconfirmed_tours.add(rs.getString(1));</span>
+			}
+<span class="fc" id="L44">			nstmt.close();</span>
+<span class="fc" id="L45">			rs.close();</span>
+<span class="nc" id="L46">		} catch (SQLException e) {</span>
+<span class="nc" id="L47">			e.printStackTrace();</span>
+<span class="fc" id="L48">		}		</span>
+<span class="fc" id="L49">		this.close();	</span>
+		
+<span class="fc" id="L51">		return unconfirmed_tours;</span>
+	}
+
+	/**
+	 * function to get contacters information
+	 * if paid == true: return all contactors who have paid (any amount of), it is for cancelers
+	 * if paid == false: return all contactors, whatever they have paid or not, it is for confirmers
+	 * @param booktableid
+	 * @param paid
+	 * @return
+	 */
+	public Set&lt;String&gt; getAllContactors(String booktableid, boolean paid){
+<span class="fc" id="L63">		Set&lt;String&gt; customers = new HashSet&lt;String&gt;();</span>
+<span class="fc" id="L64">		PreparedStatement nstmt = null;	</span>
+<span class="fc" id="L65">		this.openConnection();</span>
+		
+<span class="fc" id="L67">		String statement = &quot;&quot;;</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">		if (paid) {</span>
+<span class="fc" id="L69">			statement = &quot;SELECT L.userid &quot;</span>
+					+ &quot;FROM customer_info as C, line_user_info as L &quot;
+					+ &quot;WHERE C.paidamount &gt; 0 AND C.customername = L.name AND C.bootableid = ?&quot;;
+		}else {
+<span class="nc" id="L73">			statement = &quot;SELECT L.userid &quot;</span>
+					+ &quot;FROM customer_info as C, line_user_info as L &quot;
+					+ &quot;WHERE C.customername = L.name AND C.bootableid = ?&quot;;			
+		}
+
+		// only announce the tourist who paid the full tour fee; 
+		try {
+<span class="fc" id="L80">			nstmt = connection.prepareStatement(statement);			</span>
+<span class="fc" id="L81">			nstmt.setString(1,booktableid);			</span>
+<span class="fc" id="L82">			ResultSet rs = this.query(nstmt);	</span>
+			
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">			while(rs.next()) {</span>
+<span class="nc" id="L85">				customers.add(rs.getString(1));</span>
+			}
+<span class="fc" id="L87">			nstmt.close();</span>
+<span class="fc" id="L88">			rs.close();</span>
+<span class="nc" id="L89">		} catch (SQLException e) {</span>
+<span class="nc" id="L90">			e.printStackTrace();</span>
+<span class="fc" id="L91">		}</span>
+<span class="fc" id="L92">		this.close();	</span>
+		
+<span class="fc" id="L94">		return customers;</span>
+	}
+	/**
+	 * update the database information to mark it as confirmed
+	 * @param booktableid
+	 */
+	public void updateConfirmedTours(String booktableid){	
+<span class="nc" id="L101">		PreparedStatement nstmt = null;	</span>
+<span class="nc" id="L102">		this.openConnection();		</span>
+<span class="nc" id="L103">		String statement = &quot;UPDATE booking_table &quot;</span>
+				+ &quot;SET confirmed = 'confirmed' &quot;
+				+ &quot;WHERE bootableid = ?&quot;;
+		try {
+<span class="nc" id="L107">			nstmt = connection.prepareStatement(statement);			</span>
+<span class="nc" id="L108">			nstmt.setString(1,booktableid);			</span>
+			
+<span class="nc" id="L110">			ResultSet rs = this.query(nstmt);	</span>
+			
+<span class="nc" id="L112">			nstmt.close();</span>
+<span class="nc" id="L113">			rs.close();</span>
+<span class="nc" id="L114">		} catch (SQLException e) {</span>
+<span class="nc" id="L115">			e.printStackTrace();</span>
+<span class="nc" id="L116">		}</span>
+<span class="nc" id="L117">		this.close();	</span>
+
+<span class="nc" id="L119">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

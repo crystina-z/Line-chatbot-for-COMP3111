@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DoubleElevBroadcaster.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sample-spring-boot-kitchensink</a> &gt; <a href="index.source.html" class="el_package">com.example.bot.spring.textsender</a> &gt; <span class="el_source">DoubleElevBroadcaster.java</span></div><h1>DoubleElevBroadcaster.java</h1><pre class="source lang-java linenums">package com.example.bot.spring.textsender;
+
+import java.util.Set;
+import com.example.bot.spring.database.*;
+import com.linecorp.bot.client.*;
+import com.linecorp.bot.model.*;
+import com.linecorp.bot.model.message.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+/**
+ * added features that the clients could give some special discount on special date
+ * this function is to inform all the users that there will be a discount
+ * @author jsongaf
+ *
+ */
+@Component
+public class DoubleElevBroadcaster implements Broadcaster {
+	
+	DoubleElevDBEngine doubledb; 
+	@Autowired
+	private LineMessagingClient lineMessagingClient;	
+	/**
+	 * class constructor
+	 */
+<span class="nc" id="L25">	public DoubleElevBroadcaster() {</span>
+		
+<span class="nc" id="L27">	}</span>
+	/**
+	 * inform all the users that there will be a discount on some trips
+	 * @throws Exception
+	 */
+	public void broadcast() throws Exception{
+<span class="nc" id="L33">			doubledb = new DoubleElevDBEngine();</span>
+			// check each trip available in db
+			// if there are any trip get to min tourist yet haven't been confirmed, confirm order; 
+<span class="nc" id="L36">			String tourid = doubledb.getDiscountBookid(&quot;released&quot;);</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">			if(tourid.isEmpty())</span>
+<span class="nc" id="L38">				return;</span>
+<span class="nc" id="L39">			doubledb.updateActivityStatus();</span>
+			// extract all contactor info into a Set&lt;String&gt; to;
+			// extract tourid into String tourid;
+<span class="nc" id="L42">			String broadcast_content = &quot;START COMPETE FOR TOUR &quot; + tourid + &quot; AT 50% DISCOUNT!! \n Wanna Grab one? &quot;; // later if reply yes, then jump to booking, else, do nothing</span>
+
+<span class="nc" id="L44">			Set&lt;String&gt; tourist = doubledb.getAllClient();				</span>
+<span class="nc" id="L45">			Message message = new TextMessage(broadcast_content);</span>
+				
+<span class="nc" id="L47">			lineMessagingClient.multicast(new Multicast(tourist, message));  // Multicast(Set&lt;String&gt; to, String msg)</span>
+<span class="nc" id="L48">			doubledb.updateBroadcastedTours(tourid);  // update &quot;confirmed&quot; col of informed tours into TRUE; </span>
+<span class="nc" id="L49">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

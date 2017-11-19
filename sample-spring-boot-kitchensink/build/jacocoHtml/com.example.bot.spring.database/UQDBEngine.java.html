@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UQDBEngine.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sample-spring-boot-kitchensink</a> &gt; <a href="index.source.html" class="el_package">com.example.bot.spring.database</a> &gt; <span class="el_source">UQDBEngine.java</span></div><h1>UQDBEngine.java</h1><pre class="source lang-java linenums">package com.example.bot.spring.database;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+
+/**
+ * this is to handle the unanswered questions, save them into the database and reply with a default answer
+ * @author jsongaf
+ *
+ */
+public class UQDBEngine extends DBEngine {
+	/**
+	 * class constructor
+	 */
+<span class="fc" id="L17">	public UQDBEngine() {</span>
+		// TODO Auto-generated constructor stub
+<span class="fc" id="L19">	}</span>
+	/**
+	 * update the database table and save the question and change the status if someone answer the question
+	 * @throws Exception
+	 */
+	public void updateTable() throws Exception{
+<span class="fc" id="L25">		Connection connection = null;</span>
+<span class="fc" id="L26">		PreparedStatement stmt = null;</span>
+
+<span class="fc" id="L28">		connection=getConnection();</span>
+<span class="fc" id="L29">		stmt = connection.prepareStatement(</span>
+				&quot;update unanswered_question set sent_or_not = true where answered_or_not = true&quot;
+		);
+<span class="fc" id="L32">		stmt.executeUpdate();</span>
+		
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">		if (stmt != null) stmt.close();</span>
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">		if (connection != null) connection.close();</span>
+<span class="fc" id="L36">	}</span>
+	/**
+	 * get the default reply from the database
+	 * @return
+	 * @throws Exception
+	 */
+	public String retrieveReply() throws Exception {
+<span class="fc" id="L43">		Connection connection = null;</span>
+<span class="fc" id="L44">		PreparedStatement stmt = null;</span>
+<span class="fc" id="L45">		String reply=&quot;&quot;;</span>
+
+<span class="fc" id="L47">		connection=getConnection();</span>
+<span class="fc" id="L48">		stmt = connection.prepareStatement(&quot;select * from unanswered_default_reply&quot;);</span>
+<span class="fc" id="L49">		ResultSet rs=stmt.executeQuery();</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">		while (rs.next()) {</span>
+<span class="fc" id="L51">			reply=rs.getString(1);</span>
+		}
+		
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">		if (stmt != null) stmt.close();</span>
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">		if (connection != null) connection.close();</span>
+
+<span class="fc" id="L57">		return reply;</span>
+	}
+	/**
+	 * get the answer from the database to send it to users
+	 * @return
+	 * @throws Exception
+	 */
+	public ArrayList&lt;String&gt; answer() throws Exception{
+<span class="fc" id="L65">		Connection connection = null;</span>
+<span class="fc" id="L66">		PreparedStatement stmt = null;</span>
+<span class="fc" id="L67">		ArrayList&lt;String&gt; reply= new ArrayList&lt;String&gt;();</span>
+
+<span class="fc" id="L69">		connection=getConnection();</span>
+<span class="fc" id="L70">		stmt = connection.prepareStatement(</span>
+				&quot;select * from unanswered_question where answered_or_not = true and sent_or_not= false&quot;
+		);
+<span class="fc" id="L73">		ResultSet rs=stmt.executeQuery();</span>
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">		while (rs.next()) {</span>
+<span class="nc" id="L75">			String temp=&quot;&quot;;</span>
+<span class="nc" id="L76">			temp+=rs.getString(1)+&quot;,&quot;+rs.getString(2)+&quot;,&quot;+rs.getString(4);</span>
+<span class="nc" id="L77">			reply.add(temp);</span>
+<span class="nc" id="L78">		}</span>
+		
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">		if (stmt != null) stmt.close();</span>
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">		if (connection != null) connection.close();</span>
+		
+<span class="fc" id="L83">		updateTable();</span>
+
+<span class="fc" id="L85">		return reply;</span>
+	}
+	/**
+	 * execute the query and connect to the database
+	 * @param userId
+	 * @param text
+	 * @return
+	 * @throws Exception
+	 */
+	public String uqQuery(String userId, String text) throws Exception{
+		//System.out.println(&quot;Success&quot;);
+<span class="fc" id="L96">		Connection connection = null;</span>
+<span class="fc" id="L97">		PreparedStatement stmt = null;</span>
+
+<span class="fc" id="L99">		connection = getConnection();</span>
+		//insert into the unanswered question table to store the question
+<span class="fc" id="L101">		stmt = connection.prepareStatement(</span>
+				&quot;insert into unanswered_question values( '&quot;+userId+&quot;', '&quot;+text+&quot;', false, '', false)&quot;
+		);
+<span class="fc" id="L104">		stmt.executeUpdate();</span>
+
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">		if (stmt != null) stmt.close();</span>
+<span class="pc bpc" id="L107" title="1 of 2 branches missed.">		if (connection != null) connection.close();</span>
+
+
+<span class="fc" id="L110">		return retrieveReply();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

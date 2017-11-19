@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Double11Service.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sample-spring-boot-kitchensink</a> &gt; <a href="index.source.html" class="el_package">com.example.bot.spring.webapplication.service</a> &gt; <span class="el_source">Double11Service.java</span></div><h1>Double11Service.java</h1><pre class="source lang-java linenums">package com.example.bot.spring.webapplication.service;
+
+import java.util.LinkedList;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.bot.spring.webapplication.domain.Activity;
+import com.example.bot.spring.webapplication.domain.Tour;
+import com.example.bot.spring.webapplication.repos.ActivityRepo;
+import com.example.bot.spring.webapplication.repos.TourRepo;
+
+@Service
+<span class="nc" id="L14">public class Double11Service {</span>
+	
+	@Autowired
+	TourRepo tourRepo;
+	
+	@Autowired
+	ActivityRepo activityRepo;
+
+	public LinkedList&lt;Activity&gt; getAllActivities() throws Exception{
+<span class="nc" id="L23">		return activityRepo.getAllActivities();</span>
+	}
+	
+	public LinkedList&lt;Tour&gt; getAllTours() throws Exception{
+<span class="nc" id="L27">		return tourRepo.getAllTours();</span>
+	}
+	
+	public void createNewActivity(Activity act) throws Exception{
+<span class="nc" id="L31">		activityRepo.createNewActivity(act);</span>
+<span class="nc" id="L32">	}</span>
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

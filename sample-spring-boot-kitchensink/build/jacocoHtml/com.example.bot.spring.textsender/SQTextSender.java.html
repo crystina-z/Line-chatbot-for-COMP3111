@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SQTextSender.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sample-spring-boot-kitchensink</a> &gt; <a href="index.source.html" class="el_package">com.example.bot.spring.textsender</a> &gt; <span class="el_source">SQTextSender.java</span></div><h1>SQTextSender.java</h1><pre class="source lang-java linenums">package com.example.bot.spring.textsender;
+
+import com.example.bot.spring.database.*;
+/**
+ * implement the simple questions like greetings 
+ * @author jsongaf
+ *
+ */
+public class SQTextSender implements TextSender {
+	private SQDBEngine sqdbengine; 
+	/**
+	 * class constructor
+	 */
+<span class="fc" id="L14">	public SQTextSender() {</span>
+		// TODO Auto-generated constructor stub
+<span class="fc" id="L16">		this.sqdbengine = new SQDBEngine();</span>
+<span class="fc" id="L17">	}</span>
+	/**
+	 * process the user input
+	 * @param userId
+	 * @param msg
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public String process(String userId, String msg) throws Exception{
+		// TODO Auto-generated method stub
+		/* Label: greeting/ thanks/ goodbye */
+<span class="fc" id="L29">		String label = null; </span>
+		// if msg contains certain keywords, label it
+			
+<span class="fc" id="L32">			label = sqdbengine.search(msg);</span>
+			// label = label.replaceAll(&quot;\\s+$&quot;, &quot;&quot;);	// trunc the whitespace at the end 
+					
+<span class="pc bpc" id="L35" title="3 of 14 branches missed.">		switch (label) {</span>
+			case &quot;greeting&quot;:{
+<span class="fc" id="L37">				System.out.print(&quot;should be here&quot;);</span>
+<span class="fc" id="L38">				return &quot;Hi! How can I help you?&quot;;</span>
+			}
+			case &quot;thank&quot;:{
+<span class="fc" id="L41">				return &quot;You are welcome =)&quot;;</span>
+			}
+			case &quot;bye&quot;:{
+<span class="fc" id="L44">				return &quot;have a nice day!&quot;;</span>
+			}
+			default:{
+<span class="fc" id="L47">				return &quot;&quot;;</span>
+			}
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

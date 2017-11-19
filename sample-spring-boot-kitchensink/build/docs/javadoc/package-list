@@ -1,0 +1,7 @@
+com.example.bot.spring
+com.example.bot.spring.database
+com.example.bot.spring.textsender
+com.example.bot.spring.webapplication.controller
+com.example.bot.spring.webapplication.domain
+com.example.bot.spring.webapplication.repos
+com.example.bot.spring.webapplication.service

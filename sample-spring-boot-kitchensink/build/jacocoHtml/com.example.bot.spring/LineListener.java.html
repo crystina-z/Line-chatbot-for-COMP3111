@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LineListener.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sample-spring-boot-kitchensink</a> &gt; <a href="index.source.html" class="el_package">com.example.bot.spring</a> &gt; <span class="el_source">LineListener.java</span></div><h1>LineListener.java</h1><pre class="source lang-java linenums">package com.example.bot.spring;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.example.bot.spring.textsender.*;
+/**
+ * an observer to the database, inform the users if any change that will trigger an event
+ * @author jsongaf
+ *
+ */
+@Component
+public class LineListener extends Thread{
+	
+	@Autowired
+	private ConfirmBroadcaster confirmBroadcaster;
+	@Autowired
+	private CancelBroadcaster cancelBroadcaster;
+	@Autowired
+	private UQAnswerReplier uqAnswerReplier;
+	@Autowired
+	private DoubleElevBroadcaster double11Broadcaster;
+	
+<span class="nc" id="L24">	public LineListener() {</span>
+<span class="nc" id="L25">	}</span>
+	/**
+	 * a loop of all executions
+	 */
+	public void loop() throws Exception{
+<span class="nc" id="L30">		confirmBroadcaster.broadcast();</span>
+<span class="nc" id="L31">		cancelBroadcaster.broadcast();</span>
+<span class="nc" id="L32">		uqAnswerReplier.broadcast();</span>
+<span class="nc" id="L33">		double11Broadcaster.broadcast();</span>
+<span class="nc" id="L34">	}</span>
+	
+	@Override
+	/**
+	 * a thread to listen to the database
+	 */
+	public void run() {
+		while(true) {
+			//TODO: Add what ever function need to run
+			//execute 1 time per hour
+			try { 				
+<span class="nc" id="L45">				loop();</span>
+<span class="nc" id="L46">			}catch(Exception e) {</span>
+<span class="nc" id="L47">				e.printStackTrace();</span>
+<span class="nc" id="L48">			}</span>
+			try {
+<span class="nc" id="L50">				Thread.sleep(60000);</span>
+<span class="nc" id="L51">			}catch (InterruptedException e) {</span>
+<span class="nc" id="L52">				System.err.println(&quot;&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;Sleep Error&lt;&gt;&lt;&gt;&lt;&gt;&lt;&gt;&quot;);</span>
+<span class="nc" id="L53">			}</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>
