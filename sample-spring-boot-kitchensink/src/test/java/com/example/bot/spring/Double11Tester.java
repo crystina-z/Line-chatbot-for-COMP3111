@@ -10,15 +10,16 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.example.bot.spring.database.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { BookingDBEngineTest.class, BookingDBEngine.class})
-
+@SpringBootTest(classes = { Double11Tester.class, DoubleElevDBEngine.class})
 public class Double11Tester {
-	//@Autowired
+	@Autowired
 	private DoubleElevDBEngine DEDBE;
-	
+
+	/*
 	public Double11Tester() {
-		DEDBE = new Double11Tester();
+		//DEDBE = new DoubleElevDBEngine();
 	}
+	*/
 	
 	@Test
 	public void getDiscountBookidTester() throws Exception {
