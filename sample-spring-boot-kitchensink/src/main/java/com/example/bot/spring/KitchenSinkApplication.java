@@ -36,6 +36,5 @@ public class KitchenSinkApplication {
         downloadedContentDir = Files.createTempDirectory("line-bot");
         SpringApplication.run(KitchenSinkApplication.class, args);
     }
-    
-
+   
 }

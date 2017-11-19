@@ -97,7 +97,11 @@
       												<input type = "hidden" name = "name" th:value="${customer.getName()}"/>
       												<input type = "hidden" name = "bootableid" th:value="${customer.getBootableId()}"/>
       												<input type = "hidden" name = "pricePaid" th:value="${customer.getPricePaid()}"/>
-      												Price paid: <input class="form-control" type="number" name="payment" id="payment" maxlength="100"/>
+      												<input type = "hidden" name = "totalPrice" th:value="${customer.getTotalPrice()}"/>
+      												<input type = "hidden" name = "adults" th:value="${customer.getAdults()}"/>
+      												<input type = "hidden" name = "children" th:value="${customer.getChildren()}"/>
+      												<input type = "hidden" name = "toddler" th:value="${customer.getToddler()}"/>
+      												Price paid: <input class="form-control" step="0.01" type="number" name="payment" id="payment" maxlength="100"/>
       												<input type="submit" value="Update" />
       												</div>
       												</form>

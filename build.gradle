@@ -107,7 +107,6 @@ subprojects {
         testCompile 'com.github.stefanbirkner:system-rules'
         testCompile 'com.squareup.okhttp3:mockwebserver'
         testCompile 'org.hibernate:hibernate-validator'
-        
         testCompile 'org.springframework.boot:spring-boot-starter-test' // MockHttpServletRequest
         testCompile 'org.springframework.boot:spring-boot-starter-logging'
 

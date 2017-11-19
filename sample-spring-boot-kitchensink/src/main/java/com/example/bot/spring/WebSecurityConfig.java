@@ -64,4 +64,3 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .withUser(username).password(pw).roles("ADMIN");
     }
 }
-

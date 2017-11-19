@@ -35,8 +35,26 @@ public class BookingTextSender implements TextSender {
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-		String reply = null;
+		String reply = "";
 		switch(status) {
+			case "double11":{
+				if(bookingDB.detectCancel(msg)) {
+					bookingDB.setStatus("default", userId);
+					reply = this.getInfoQuestion("cancel");
+					break;
+				}
+				String name = bookingDB.getName(userId);
+				if(name.equals("")) {
+					reply = getInfoQuestion("name");
+					bookingDB.setStatus("name", userId);
+				}else {
+					bookingDB.createNewBooking(userId, name);
+					bookingDB.setStatus("adult", userId);
+					reply = this.getInfoQuestion("adult");
+				}
+				break;
+			}
+			
 			case "new":{
 				if(bookingDB.detectPositive(msg)) {
 					bookingDB.setStatus("date",userId);
@@ -95,6 +113,20 @@ public class BookingTextSender implements TextSender {
 					}else if(e.getMessage().equals("REBOOK")) {
 						reply = this.getInfoQuestion("no rebook");
 						break;
+					}else if(e.getMessage().equals("CONFIRMED")) {
+						bookingDB.recordDate(userId,dd,mm);
+						String name = bookingDB.getName(userId);
+						if(name.equals("")) {
+							reply = getInfoQuestion("name")+"\nPlease note that the tour you book is already confirmed";
+							bookingDB.setStatus("name", userId);
+						}else {
+							bookingDB.createNewBooking(userId, name);
+							bookingDB.setStatus("adult", userId);
+							reply = this.getInfoQuestion("adult");
+						}
+					}else if(e.getMessage().equals("CANCELED")) {
+						this.stopCurrentBooking(userId);
+						reply = "Sorry. This tour is already canceled. Please book another one.";
 					}
 				}
 				if(valid) {
@@ -228,7 +260,7 @@ public class BookingTextSender implements TextSender {
 			}
 		}
 		bookingDB.close();
-		if(reply.equals(null)) {
+		if(reply.isEmpty()) {
 			throw new Exception("CANNOT ANSWER");
 		}
 		return reply;
@@ -320,10 +352,35 @@ public class BookingTextSender implements TextSender {
 		int children = bookingDB.getChildren(userId);
 		String tourId = bookingDB.getTourIds(userId)[0];
 		int quota = bookingDB.getQuota(tourId);
+		String discount = bookingDB.checkDiscount(userId);
 		if(quota < (adult+toodler+children)) {
 			String reply = String.format(this.getInfoQuestion("no quota"), quota, tourId);
 			bookingDB.setStatus("default",userId);
 			bookingDB.removeBooking(userId);
+			return reply;
+		}else if(discount.equals("true")) {
+			String reply = "";
+			int disAdult = 0;
+			int disChildren = 0;
+			if(adult+children+toodler > 2) {
+				reply = this.getInfoQuestion("double11 error");
+				if(adult>=2) {
+					disAdult = 2;
+				}else if(children >= 2-adult) {
+					disAdult = adult;
+					disChildren = 2-disAdult;
+				}
+			}else {
+				disAdult = adult;
+				disChildren = children;
+			}
+			double price = bookingDB.getPrice(tourId);
+			double totalPrice = price*0.5*disAdult+price*0.8*0.5*disChildren
+					+price*(adult-disAdult)+price*0.8*(children-disChildren);
+			reply = reply + String.format(this.getInfoQuestion("price"), totalPrice);
+			bookingDB.recordTotalPrice(totalPrice,userId);
+			bookingDB.setStatus("confirm",userId);
+			bookingDB.setDiscount("false",userId);
 			return reply;
 		}else {
 			double price = bookingDB.getPrice(tourId);

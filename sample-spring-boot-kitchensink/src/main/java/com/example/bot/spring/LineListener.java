@@ -1,9 +1,5 @@
 package com.example.bot.spring;
 
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,10 +22,6 @@ public class LineListener extends Thread{
 	private DoubleElevBroadcaster double11Broadcaster;
 	
 	public LineListener() {
-		//confirmBroadcaster = new ConfirmBroadcaster();
-		//cancelBroadcaster = new CancelBroadcaster();
-		//uqAnswerReplier = new UQAnswerReplier();
-		//double11Broadcaster = new DoubleElevBroadcaster();
 	}
 	/**
 	 * a loop of all executions

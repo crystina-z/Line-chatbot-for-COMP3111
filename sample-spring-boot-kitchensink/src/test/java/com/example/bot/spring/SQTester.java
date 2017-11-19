@@ -27,7 +27,7 @@ public class SQTester {
 
 	@Test
 	public void SQTester() throws Exception {
-		String msgs[]= {"Hello"};
+		String msgs[]= {"Hello","Thank","bye"};
 		for (String msg:msgs) {
 			try{//should fail
 				tp.processText(testerId, msg);

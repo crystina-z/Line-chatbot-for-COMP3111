@@ -16,6 +16,7 @@ public class TextProcessor {
 	public TextProcessor() {
 		// TODO Auto-generated constructor stub
 		DBE=new DBEngine();
+		DEDBE = new DoubleElevDBEngine();
 	}
 	
 	/**
@@ -31,15 +32,11 @@ public class TextProcessor {
 		try {			
 			String tag = DBE.getLineUserInfo(userId,"categorization"); // from database; 
 			String label = DBE.getTextType(text);					   // by analysis input 
-			
-			 reply = "tag: " + tag + " label: " + label;
-			
-			if ((tag == null || tag == "" || tag == "default" || tag == "none") && 
-				(label == null || label == "" || label == "default" || label == "none")){
-				// reply += "tag: " + tag + " label: " + label;
-				SQTextSender sqsender = new SQTextSender();
-				reply = sqsender.process(userId, text)+"\n";
-			}
+						
+			SQTextSender sqsender = new SQTextSender();
+			reply = sqsender.process(userId, text);
+			if(!reply.isEmpty())
+				reply += "\n";
 			
 			if(tag.equals("book")) {
 				BookingTextSender bsender = new BookingTextSender();
@@ -47,7 +44,11 @@ public class TextProcessor {
 				return reply;
 			}
 			
-			if (text.equals("yes")|| text.equals("no")) {
+			System.out.println(text.charAt(0));
+			System.out.println(text.charAt(text.length()-1));
+			System.out.println(text);
+			if (text.toLowerCase().equals("yes")|| text.toLowerCase().equals("no")) {
+				System.out.println("We should handle double 11");
 				return double_elev_handler(userId, text);
 			}
 			
@@ -93,9 +94,10 @@ public class TextProcessor {
 			reply += "You can send your request by specifying: recommendation/ general question/booking a trip";
 			UQAutomateSender uqSender = new UQAutomateSender();
 			uqSender.process(userId, text);	
-			
+			if(reply.equals("")) throw new Exception();
 			return reply;
 		} catch (Exception e) {
+			e.printStackTrace();
 			try {
 				DBE.updateLineUserInfo(userId,"categorization", "default");
 			}catch(Exception e2) {
@@ -103,7 +105,7 @@ public class TextProcessor {
 			}	
 			
 			UQAutomateSender uqSender = new UQAutomateSender();			
-			reply = uqSender.process(userId, text);			
+			reply += uqSender.process(userId, text);			
 			
 			return reply; //return "exception here";
 		}
@@ -198,8 +200,10 @@ public class TextProcessor {
 		else
 			return false; 
 	}
-	/**
-	 * deal with the special discount initialize by the agency
+
+	/** special handler for double 11 event; 
+	 * after a double11 message is broadcast, check user reply;
+	 * if reply yes:
 	 * @param userId
 	 * @param message
 	 * @return
@@ -208,11 +212,21 @@ public class TextProcessor {
 	private String double_elev_handler(String userId, String message) throws Exception {
 		assert (message.equals("yes")|| message.equals("no"));
 		String reply = "";
-		if (message.equals("yes")) {			
-			DBE.updateLineUserInfo(userId,"categorization", "booking"); 			// update line_user_info.categorization into "booking"			
-			String discount_tourid = DEDBE.getDiscountBookid(); 					// check double11 table, get available tour's id; id =  DEDBE.getDiscountBookid()			
-			DBE.updateLineUserInfo(userId,"discount_tour_id", "discount_tourid"); 	// update line_user_info.discount_tour_id = id; 
-			reply = "Congratulations! You Got A Discount Ticket! Now you can continue booking!";
+		if (message.equals("yes")) {
+			// get current discount tour
+			String discount_tourid = DEDBE.getDiscountBookid("sent"); 					// check double11 table, get available tour's id; id =  DEDBE.getDiscountBookid()	
+			System.out.println(discount_tourid);
+			// check if there are still ticket:
+			if(DEDBE.ifTourFull(discount_tourid)) {
+				DBE.updateLineUserInfo(userId,"categorization", "book"); 			// update line_user_info.categorization into "booking"	
+				DBE.updateLineUserInfo(userId,"status", "double11"); 			// update line_user_info.categorization into "booking"	
+				DBE.updateLineUserInfo(userId,"tourids", discount_tourid); 	// update line_user_info.discount_tour_id = id;
+				DBE.updateLineUserInfo(userId,"discount", "true"); 	// update line_user_info.discount_tour_id = id;
+				DEDBE.updateQuota(discount_tourid);
+				reply = "Congratulations! You Got A Discount Ticket! Now you can continue booking!";
+			}else {
+				reply = "Sorry ticket sold out";
+			}
 		}
 		else {
 			reply = "Sure =) Have a nice days."; 

@@ -6,7 +6,11 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 
-
+/**
+ * this is the DBEngine that handle the cancel request due to not enough people that register the tours
+ * @author jsongaf
+ *
+ */
 public class CancelDBEngine extends DBEngine {
 	private ConfirmDBEngine CDB;
 	/**
@@ -40,7 +44,7 @@ public class CancelDBEngine extends DBEngine {
 		PreparedStatement stmt;	
 		Connection connection;
 		String statement = "UPDATE booking_table "
-				+ "SET status = canceled "
+				+ "SET confirmed = 'canceled' "
 				+ "WHERE bootableid = ?";
 		try {
 			connection=getConnection();
