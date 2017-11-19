@@ -12,6 +12,7 @@ public class TextProcessor {
 	public TextProcessor() {
 		// TODO Auto-generated constructor stub
 		DBE=new DBEngine();
+		DEDBE = new DoubleElevDBEngine();
 	}
 	
 	/**
