@@ -103,6 +103,20 @@ public class BookingTextSender implements TextSender {
 					}else if(e.getMessage().equals("REBOOK")) {
 						reply = this.getInfoQuestion("no rebook");
 						break;
+					}else if(e.getMessage().equals("CONFIRMED")) {
+						bookingDB.recordDate(userId,dd,mm);
+						String name = bookingDB.getName(userId);
+						if(name.equals("")) {
+							reply = getInfoQuestion("name")+"/nPlease note that the tour you book is already confirmed";
+							bookingDB.setStatus("name", userId);
+						}else {
+							bookingDB.createNewBooking(userId, name);
+							bookingDB.setStatus("adult", userId);
+							reply = this.getInfoQuestion("adult");
+						}
+					}else if(e.getMessage().equals("CANCELED")) {
+						this.stopCurrentBooking(userId);
+						reply = "Sorry. This tour is already canceled. Please book another one.";
 					}
 				}
 				if(valid) {

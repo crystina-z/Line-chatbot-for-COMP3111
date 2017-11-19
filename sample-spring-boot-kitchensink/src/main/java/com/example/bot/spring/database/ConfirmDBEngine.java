@@ -89,7 +89,7 @@ public class ConfirmDBEngine extends DBEngine {
 	public void updateConfirmedTours(String booktableid){	
 		PreparedStatement nstmt = null;	
 		this.openConnection();		
-		String statement = "UPDATE TABLE booking_table "
+		String statement = "UPDATE booking_table "
 				+ "SET confirmed = 'confirmed' "
 				+ "WHERE bootableid = ?";
 		try {

@@ -307,9 +307,10 @@ public class BookingDBEngine extends DBEngine {
 	public boolean checkValidDate(int dd, int mm, String userId) throws Exception{
 		PreparedStatement nstmt;
 		String offerId = null;
+		String con = "";
 		try {
 			nstmt = connection.prepareStatement(
-					"SELECT o.bootableid, b.tourcapcity-b.registerednum "
+					"SELECT o.bootableid, b.tourcapcity-b.registerednum, b.confirmed "
 					+ " FROM "+OFFERTABLE+" o, "+LINEUSER+" l, "+BOOKTABLE+" b"
 					+ " WHERE o.tourid = l.tourids"
 					+ " AND o.bootableid = b.bootableid"
@@ -325,6 +326,7 @@ public class BookingDBEngine extends DBEngine {
 					int d = Integer.parseInt(date.substring(2));
 					if(d==dd && m==mm) {
 						quota = rs.getInt(2);
+						con = rs.getString(3);
 						break;
 					}
 				}
@@ -375,6 +377,10 @@ public class BookingDBEngine extends DBEngine {
 						}
 					}
 				}
+				if(con.equals("confirmed"))
+					throw new Exception("CONFIRMED");
+				else if(con.equals("canceled"))
+					throw new Exception("CANCELED");
 				return true;
 			}else if(quota == -100){
 				nstmt.close();
