@@ -12,26 +12,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.bot.spring.database.*;
-import com.example.bot.spring.textsender.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { UQAnswerReplierTester.class, UQAnswerReplier.class})
+@SpringBootTest(classes = { UQDBEngineTester.class, UQDBEngine.class})
 
-public class UQAnswerReplierTester {
+public class UQDBEngineTester {
 	@Autowired
-	private UQAnswerReplier UQReplier;
-	
-	public UQAnswerReplierTester(){
-	}
+	private UQDBEngine UQDBE;
 	
 	@Test
-	public void UQReplierTester() throws Exception {
-		UQAnswerReplier UQReplier = new UQAnswerReplier();
-		try {
-			UQReplier.broadcast();
-		} catch (Exception e) {
-		}
+	public void AnswerTester() throws Exception{
+		UQDBE.answer();
+		UQDBE.updateTable();
+		UQDBE.retrieveReply();
+		UQDBE.uqQuery("234567", "Stupid");
 	}
-	
-	
 }

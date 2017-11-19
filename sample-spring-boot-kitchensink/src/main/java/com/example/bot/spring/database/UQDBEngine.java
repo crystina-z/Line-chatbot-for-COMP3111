@@ -73,11 +73,7 @@ public class UQDBEngine extends DBEngine {
 		ResultSet rs=stmt.executeQuery();
 		while (rs.next()) {
 			String temp="";
-			temp+=rs.getString(1);
-			temp+=",";
-			temp+=rs.getString(2);
-			temp+=",";
-			temp+=rs.getString(4);
+			temp+=rs.getString(1)+","+rs.getString(2)+","+rs.getString(4);
 			reply.add(temp);
 		}
 		
