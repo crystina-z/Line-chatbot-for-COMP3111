@@ -204,6 +204,7 @@ public class TextProcessor {
 				DBE.updateLineUserInfo(userId,"status", "double11"); 			// update line_user_info.categorization into "booking"	
 				DBE.updateLineUserInfo(userId,"tourids", discount_tourid); 	// update line_user_info.discount_tour_id = id;
 				DBE.updateLineUserInfo(userId,"discount", "true"); 	// update line_user_info.discount_tour_id = id;
+				DEDBE.updateQuota(discount_tourid);
 				reply = "Congratulations! You Got A Discount Ticket! Now you can continue booking!";
 			}else {
 				reply = "Sorry ticket sold out";
