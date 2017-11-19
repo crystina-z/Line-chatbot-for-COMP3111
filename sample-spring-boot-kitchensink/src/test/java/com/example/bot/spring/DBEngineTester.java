@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.example.bot.spring.database.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { DBEngineTester.class, DBEngine.class })
+@SpringBootTest(classes = { DBEngineTester.class, DBEngine.class})
 public class DBEngineTester {
 	@Autowired
 	private DBEngine DBE;
@@ -42,7 +42,6 @@ public class DBEngineTester {
 			assertThat(expectedLabel[i].equals(type[i])).isEqualTo(true);
 		}
 	}
-	
 }
 
 
