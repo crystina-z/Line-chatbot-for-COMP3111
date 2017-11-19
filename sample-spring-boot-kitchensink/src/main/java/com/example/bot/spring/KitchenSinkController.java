@@ -261,12 +261,12 @@ public class KitchenSinkController {
 		processor = new TextProcessor();
 	}
 	
-	/*
+	
 	@PostConstruct
 	private void startUpListener() {
 		ll.start();
 	}
-	*/
+	
 
 	private TextProcessor processor;  
 	
