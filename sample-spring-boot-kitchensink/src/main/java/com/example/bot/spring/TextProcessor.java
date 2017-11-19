@@ -43,6 +43,8 @@ public class TextProcessor {
 				return reply;
 			}
 			
+			System.out.println(text.charAt(0));
+			System.out.println(text);
 			if (text.toLowerCase().equals("yes")|| text.toLowerCase().equals("no")) {
 				System.out.println("We should handle double 11");
 				return double_elev_handler(userId, text);
