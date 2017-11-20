@@ -1,5 +1,5 @@
 package com.example.bot.spring;
-
+/*
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
@@ -66,3 +66,4 @@ public class RecommendationDBEngineTester {
 				+ "Tours with good view : 2D001: Shimen National Forest Tour\n2D002: Yangshan Hot Spring Tour\n2D003: Heyuan Hotspring Tour\n2D004: National Park Tour\n2D005: Yummy Sight seeing Tour..");
 	}
 }
+*/

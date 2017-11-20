@@ -16,14 +16,13 @@ public class DoubleElevDBEngine extends DBEngine {
 	
 	// functions for confirmation 
 	// return all tour whose tourist number > min && not yet been confirmed; 
-	String discount_tours =  "";
 
 	/**
 	 * get the discount book ID to identify whether the users are qulified for a discount or not
 	 * @return
 	 */
 	public String getDiscountBookid(String s){ // only one tour is allowed to be discounted at the same time
-		String discount_tours =  null;
+		String discount_tours =  "";
 		PreparedStatement nstmt = null;
 		
 		this.openConnection();

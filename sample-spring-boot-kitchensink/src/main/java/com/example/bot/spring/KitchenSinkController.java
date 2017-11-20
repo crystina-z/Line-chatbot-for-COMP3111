@@ -137,7 +137,13 @@ public class KitchenSinkController {
 	@EventMapping
 	public void handleFollowEvent(FollowEvent event) {
 		String replyToken = event.getReplyToken();
-		this.replyText(replyToken, "Got followed event");
+		String id = event.getSource().getUserId();
+		try {
+			String reply = processor.newSubscriber(id);
+			this.replyText(replyToken, reply);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@EventMapping
