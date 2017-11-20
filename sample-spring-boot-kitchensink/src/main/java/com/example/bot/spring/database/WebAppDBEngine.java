@@ -26,8 +26,8 @@ public class WebAppDBEngine extends DBEngine {
 	private Connection connection;
 	/**
 	 * get the customers information from the databse
-	 * @return
-	 * @throws Exception
+	 * @return get hte customers information
+	 * @throws Exception if database connection is failed
 	 */
 	public LinkedList<Customer> getAllCustomerInfo() throws Exception{
 		connection = this.getConnection();
@@ -70,8 +70,8 @@ public class WebAppDBEngine extends DBEngine {
 	}
 	/**
 	 * get the tours information from the database
-	 * @return
-	 * @throws Exception
+	 * @return get the tour information
+	 * @throws Exception if database connection if failed
 	 */
 	public LinkedList<Tour> getAllTourInfo() throws Exception{
 		connection = this.getConnection();
@@ -111,8 +111,8 @@ public class WebAppDBEngine extends DBEngine {
 	}
 	/**
 	 * add a new customer in the website if needed
-	 * @param customer
-	 * @throws Exception
+	 * @param customer users
+	 * @throws Exception if database connection is failed
 	 */
 	public void addNewCustomer(Customer customer) throws Exception {
 		connection = this.getConnection();
@@ -170,8 +170,8 @@ public class WebAppDBEngine extends DBEngine {
 	}
 	/**
 	 * get unanswered questions about the database to display it on the website
-	 * @return
-	 * @throws Exception
+	 * @return unanswered questions list
+	 * @throws Exception if database connection is failed
 	 */
 	public LinkedList<UQ>getUQs() throws Exception{
 		connection = this.getConnection();
@@ -205,10 +205,10 @@ public class WebAppDBEngine extends DBEngine {
 	}
 	/**
 	 * answer the unanswered question from the website
-	 * @param question
-	 * @param id
-	 * @param answer
-	 * @throws Exception
+	 * @param question unanswered questions
+	 * @param id user id
+	 * @param answer answer
+	 * @throws Exception if database connection is failed
 	 */
 	public void answerUQ(String question, String id, String answer) throws Exception {
 		connection = this.getConnection();
@@ -228,8 +228,8 @@ public class WebAppDBEngine extends DBEngine {
 	}
 	/**
 	 * get the general tour information from the database and display
-	 * @return
-	 * @throws Exception
+	 * @return tour informaiton including length and date
+	 * @throws Exception if database connection is failed
 	 */
 	public LinkedList<Tour> getGeneralTourInfo() throws Exception {
 		connection = this.getConnection();
@@ -256,8 +256,8 @@ public class WebAppDBEngine extends DBEngine {
 	}
 	/**
 	 * add a new tour in the webstie
-	 * @param tour
-	 * @throws Exception
+	 * @param tour tour 
+	 * @throws Exception if database connection is failed
 	 */
 	public void addNewTour(Tour tour) throws Exception{
 		connection = this.getConnection();
@@ -295,8 +295,8 @@ public class WebAppDBEngine extends DBEngine {
 	}
 	/**
 	 * get the discount activities for Double Eleven
-	 * @return
-	 * @throws Exception
+	 * @return discount activity
+	 * @throws Exception if database connection is failed
 	 */
 	public LinkedList<Activity> getAllActivities() throws Exception{
 		// TODO Auto-generated method stub
@@ -323,8 +323,8 @@ public class WebAppDBEngine extends DBEngine {
 	}
 	/**
 	 * create a discount event for Double Eleven
-	 * @param act
-	 * @throws Exception
+	 * @param act discount activity
+	 * @throws Exception if database connection is failed
 	 */
 	public void createNewActivity(Activity act) throws Exception{
 		// TODO Auto-generated method stub
@@ -344,8 +344,8 @@ public class WebAppDBEngine extends DBEngine {
 	}
 	/**
 	 * update the Customer information on whether he could get a discount
-	 * @param customer
-	 * @throws Exception
+	 * @param customer customer user
+	 * @throws Exception if database connection is faield
 	 */
 	public void updateCustomer(Customer customer) throws Exception{
 		connection = this.getConnection();

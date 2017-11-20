@@ -20,8 +20,8 @@ public class RecommendationDBEngine extends DBEngine {
 	}
 	/**
 	 * get the features of the tours
-	 * @param msg
-	 * @return
+	 * @param msg user input
+	 * @return return the features list
 	 */
 	public ArrayList<String> getFeatures(String msg) {
 		Connection connection = null;
@@ -51,8 +51,8 @@ public class RecommendationDBEngine extends DBEngine {
 	}
 	/**
 	 * execute the query and update the line user information
-	 * @param tourids
-	 * @param userid
+	 * @param tourids tour id
+	 * @param userid user id
 	 */
 	public void updateQuery(String tourids, String userid) {
 		Connection connection = null;
@@ -72,9 +72,9 @@ public class RecommendationDBEngine extends DBEngine {
 	}
 	/**
 	 * get the recommendation tours and sentence from the database
-	 * @param userId
-	 * @param text
-	 * @return
+	 * @param userId user id
+	 * @param text user input
+	 * @return recommendation of the tours
 	 */
 	public String recommendationQuery(String userId, ArrayList<String> text) {
 

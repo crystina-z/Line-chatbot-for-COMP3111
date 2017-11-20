@@ -31,7 +31,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 @SpringBootApplication
 public class KitchenSinkApplication {
     static Path downloadedContentDir;
-
+    /**
+     * program enter point
+     * @param args not users
+     * @throws IOException if any IO Exception
+     */
     public static void main(String[] args) throws IOException {
         downloadedContentDir = Files.createTempDirectory("line-bot");
         SpringApplication.run(KitchenSinkApplication.class, args);
