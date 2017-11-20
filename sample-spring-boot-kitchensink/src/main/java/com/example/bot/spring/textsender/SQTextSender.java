@@ -17,10 +17,10 @@ public class SQTextSender implements TextSender {
 	}
 	/**
 	 * process the user input
-	 * @param userId
-	 * @param msg
-	 * @return
-	 * @throws Exception
+	 * @param userId user id
+	 * @param msg uesr input
+	 * @return the result after the execution of the query
+	 * @throws Exception if database connection is failed
 	 */
 	@Override
 	public String process(String userId, String msg) throws Exception{

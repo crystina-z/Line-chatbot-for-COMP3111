@@ -14,8 +14,8 @@ public class ConfirmDBEngine extends DBEngine {
 	// return all tour whose tourist number > min && not yet been confirmed; 
 	/**
 	 * get the confirmed tours ID
-	 * @param fullfilled
-	 * @return
+	 * @param fullfilled whether the confirmed condition is fulfilled
+	 * @return get the confirmed tour id list
 	 */
 	public List<String> getAllUnconfirmedTours(boolean fullfilled){
 		List<String> unconfirmed_tours = new ArrayList<String>();
@@ -55,9 +55,9 @@ public class ConfirmDBEngine extends DBEngine {
 	 * function to get contacters information
 	 * if paid == true: return all contactors who have paid (any amount of), it is for cancelers
 	 * if paid == false: return all contactors, whatever they have paid or not, it is for confirmers
-	 * @param booktableid
-	 * @param paid
-	 * @return
+	 * @param booktableid book id in the database
+	 * @param paid user paid or not
+	 * @return users information list
 	 */
 	public Set<String> getAllContactors(String booktableid, boolean paid){
 		Set<String> customers = new HashSet<String>();
@@ -95,7 +95,7 @@ public class ConfirmDBEngine extends DBEngine {
 	}
 	/**
 	 * update the database information to mark it as confirmed
-	 * @param booktableid
+	 * @param booktableid book id in the database
 	 */
 	public void updateConfirmedTours(String booktableid){	
 		PreparedStatement nstmt = null;	

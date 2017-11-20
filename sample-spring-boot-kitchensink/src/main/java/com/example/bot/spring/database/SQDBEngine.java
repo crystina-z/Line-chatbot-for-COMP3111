@@ -20,9 +20,9 @@ public class SQDBEngine extends DBEngine {
 	}
 	/**
 	 * search in the database to match the sentence and get the key words
-	 * @param text
-	 * @return
-	 * @throws Exception
+	 * @param text user input
+	 * @return search result
+	 * @throws Exception if the databse connection is failed
 	 */
 	public String search(String text) throws Exception {
 		//Write your code here

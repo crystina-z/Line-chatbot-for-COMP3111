@@ -19,7 +19,7 @@ public class UQDBEngine extends DBEngine {
 	}
 	/**
 	 * update the database table and save the question and change the status if someone answer the question
-	 * @throws Exception
+	 * @throws Exception if database connection fails
 	 */
 	public void updateTable() throws Exception{
 		Connection connection = null;
@@ -36,8 +36,8 @@ public class UQDBEngine extends DBEngine {
 	}
 	/**
 	 * get the default reply from the database
-	 * @return
-	 * @throws Exception
+	 * @return reply to the userse
+	 * @throws Exception if database connection fails
 	 */
 	public String retrieveReply() throws Exception {
 		Connection connection = null;
@@ -58,8 +58,8 @@ public class UQDBEngine extends DBEngine {
 	}
 	/**
 	 * get the answer from the database to send it to users
-	 * @return
-	 * @throws Exception
+	 * @return get the answer list
+	 * @throws Exception if databse connection fails
 	 */
 	public ArrayList<String> answer() throws Exception{
 		Connection connection = null;
@@ -86,10 +86,10 @@ public class UQDBEngine extends DBEngine {
 	}
 	/**
 	 * execute the query and connect to the database
-	 * @param userId
-	 * @param text
-	 * @return
-	 * @throws Exception
+	 * @param userId user id
+	 * @param text user input
+	 * @return result of the qurey
+	 * @throws Exception if database connection is failed
 	 */
 	public String uqQuery(String userId, String text) throws Exception{
 		//System.out.println("Success");

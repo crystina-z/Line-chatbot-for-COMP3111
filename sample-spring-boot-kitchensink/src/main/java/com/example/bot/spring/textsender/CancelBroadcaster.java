@@ -61,7 +61,7 @@ public class CancelBroadcaster implements Broadcaster {
 	/**
 	 * broadcast the information of canceled tours to the customers
 	 * inform all the users
-	 * @throws Exception
+	 * @throws Exception if database connection is failed
 	 */
 	public void broadcast() throws Exception{
 		List<String> bids = CDB.getAllUnconfirmedTours();
@@ -73,7 +73,7 @@ public class CancelBroadcaster implements Broadcaster {
 	/**
 	 * Cancel a tour and inform customers 
 	 * @param bootid a valid book table id
-	 * @throws Exception
+	 * @throws Exception if database connection is failed
 	 */
 	public void orderCancel(String bootid) throws Exception{
 		Date td=getDate(bootid.substring(bootid.length()-8));

@@ -22,10 +22,10 @@ public class GQDBEngine extends DBEngine {
 	}
 	/**
 	 * get the tour ID from the database
-	 * @param userID
-	 * @param Text
-	 * @return
-	 * @throws Exception
+	 * @param userID user id
+	 * @param Text user input
+	 * @return tour id
+	 * @throws Exception if the database connection is failed
 	 */
 	public String getTourID (String userID, String Text) throws Exception {
 		System.err.println("getting tid");
@@ -71,11 +71,11 @@ public class GQDBEngine extends DBEngine {
 	}
 	/**
 	 * execute the query to get the information from the database
-	 * @param userID
-	 * @param Text
-	 * @param TourID
-	 * @return
-	 * @throws Exception
+	 * @param userID user id
+	 * @param Text user input 
+	 * @param TourID tour id
+	 * @return the result of the query
+	 * @throws Exception if the database connection is failed
 	 */
 	public String query(String userID,String Text,String TourID) throws Exception{		
 			Connection connection = null;
@@ -159,9 +159,9 @@ public class GQDBEngine extends DBEngine {
 	}
 	/**
 	 * update the database
-	 * @param UserID
-	 * @param TourID
-	 * @throws Exception
+	 * @param UserID user id 
+	 * @param TourID tour id
+	 * @throws Exception if the database connection is failed
 	 */
 	public void update(String UserID,String TourID) throws Exception{
 		System.err.println("updating tid");

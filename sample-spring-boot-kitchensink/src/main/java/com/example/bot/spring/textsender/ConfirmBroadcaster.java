@@ -29,7 +29,7 @@ public class ConfirmBroadcaster implements Broadcaster {
 	
 	/**
 	 * inform all the users that the trip is confirmed
-	 * @throws Exception
+	 * @throws Exception if database connection is failed
 	 */
 	public void broadcast() throws Exception{
 		try {

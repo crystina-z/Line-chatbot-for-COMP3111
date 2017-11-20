@@ -21,10 +21,10 @@ public class TextProcessor {
 	
 	/**
 	 * classify the user input and see what kind of request the user is asking
-	 * @param userId
-	 * @param text
-	 * @return
-	 * @throws Exception
+	 * @param userId user id
+	 * @param text user input
+	 * @return the category of the user input
+	 * @throws Exception if database connection is failed
 	 */
 	private String classifyText(String userId, String text) throws Exception{
 		String reply="";		
@@ -113,10 +113,10 @@ public class TextProcessor {
 	}
 	/**
 	 * process the text and extract the key words from it
-	 * @param userId
-	 * @param text
-	 * @return
-	 * @throws Exception
+	 * @param userId user id
+	 * @param text user input
+	 * @return the result after process the user input
+	 * @throws Exception if database connection is failed
 	 */
 	public String processText(String userId, String text) throws Exception{
 		if (text == null) {// yet text won't be null?
@@ -142,8 +142,8 @@ public class TextProcessor {
 	 * truncate all non-digit and non-char elements from user input (decimal point is reserved)
 	 * and transform the input into lower case; 
 	 * it's possible for formatMsg() to return a empty text, which need to be handled in its calling function
-	 * @param message
-	 * @return
+	 * @param message user input
+	 * @return the formatted reply
 	 */
 	private String formatMsg(String message) {
 		char preChar = 'S';
@@ -165,8 +165,8 @@ public class TextProcessor {
 	/**
 	 * helper function for formatMsg()
 	 * check if next character is 'char'
-	 * @param c
-	 * @return
+	 * @param c input
+	 * @return if it is char
 	 */
 	private boolean isChar (char c) {
 		if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
@@ -178,8 +178,8 @@ public class TextProcessor {
 	/**
 	 * helper function for formatMsg()
 	 * check if next character is 0-9 or decimal point
-	 * @param c
-	 * @return
+	 * @param c input
+	 * @return if it is decimal
 	 */
 	private boolean isDigit (char c) {
 		if ((c >= '0' && c <= '9') || c == '.')
@@ -191,8 +191,8 @@ public class TextProcessor {
 	/**
 	 * helper function for formatMsg()
 	 * check if next character is legal puncuation
-	 * @param c
-	 * @return
+	 * @param c input
+	 * @return if the puncuation is legal
 	 */
 	private boolean isAllowedPunc(char c) {
 		if ( c == '/')
@@ -204,10 +204,10 @@ public class TextProcessor {
 	/** special handler for double 11 event; 
 	 * after a double11 message is broadcast, check user reply;
 	 * if reply yes:
-	 * @param userId
-	 * @param message
-	 * @return
-	 * @throws Exception
+	 * @param userId user id
+	 * @param message user input
+	 * @return special discount of double eleven
+	 * @throws Exception if database connection is failed
 	 */
 	private String double_elev_handler(String userId, String message) throws Exception {
 		assert (message.equals("yes")|| message.equals("no"));
