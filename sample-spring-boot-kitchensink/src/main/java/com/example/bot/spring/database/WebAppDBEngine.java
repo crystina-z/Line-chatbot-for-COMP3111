@@ -138,7 +138,7 @@ public class WebAppDBEngine extends DBEngine {
 		}
 		nstmt = connection.prepareStatement(
 				"SELECT p."+field+", b.tourcapcity - b.registerednum"
-				+ " FROM tour_price AS p, "
+				+ " FROM tour_price AS p, booking_table as b "
 				+ " WHERE p.tourid = ?"
 				+ " AND b.bootableid = ?");
 		nstmt.setString(1, id);
