@@ -242,7 +242,7 @@ public class TextProcessor {
 			}
 		}
 		else {
-			reply = "Sure =) Have a nice days."; 
+			reply = "Sure =) Have a nice day."; 
 		}
 		
 		return reply;
