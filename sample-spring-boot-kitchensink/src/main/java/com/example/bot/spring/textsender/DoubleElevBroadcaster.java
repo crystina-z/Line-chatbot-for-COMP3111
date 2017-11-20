@@ -27,7 +27,7 @@ public class DoubleElevBroadcaster implements Broadcaster {
 	}
 	/**
 	 * inform all the users that there will be a discount on some trips
-	 * @throws Exception
+	 * @throws Exception if database connection is failed
 	 */
 	public void broadcast() throws Exception{
 			doubledb = new DoubleElevDBEngine();

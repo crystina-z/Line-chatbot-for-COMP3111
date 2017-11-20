@@ -32,6 +32,4 @@ public class UQAnswerReplierTester {
 		} catch (Exception e) {
 		}
 	}
-	
-	
 }

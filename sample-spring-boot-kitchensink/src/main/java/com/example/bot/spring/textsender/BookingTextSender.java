@@ -23,9 +23,9 @@ public class BookingTextSender implements TextSender {
 
 	@Override
 	/** The major processing function
-	 * @param userId
-	 * @param msg
-	 * @return
+	 * @param userId user id
+	 * @param msg user input
+	 * @return result after executing the query
 	 */
 	public String process(String userId, String msg) throws Exception {
 		bookingDB.openConnection();
@@ -248,10 +248,10 @@ public class BookingTextSender implements TextSender {
 		return reply;
 	}
 
-	/** stop the current booking request of one user
-	 * 
-	 * @param userId
-	 * @return
+	/** 
+	 * stop the current booking request of one user
+	 * @param userId user id
+	 * @return cancel instruction
 	 */
 	private String stopCurrentBooking(String userId) {
 		bookingDB.setStatus("default",userId);
@@ -259,11 +259,11 @@ public class BookingTextSender implements TextSender {
 		return this.getInfoQuestion("cancel");
 	}
 
-	/** handle a question if the user is not in the booking flow
-	 * 
-	 * @param userId
-	 * @param msg
-	 * @return
+	/** 
+	 * handle a question if the user is not in the booking flow
+	 * @param userId user id
+	 * @param msg user input
+	 * @return different cases
 	 */
 	private String defaultCaseHandler(String userId, String msg) {
 		// If he specifies the tour ID
@@ -300,10 +300,10 @@ public class BookingTextSender implements TextSender {
 		return reply;
 	}
 
-	/** calculate the total price of the current booking request for one user
-	 * 
-	 * @param userId
-	 * @return
+	/** 
+	 * calculate the total price of the current booking request for one user
+	 * @param userId user id
+	 * @return price in a string form
 	 */
 	private String getTotalPrice(String userId) {
 		int adult = bookingDB.getAdult(userId);
@@ -351,8 +351,8 @@ public class BookingTextSender implements TextSender {
 		}
 	}
 	
-	/** Get the confirmation message of one tour before start a booking request
-	 * 
+	/** 
+	 * Get the confirmation message of one tour before start a booking request
 	 * @param tourId
 	 * @return
 	 */
@@ -375,15 +375,11 @@ public class BookingTextSender implements TextSender {
 		return String.format(reply, tourId, tourInfo.get(0), tourInfo.get(1), 
 				dateSeg, tourInfo.get(2), tourInfo.get(3));
 	}
-	/*
 
-	*/
-
-
-	/** Return next question according to tag
-	 * 
-	 * @param nextQ
-	 * @return
+	/** 
+	 * Return next question according to tag
+	 * @param nextQ next question
+	 * @return question information
 	 */
 	private String getInfoQuestion(String nextQ) {
 		String reply = bookingDB.getReplyMessage(nextQ);

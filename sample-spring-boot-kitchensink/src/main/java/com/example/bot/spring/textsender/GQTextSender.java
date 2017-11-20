@@ -17,10 +17,10 @@ public class GQTextSender implements TextSender {
 	}
 	/**
 	 * process the input from the user and then answer the questions accordingly
-	 * @param userID
-	 * @param msg
-	 * @return
-	 * @throws Exception
+	 * @param userID user id
+	 * @param msg user input
+	 * @return the result after executing the query
+	 * @throws Exception if database conenction is failed
 	 */
 	@Override
 	public String process(String userID, String msg) throws Exception{

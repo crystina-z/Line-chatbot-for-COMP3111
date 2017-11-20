@@ -36,10 +36,10 @@ public class DBEngine {
 	}
 	/**
 	 * update the line users' information in the database
-	 * @param userID
-	 * @param entryName
-	 * @param value
-	 * @throws Exception
+	 * @param userID user id
+	 * @param entryName the categorization of the user
+	 * @param value user input
+	 * @throws Exception if the database connection is failed
 	 */
 	public void updateLineUserInfo(String userID,String entryName,String value) throws Exception{
 		Connection connection= getConnection();
@@ -69,10 +69,10 @@ public class DBEngine {
 	}
 	/**
 	 * get the line users' information from the database
-	 * @param userID
-	 * @param entryName
-	 * @return
-	 * @throws Exception
+	 * @param userID user id
+	 * @param entryName user status
+	 * @return user information
+	 * @throws Exception if the database connection is failed
 	 */
 	public String getLineUserInfo(String userID,String entryName) throws Exception{
 		Connection connection= getConnection();
@@ -103,8 +103,8 @@ public class DBEngine {
 	
 	/**
 	 * given a pure text, check the 'classify_table' in database to determine its type
-	 * @param text
-	 * @return
+	 * @param text user input
+	 * @return user text
 	 */
 	public String getTextType(String text) {	
 		if(text == null || text.equals("")) {
@@ -176,10 +176,10 @@ public class DBEngine {
 	}
 	/**
 	 * check if the position of the string is wrong
-	 * @param key
-	 * @param message
-	 * @param position
-	 * @return
+	 * @param key user status
+	 * @param message user input
+	 * @param position the position of the key word
+	 * @return correct or not
 	 */
 	private boolean wrongPosition(String key, String message, String position) {
 		boolean positionWrong = true;
@@ -205,7 +205,9 @@ public class DBEngine {
 		return positionWrong;
 	}
 	
-
+	/**
+	 * get a connection
+	 */
 	public void openConnection() {
 		try {
 			connection = this.getConnection();
@@ -213,7 +215,9 @@ public class DBEngine {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * close a connection
+	 */
 	public void close() {
 		try {
 			connection.close();
@@ -222,7 +226,11 @@ public class DBEngine {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * execute the conntion statement
+	 * @param nstmt statement
+	 * @return result set of the statement
+	 */
 	protected ResultSet query(PreparedStatement nstmt) {
 		ResultSet rs = null;
 		try {
@@ -232,7 +240,10 @@ public class DBEngine {
 		}
 		return rs;
 	}
-	
+	/**
+	 * update the database
+	 * @param nstmt statement
+	 */
 	protected void update(PreparedStatement nstmt) {
 		try {
 			nstmt.executeUpdate();
@@ -240,7 +251,10 @@ public class DBEngine {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * execute the query
+	 * @param nstmt statement
+	 */
 	protected void execute(PreparedStatement nstmt) {
 		try {
 			nstmt.execute();
@@ -249,12 +263,11 @@ public class DBEngine {
 		}
 	}
 
-	
 	/**
 	 * get a new connection to the database
-	 * @return
-	 * @throws URISyntaxException
-	 * @throws SQLException
+	 * @return new connection
+	 * @throws URISyntaxException if the syntax is wrong
+	 * @throws SQLException is the sql is catched an exception
 	 */
 	protected Connection getConnection() throws URISyntaxException, SQLException {
 		Connection connection;

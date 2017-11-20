@@ -25,6 +25,7 @@ public class LineListener extends Thread{
 	}
 	/**
 	 * a loop of all executions
+	 * @throws Exception if croadcaster encounters exception
 	 */
 	public void loop() throws Exception{
 		confirmBroadcaster.broadcast();

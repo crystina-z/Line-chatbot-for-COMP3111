@@ -19,7 +19,8 @@ public class DoubleElevDBEngine extends DBEngine {
 
 	/**
 	 * get the discount book ID to identify whether the users are qulified for a discount or not
-	 * @return
+	 * @param s status of the user
+	 * @return discount book id in the databse
 	 */
 	public String getDiscountBookid(String s){ // only one tour is allowed to be discounted at the same time
 		String discount_tours =  "";
@@ -49,7 +50,7 @@ public class DoubleElevDBEngine extends DBEngine {
 	}
 	/**
 	 * get the information of all line users
-	 * @return
+	 * @return get all clients information
 	 */
 	public Set<String> getAllClient(){
 		Set<String> clients = new HashSet<String>();
@@ -78,7 +79,7 @@ public class DoubleElevDBEngine extends DBEngine {
 	}
 	/**
 	 * change the database table to indicate that the information has been braodcasted
-	 * @param booktableid
+	 * @param booktableid book id in the databse
 	 */
 	public void updateBroadcastedTours(String booktableid){	
 		PreparedStatement nstmt = null;	
@@ -100,7 +101,9 @@ public class DoubleElevDBEngine extends DBEngine {
 		
 		this.close();
 	}
-	
+	/**
+	 * update the status of the discount
+	 */
 	public void updateActivityStatus(){	
 		PreparedStatement nstmt = null;	
 		this.openConnection();		
@@ -120,7 +123,11 @@ public class DoubleElevDBEngine extends DBEngine {
 		
 		this.close();
 	}
-	
+	/**
+	 * check whether the tour id full or not
+	 * @param booktableid book id in the database
+	 * @return it is full or not
+	 */
 	public boolean ifTourFull(String booktableid) {
 		PreparedStatement nstm = null;
 		int remaining_seat = 0; 
@@ -146,7 +153,10 @@ public class DoubleElevDBEngine extends DBEngine {
 		if(remaining_seat > 0) {return true; }
 		else return false; 		
 	}
-
+	/**
+	 * update the total quota
+	 * @param discount_tourid tour id
+	 */
 	public void updateQuota(String discount_tourid){
 		PreparedStatement nstmt = null;	
 		this.openConnection();		

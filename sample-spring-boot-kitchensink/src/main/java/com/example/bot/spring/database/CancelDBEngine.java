@@ -21,15 +21,15 @@ public class CancelDBEngine extends DBEngine {
 	}
 	/**
 	 * get the confirmed tours ID
-	 * @return
+	 * @return tour information list
 	 */
 	public List<String> getAllUnconfirmedTours(){
 		return CDB.getAllUnconfirmedTours(false);
 	}
 	/**
 	 * get the users' information for the book table
-	 * @param booktableid
-	 * @return
+	 * @param booktableid book table id in the database
+	 * @return all the users that book this tour
 	 */
 	public Set<String> getAllContactors(String booktableid){
 		boolean paid = true;
@@ -37,8 +37,8 @@ public class CancelDBEngine extends DBEngine {
 	}
 	/**
 	 * update the database about the canceled tours
-	 * @param booktableid
-	 * @throws Exception
+	 * @param booktableid book id in the database
+	 * @throws Exception if database connection is failed
 	 */
 	public void updateCanceledTours(String booktableid) throws Exception{	
 		PreparedStatement stmt;	
