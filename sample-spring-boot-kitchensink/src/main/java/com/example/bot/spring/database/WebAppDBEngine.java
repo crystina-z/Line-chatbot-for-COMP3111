@@ -302,6 +302,7 @@ public class WebAppDBEngine extends DBEngine {
 		connection.close();
 		connection = null;
 	}
+	
 	/**
 	 * get the discount activities for Double Eleven
 	 * @return discount activity
@@ -329,6 +330,7 @@ public class WebAppDBEngine extends DBEngine {
 		connection = null;
 		return result;
 	}
+	
 	/**
 	 * create a discount event for Double Eleven
 	 * @param act discount activity
@@ -350,6 +352,7 @@ public class WebAppDBEngine extends DBEngine {
 		connection.close();
 		connection = null;
 	}
+	
 	/**
 	 * update the Customer information on whether he could get a discount
 	 * @param customer customer user
