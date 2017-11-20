@@ -317,7 +317,7 @@ public class WebAppDBEngine extends DBEngine {
 		rs = stmt.executeQuery();			
 		while (rs.next()) {
 			String bootableid = rs.getString(1); 
-			int quota = rs.getInt(2);
+			int quota = rs.getInt(3);
 			Activity activity = new Activity();
 			activity.setBootableId(bootableid);
 			activity.setQuota(quota);
