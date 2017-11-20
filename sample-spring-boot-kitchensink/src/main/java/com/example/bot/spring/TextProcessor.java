@@ -136,6 +136,19 @@ public class TextProcessor {
 		}
 	}
 	
+	/** Store the new subscriber information in the database
+	 * 
+	 * @param id: Userid
+	 * @return
+	 * @throws Exception 
+	 */
+	public String newSubscriber(String id) throws Exception {
+		DBE.updateLineUserInfo(id,"lastq","");
+		String reply = "Thank you for subscribing our travel agency chatbot.\n"
+				+ "You can send your request by specifying: recommendation/ general question/booking a trip";
+		return reply;
+	}
+	
 
 
 	/**
