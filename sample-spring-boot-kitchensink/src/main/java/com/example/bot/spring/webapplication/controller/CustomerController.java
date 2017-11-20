@@ -52,7 +52,7 @@ class CustomerController {
         }
         catch (Exception e){
         	e.printStackTrace();
-            modelAndView.addObject("message", "Failed to add customer: " + e.getMessage());
+            modelAndView.addObject("message", "Failed to add customer " + e.getMessage());
         }
         try {
         	modelAndView.addObject("customers", customerService.getCustomers());

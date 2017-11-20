@@ -1,11 +1,8 @@
 package com.example.bot.spring.database;
 
-import java.net.URISyntaxException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -126,6 +123,7 @@ public class WebAppDBEngine extends DBEngine {
 		PreparedStatement nstmt = null;
 		double price = 0;
 		String field = null;
+		int quota = 0;
 		String ts = bootableid.substring(5);
 		String id = bootableid.substring(0, 5);
 		int year = Integer.parseInt(ts.substring(0, 4));
@@ -139,19 +137,23 @@ public class WebAppDBEngine extends DBEngine {
 		   	field = "weekday_price";
 		}
 		nstmt = connection.prepareStatement(
-				"SELECT "+field
-				+ " FROM tour_price"
-				+ " WHERE tourid = ?");
+				"SELECT p."+field+", b.tourcapcity - b.registerednum"
+				+ " FROM tour_price AS p, "
+				+ " WHERE p.tourid = ?"
+				+ " AND b.bootableid = ?");
 		nstmt.setString(1, id);
+		nstmt.setString(2, bootableid);
 		ResultSet rs = nstmt.executeQuery();
 		while(rs.next()) {
 			price = rs.getDouble(1);
+			quota = rs.getInt(2);
 		}
 		rs.close();
 		nstmt.close();
+		if(quota < adults+children+toddler) {
+			throw new Exception("because of not enough quota. ");
+		}
 		double totalPrice = price*adults+price*0.8*children;
-		nstmt = connection.prepareStatement(
-				"SELECT");
 		nstmt = connection.prepareStatement(
 				"INSERT INTO customer_info"
 				+ " VALUES (0,?,?,0,?,?,?,?,?,0,?) ");
@@ -163,6 +165,13 @@ public class WebAppDBEngine extends DBEngine {
 		nstmt.setInt(6, toddler);
 		nstmt.setDouble(7, totalPrice);
 		nstmt.setString(8, special);
+		nstmt.execute();
+		nstmt.close();
+		nstmt = connection.prepareStatement(
+				"UPDATE booking_table SET registerednum = registerednum + ? "
+				+ "WHERE bootableid = ?");
+		nstmt.setInt(1, adults+children+toddler);
+		nstmt.setString(2, bootableid);
 		nstmt.execute();
 		nstmt.close();
 		connection.close();
@@ -299,7 +308,6 @@ public class WebAppDBEngine extends DBEngine {
 	 * @throws Exception
 	 */
 	public LinkedList<Activity> getAllActivities() throws Exception{
-		// TODO Auto-generated method stub
 		connection = this.getConnection();
 		PreparedStatement stmt;
 		ResultSet rs;
